@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./estilos/index.css" />
+    <link rel="stylesheet" href="../estilos/index.css" />
     <title>Paradigmas - Blog Paradigmas</title>
   </head>
   <body>
@@ -17,13 +17,484 @@
       </ul>
     </header>
     <main>
-      
+      <nav class="toc" aria-label="Tabla de contenido">
+        <h2>Contenido</h2>
+        <ul>
+          <li>
+            <a href="#paradigmas-imperativos">Paradigmas Imperativos</a>
+            <ul>
+              <li>
+                <a href="#ejemplos-imperativos"
+                  >Ejemplos de paradigmas imperativos</a
+                >
+              </li>
+              <li>
+                <a href="#tech-imperativos"
+                  >Tecnologías y lenguajes representativos</a
+                >
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="#paradigmas-declarativos">Paradigmas Declarativos</a>
+            <ul>
+              <li>
+                <a href="#ejemplos-declarativos"
+                  >Ejemplos específicos de paradigmas declarativos</a
+                >
+              </li>
+              <li>
+                <a href="#tech-declarativos"
+                  >Tecnologías y lenguajes representativos</a
+                >
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="#cliente-servidor">Arquitectura Cliente-Servidor</a>
+            <ul>
+              <li>
+                <a href="#tres-capas">Arquitectura de tres capas</a>
+                <ul>
+                  <li><a href="#sitio-web">Sitio web</a></li>
+                  <li>
+                    <a href="#creacion-sitio-web"
+                      >Creación y configuración de un sitio web</a
+                    >
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article>
+        <h1>Paradigmas de Programación + Arquitectura Cliente-Servidor</h1>
+
+        <p>
+          Los
+          <details class="interactive-keyword">
+            <summary>paradigmas de programación</summary>
+            <mark
+              >Un paradigma es como una "filosofía" o un plano general que dicta
+              cómo debes estructurar y pensar la lógica de tu código a la hora
+              de resolver un problema.</mark
+            >
+          </details>
+          son enfoques teóricos y estilos fundamentales para el desarrollo de
+          software. Estos se dividen en dos vertientes principales, determinadas
+          por el grado de interacción directa que requieren con las
+          abstracciones de bajo nivel del computador.
+        </p>
+
+        <section>
+          <h2 id="paradigmas-imperativos">Paradigmas Imperativos</h2>
+
+          <figure>
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReRfUBYScJwnIoGR-SrwLxlAYPpOjEpJNPcQ&s"
+              alt="Diagrama de flujo de programación imperativa"
+            />
+            <figcaption>
+              Nota al pie 1: Representación conceptual de un flujo de control
+              imperativo, donde cada instrucción dicta un paso secuencial hacia
+              el resultado.
+            </figcaption>
+          </figure>
+
+          <p>
+            El enfoque imperativo implica un desglose exhaustivo y secuencial de
+            los pasos exactos que necesita realizar el computador para producir
+            un resultado. Se caracteriza por el uso intensivo de la
+            <details class="interactive-keyword">
+              <summary>asignación y mutación de variables</summary>
+              <mark
+                >Es la acción de cambiar el valor almacenado en un espacio de
+                memoria durante la ejecución de un programa. Muy común en
+                lenguajes imperativos (ej. x = x + 1).</mark
+              >
+            </details>
+            , estructuras de control de flujo (bucles y condicionales), y en
+            lenguajes de más bajo nivel, la manipulación directa de direcciones
+            en memoria.
+          </p>
+
+          <h3 id="ejemplos-imperativos">Ejemplos de paradigmas imperativos:</h3>
+          <ol>
+            <li>
+              <strong>Programación Procedimental:</strong> Este modelo se
+              fundamenta en la estructuración de instrucciones a través de
+              procedimientos o subrutinas reutilizables, permitiendo que la
+              ejecución del programa se desarrolle de manera estrictamente
+              secuencial.
+            </li>
+            <li>
+              <strong>Programación Orientada a Objetos (POO):</strong> Articula
+              el desarrollo de software mediante entidades u objetos que
+              amalgaman tanto el estado como el comportamiento, promoviendo
+              niveles superiores de abstracción y
+              <details class="interactive-keyword">
+                <summary>encapsulamiento</summary>
+                <mark
+                  >Un principio de la POO que agrupa los datos y los métodos que
+                  operan sobre esos datos en una sola unidad (la clase),
+                  ocultando los detalles internos de funcionamiento al
+                  exterior.</mark
+                >
+              </details>
+              .
+            </li>
+            <li>
+              <strong>Programación Estructurada:</strong> Se orienta a
+              perfeccionar la claridad y calidad del código empleando únicamente
+              subrutinas y estructuras de control lógico, con el fin de
+              prescindir de saltos de flujo incondicionales como el comando
+              "goto".
+            </li>
+          </ol>
+
+          <h3 id="tech-imperativos">
+            Tecnologías y lenguajes representativos:
+          </h3>
+          <ul>
+            <li>
+              <strong>C:</strong> Es el referente clásico de la programación
+              procedimental y estructurada, ideal para el control de bajo nivel
+              y la gestión de memoria.
+            </li>
+            <li>
+              <strong>Java:</strong> Un lenguaje fuertemente tipado diseñado
+              fundamentalmente alrededor de la Programación Orientada a Objetos.
+            </li>
+            <li>
+              <strong>Python:</strong> Aunque es multiparadigma, su uso más
+              extendido y fundamental suele basarse en la programación
+              imperativa y orientada a objetos.
+            </li>
+          </ul>
+
+          <p>
+            Esta clase de paradigmas es indispensable cuando es necesario tener
+            un control estricto sobre el rendimiento y la forma específica en la
+            que el hardware ejecuta una tarea. Sin embargo, a medida que aumenta
+            la complejidad del software, el código puramente imperativo puede
+            volverse difícil de mantener y contraproducente si no se estructura
+            adecuadamente.
+          </p>
+        </section>
+
+        <section>
+          <h2 id="paradigmas-declarativos">Paradigmas Declarativos</h2>
+
+          <figure>
+            <img
+              src="https://static.platzi.com/media/articlases/Images/2022-04-24.png"
+              alt="Esquema de programación declarativa"
+            />
+            <figcaption>
+              Nota al pie 2: La declaratividad abstrae el "cómo". El
+              desarrollador se enfoca en el estado final deseado, delegando la
+              ejecución algorítmica al motor del lenguaje.
+            </figcaption>
+          </figure>
+
+          <p>
+            Cuando el manejo de bajo nivel pierde relevancia frente a la
+            necesidad de ensamblar sistemas complejos, la declaratividad se
+            vuelve el enfoque ideal para trabajar sobre niveles más altos de
+            abstracción. Consiste en describir <strong>qué</strong> es lo que se
+            quiere conseguir en lugar de detallar
+            <strong>cómo</strong> lograrlo. En este estilo, el desarrollador
+            describe el resultado deseado de forma consistente con las reglas
+            del lenguaje, confiando en que el motor subyacente infiera y ejecute
+            los pasos intermedios apropiados.
+          </p>
+
+          <h3 id="ejemplos-declarativos">
+            Ejemplos específicos de paradigmas declarativos:
+          </h3>
+          <ol>
+            <li>
+              <strong>Programación Lógica:</strong> El programa se expresa como
+              un conjunto de hechos y reglas lógicas. El motor deductivo del
+              lenguaje se encarga de encontrar las respuestas a las consultas
+              realizadas.
+            </li>
+            <li>
+              <strong>Programación Funcional:</strong> Trata la computación como
+              la evaluación de funciones matemáticas, evitando cambiar el estado
+              y mutar los datos, lo que elimina
+              <details class="interactive-keyword">
+                <summary>efectos secundarios</summary>
+                <mark
+                  >Ocurre cuando una función modifica el estado de un programa
+                  fuera de su propio ámbito local (por ejemplo, alterando una
+                  variable global o escribiendo en un archivo). La programación
+                  funcional busca evitarlos.</mark
+                >
+              </details>
+              indeseados.
+            </li>
+            <li>
+              <strong>Programación Reactiva:</strong> Se centra en los flujos de
+              datos asíncronos y la propagación del cambio. Si un valor cambia,
+              todos los elementos que dependen de él reaccionan y se actualizan
+              automáticamente.
+            </li>
+          </ol>
+
+          <h3 id="tech-declarativos">
+            Tecnologías y lenguajes representativos:
+          </h3>
+          <ul>
+            <li>
+              <strong>SQL (Structured Query Language):</strong> Es el lenguaje
+              declarativo por excelencia; le indicas a la base de datos qué
+              información necesitas (ej. <code>SELECT * FROM usuarios</code>),
+              sin explicarle el algoritmo de búsqueda.
+            </li>
+            <li>
+              <strong>Haskell:</strong> Un lenguaje puramente funcional donde
+              todo es una expresión matemática y no existe la mutación de
+              estado.
+            </li>
+            <li>
+              <strong>React (junto a JavaScript):</strong> Una biblioteca que
+              materializa la programación reactiva y declarativa en el
+              desarrollo web. En lugar de manipular el
+              <details class="interactive-keyword">
+                <summary>DOM</summary>
+                <mark
+                  >Document Object Model. Es una representación en forma de
+                  árbol del documento HTML. Manipularlo implica cambiar la
+                  estructura, estilo o contenido de la página web
+                  dinámicamente.</mark
+                >
+              </details>
+              manualmente paso a paso, declaras cómo debe verse la interfaz para
+              un estado dado, y la tecnología se encarga de actualizarla
+              eficientemente.
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h1 id="cliente-servidor">Arquitectura Cliente-Servidor</h1>
+
+          <p>
+            Es una estructura de aplicación distribuida que divide las tareas o
+            cargas de trabajo entre dos entidades con roles bien definidos:
+          </p>
+
+          <ul>
+            <li>
+              <strong>El Servidor:</strong> Un proveedor de recursos, que ofrece
+              procesamiento de datos, lógica centralizada y almacenamiento.
+            </li>
+            <li>
+              <strong>El Cliente:</strong> Un solicitante de servicios,
+              encargado de realizar peticiones al servidor, recibir las
+              respuestas y renderizar la respectiva visualización gráfica para
+              el usuario.
+            </li>
+          </ul>
+
+          <figure>
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Client-server-model.svg/960px-Client-server-model.svg.png"
+              alt="Modelo Cliente Servidor"
+            />
+            <figcaption>
+              Nota al pie 3: Arquitectura de red estandarizada que ilustra la
+              solicitud de recursos desde múltiples clientes hacia un servidor
+              centralizado.
+            </figcaption>
+          </figure>
+
+          <p>
+            Esta arquitectura es indispensable cuando una aplicación necesita
+            manejar una base de datos centralizada (para evitar inconsistencias)
+            o realizar procesamientos intensivos que sobrepasarían las
+            capacidades del dispositivo cliente. Es el modelo estándar para
+            aplicaciones bancarias, videojuegos multijugador o redes sociales.
+          </p>
+
+          <p>
+            En términos materiales, el cliente y el servidor suelen ser procesos
+            que se ejecutan en computadores distintos conectados a través de una
+            red (como Internet o una intranet). Esto hace que la conectividad
+            sea un requisito obligatorio y un posible punto de fallo. Además, el
+            servidor debe estar diseñado para manejar peticiones concurrentes de
+            múltiples clientes y ser altamente tolerante a fallos.
+          </p>
+        </section>
+
+        <section>
+          <h2 id="tres-capas">Arquitectura de tres capas</h2>
+          <p>
+            La arquitectura de tres capas es la evolución natural del modelo
+            cliente-servidor tradicional. Surge para resolver problemas de
+            escalabilidad y mantenimiento, aislando las distintas
+            responsabilidades del software en tres niveles lógicos (y
+            frecuentemente físicos) independientes:
+          </p>
+
+          <ol>
+            <li>
+              <strong>Capa de Presentación (Frontend / Cliente):</strong> Es la
+              interfaz de usuario. Su única responsabilidad es traducir las
+              tareas y resultados a un formato que el usuario pueda entender e
+              interactuar. No procesa datos complejos ni accede a la base de
+              datos directamente.
+            </li>
+            <li>
+              <strong
+                >Capa de Lógica de Negocio (Aplicación /
+                <details class="interactive-keyword">
+                  <summary>Middleware</summary>
+                  <mark
+                    >Software que se sitúa entre el sistema operativo y las
+                    aplicaciones, o entre distintas capas de una arquitectura,
+                    facilitando la comunicación y gestión de datos (como un
+                    puente o mediador).</mark
+                  >
+                </details>
+                ):</strong
+              >
+              Es el "cerebro" del sistema. Contiene las reglas, cálculos y
+              flujos de trabajo específicos del negocio. Procesa la información
+              enviada por la capa de presentación y toma decisiones antes de
+              interactuar con la siguiente capa.
+            </li>
+            <li>
+              <strong>Capa de Datos (Backend / Base de Datos):</strong>
+              Responsable exclusiva del almacenamiento, recuperación y
+              persistencia de la información.
+            </li>
+          </ol>
+
+          <p>
+            Al separar la interfaz, la lógica y los datos, los desarrolladores
+            pueden actualizar o escalar una capa específica (por ejemplo,
+            cambiar la base de datos o rediseñar la interfaz visual) sin afectar
+            ni romper el funcionamiento del resto del sistema.
+          </p>
+        </section>
+
+        <section>
+          <h3 id="sitio-web">Sitio web</h3>
+          <p>
+            Un sitio web es un conjunto estructurado e interrelacionado de
+            páginas web, contenido multimedia (imágenes, videos) y recursos
+            técnicos (hojas de estilo CSS, scripts ejecutables) que comparten un
+            mismo dominio de Internet. Estas páginas están formateadas
+            principalmente bajo el estándar HTML y se alojan en un servidor web.
+          </p>
+
+          <p>
+            Cualquier usuario puede acceder a un sitio web a través de un
+            navegador cliente, conectándose mediante protocolos de red
+            estandarizados (HTTP o HTTPS) a través de la World Wide Web. Los
+            sitios pueden ser desde documentos de texto estáticos y puramente
+            informativos, hasta aplicaciones web dinámicas y altamente
+            interactivas.
+          </p>
+
+          <h3 id="creacion-sitio-web">
+            Creación y configuración de un sitio web
+          </h3>
+          <p>
+            La implementación y despliegue de un ecosistema web contemporáneo se
+            articula a través de diversas fases técnicas y operativas:
+          </p>
+
+          <ol>
+            <li>
+              <strong>Planificación y Diseño:</strong> Comprende la definición
+              de la arquitectura de información, el diseño de la experiencia de
+              usuario (UX) y la creación de interfaces visuales (UI) para
+              garantizar la coherencia funcional del proyecto.
+            </li>
+            <li>
+              <strong>Desarrollo y Programación:</strong> Representa la etapa de
+              construcción técnica del software, estructurada en dos dimensiones
+              fundamentales:
+              <ul>
+                <li>
+                  <em>Frontend:</em> Codificación de la capa de presentación
+                  mediante lenguajes declarativos e imperativos (HTML, CSS y
+                  React), permitiendo la interacción fluida del usuario final.
+                </li>
+                <li>
+                  <em>Backend:</em> Creación de la lógica de negocio
+                  centralizada y gestión de la persistencia de datos mediante
+                  motores de bases de datos robustos.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <strong>Adquisición de Dominio y Alojamiento (Hosting):</strong>
+              Fase crítica para la gestión de activos digitales y la puesta en
+              línea del sistema:
+              <ul>
+                <li>
+                  <em>Dominio:</em> Registro de un identificador alfanumérico
+                  legible (ej. <em>tusitio.com</em>) que los
+                  <details class="interactive-keyword">
+                    <summary>servidores DNS</summary>
+                    <mark
+                      >Domain Name System. Es el "directorio telefónico" de
+                      Internet. Traduce nombres legibles para humanos (como
+                      www.google.com) en direcciones IP legibles por
+                      máquinas.</mark
+                    >
+                  </details>
+                  traducen unívocamente a una dirección IP de red.
+                </li>
+                <li>
+                  <em>Hosting:</em> Configuración de la infraestructura
+                  computacional, ya sea física o virtual, encargada de mantener
+                  la disponibilidad del sitio de forma ininterrumpida.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <strong>Configuración del Servidor y Despliegue:</strong>
+              <ul>
+                <li>
+                  Transferencia de los activos digitales desde entornos de
+                  desarrollo hacia el servidor de producción mediante protocolos
+                  de integración continua o transferencia segura.
+                </li>
+                <li>
+                  Implementación de estándares de seguridad SSL/TLS para el
+                  cifrado de tráfico y la habilitación obligatoria del protocolo
+                  seguro HTTPS.
+                </li>
+                <li>
+                  Definición y ajuste de los privilegios de acceso y permisos de
+                  archivos dentro del sistema operativo del servidor.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <strong>Mantenimiento:</strong> Asegura la estabilidad del sistema
+              a largo plazo mediante el monitoreo de tráfico, optimización de
+              rendimiento, actualización de dependencias y gestión de respaldos
+              de información.
+            </li>
+          </ol>
+        </section>
+      </article>
     </main>
     <footer>
-      <p>
-        Blog hecho por Kelvim Bolívar. Encuentra mis otros proyectos en mi
-        pagina de <a href="https://github.com/rip-the-slit/">Github</a>
-      </p>
+        <div>
+            <img src="https://avatars.githubusercontent.com/u/171191896?v=4" alt="Mi foto">
+            <p>
+              Blog hecho por Kelvim Bolívar. Encuentra mis otros proyectos en mi
+              pagina de <a href="https://github.com/rip-the-slit/">Github</a>
+            </p>
+          </div>
     </footer>
   </body>
 </html>
