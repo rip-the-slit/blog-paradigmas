@@ -1,0 +1,333 @@
+.modulo-interactivo {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 2rem 2.5rem;
+    box-shadow: 0 4px 18px rgba(30,111,168,.12);
+    border: 1px solid #c8e6f5;
+  }
+  
+  .modulo-interactivo > h1 {
+    font-size: 1.9rem;
+    color: #154d78;
+    margin-bottom: 1.5rem;
+    padding-bottom: .6rem;
+    border-bottom: 3px solid #c8e6f5;
+  }
+  
+  .modulo-interactivo input[type="radio"] {
+    display: none;
+  }
+  
+  .layout-maestro-detalle {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #c8e6f5;
+    box-shadow: 0 2px 12px rgba(30,111,168,.10);
+    min-height: 420px;
+  }
+  
+  .tabla-elementos {
+    background: #eaf4fb;
+    display: flex;
+    flex-direction: column;
+    border-right: 2px solid #c8e6f5;
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+  
+  .tabla-elementos > div {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .tabla-titulo {
+    padding: .7rem 1rem;
+    background: linear-gradient(90deg, #2563eb 0%, #60a5fa 100%);
+    color: #ffffff;
+    font-size: .78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin: 0;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+  
+  .tabla-elementos label {
+    padding: .65rem 1.1rem;
+    cursor: pointer;
+    border-bottom: 1px solid #d4ecf7;
+    font-size: .88rem;
+    font-weight: 500;
+    color: #1e2d3d;
+    transition: background .18s, color .18s, border-left .18s;
+    border-left: 3px solid transparent;
+  }
+  
+  .tabla-elementos label:hover {
+    background: #eff6ff;
+    color: #60a5fa;
+    border-left-color: #60a5fa;
+  }
+  
+  .panel-detalles {
+    padding: 2rem 2.2rem;
+    background: #ffffff;
+    overflow-y: auto;
+    max-height: 60vh;
+    scrollbar-width: thin;
+    scrollbar-color: #90c8e8 #fff;
+  }
+  
+  .contenido-detalle {
+    display: none;
+    animation: fadeIn .35s ease;
+  }
+  
+  .contenido-detalle h3 {
+    font-size: 1.3rem;
+    color: #60a5fa;
+    margin-top: 0;
+    margin-bottom: .5rem;
+    padding-bottom: .5rem;
+    border-bottom: 2px solid #eaf4fb;
+  }
+  
+  .contenido-detalle h4 {
+    font-size: .88rem;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    color: #5a6e80;
+    margin: 1.2rem 0 .4rem;
+  }
+  
+  .contenido-detalle p {
+    color: #1e2d3d;
+    font-size: .95rem;
+    line-height: 1.65;
+    margin-bottom: .8rem;
+  }
+  
+  .contenido-detalle ul {
+    padding-left: 1.4rem;
+  }
+  
+  .contenido-detalle li {
+    margin-bottom: .4rem;
+    font-size: .93rem;
+  }
+  
+  .contenido-detalle pre {
+    background: #f0f7fd;
+    border: 1px solid #c8e6f5;
+    border-radius: 8px;
+    padding: 1rem 1.3rem;
+    font-size: .84rem;
+    overflow-x: auto;
+    line-height: 1.55;
+    margin-bottom: .8rem;
+  }
+  
+  .contenido-detalle code {
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: .84em;
+  }
+  
+  .resultado-visual {
+    background: #f8fcff;
+    border: 1.5px solid #c8e6f5;
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    margin-top: .3rem;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #1e2d3d;
+    box-shadow: inset 0 2px 5px rgba(30,111,168,.05);
+  }
+  
+  .resultado-visual > :first-child { margin-top: 0; }
+  .resultado-visual > :last-child  { margin-bottom: 0; }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  
+  #item1:checked  ~ .layout-maestro-detalle .tabla-elementos label[for="item1"],
+  #item2:checked  ~ .layout-maestro-detalle .tabla-elementos label[for="item2"],
+  #item3:checked  ~ .layout-maestro-detalle .tabla-elementos label[for="item3"],
+  #item4:checked  ~ .layout-maestro-detalle .tabla-elementos label[for="item4"],
+  #item5:checked  ~ .layout-maestro-detalle .tabla-elementos label[for="item5"],
+  #item6:checked  ~ .layout-maestro-detalle .tabla-elementos label[for="item6"],
+  #item7:checked  ~ .layout-maestro-detalle .tabla-elementos label[for="item7"],
+  #item8:checked  ~ .layout-maestro-detalle .tabla-elementos label[for="item8"],
+  #item9:checked  ~ .layout-maestro-detalle .tabla-elementos label[for="item9"],
+  #item10:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item10"],
+  #item11:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item11"],
+  #item12:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item12"],
+  #item13:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item13"],
+  #item14:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item14"],
+  #item15:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item15"],
+  #item16:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item16"],
+  #item17:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item17"],
+  #item18:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item18"],
+  #item19:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item19"],
+  #item20:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item20"],
+  #item21:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item21"],
+  #item22:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item22"],
+  #item23:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item23"],
+  #item24:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item24"],
+  #item25:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item25"],
+  #item26:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item26"],
+  #item27:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item27"],
+  #item28:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item28"],
+  #item29:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item29"],
+  #item30:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item30"],
+  #item31:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item31"],
+  #item32:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item32"],
+  #item33:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item33"],
+  #item34:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item34"],
+  #item35:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item35"],
+  #item36:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item36"],
+  #item37:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item37"],
+  #item38:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item38"],
+  #item39:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item39"],
+  #item40:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item40"],
+  #item41:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item41"],
+  #item42:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item42"],
+  #item43:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item43"],
+  #item44:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item44"],
+  #item45:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item45"],
+  #item46:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item46"],
+  #item47:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item47"],
+  #item48:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item48"] {
+    background: linear-gradient(90deg, #bfdbfe 0%, #dbeafe 100%);
+    border-left: 4px solid #60a5fa;
+    font-weight: 600;
+  }
+  
+  #item1:checked  ~ .layout-maestro-detalle .panel-detalles #detalle1,
+  #item2:checked  ~ .layout-maestro-detalle .panel-detalles #detalle2,
+  #item3:checked  ~ .layout-maestro-detalle .panel-detalles #detalle3,
+  #item4:checked  ~ .layout-maestro-detalle .panel-detalles #detalle4,
+  #item5:checked  ~ .layout-maestro-detalle .panel-detalles #detalle5,
+  #item6:checked  ~ .layout-maestro-detalle .panel-detalles #detalle6,
+  #item7:checked  ~ .layout-maestro-detalle .panel-detalles #detalle7,
+  #item8:checked  ~ .layout-maestro-detalle .panel-detalles #detalle8,
+  #item9:checked  ~ .layout-maestro-detalle .panel-detalles #detalle9,
+  #item10:checked ~ .layout-maestro-detalle .panel-detalles #detalle10,
+  #item11:checked ~ .layout-maestro-detalle .panel-detalles #detalle11,
+  #item12:checked ~ .layout-maestro-detalle .panel-detalles #detalle12,
+  #item13:checked ~ .layout-maestro-detalle .panel-detalles #detalle13,
+  #item14:checked ~ .layout-maestro-detalle .panel-detalles #detalle14,
+  #item15:checked ~ .layout-maestro-detalle .panel-detalles #detalle15,
+  #item16:checked ~ .layout-maestro-detalle .panel-detalles #detalle16,
+  #item17:checked ~ .layout-maestro-detalle .panel-detalles #detalle17,
+  #item18:checked ~ .layout-maestro-detalle .panel-detalles #detalle18,
+  #item19:checked ~ .layout-maestro-detalle .panel-detalles #detalle19,
+  #item20:checked ~ .layout-maestro-detalle .panel-detalles #detalle20,
+  #item21:checked ~ .layout-maestro-detalle .panel-detalles #detalle21,
+  #item22:checked ~ .layout-maestro-detalle .panel-detalles #detalle22,
+  #item23:checked ~ .layout-maestro-detalle .panel-detalles #detalle23,
+  #item24:checked ~ .layout-maestro-detalle .panel-detalles #detalle24,
+  #item25:checked ~ .layout-maestro-detalle .panel-detalles #detalle25,
+  #item26:checked ~ .layout-maestro-detalle .panel-detalles #detalle26,
+  #item27:checked ~ .layout-maestro-detalle .panel-detalles #detalle27,
+  #item28:checked ~ .layout-maestro-detalle .panel-detalles #detalle28,
+  #item29:checked ~ .layout-maestro-detalle .panel-detalles #detalle29,
+  #item30:checked ~ .layout-maestro-detalle .panel-detalles #detalle30,
+  #item31:checked ~ .layout-maestro-detalle .panel-detalles #detalle31,
+  #item32:checked ~ .layout-maestro-detalle .panel-detalles #detalle32,
+  #item33:checked ~ .layout-maestro-detalle .panel-detalles #detalle33,
+  #item34:checked ~ .layout-maestro-detalle .panel-detalles #detalle34,
+  #item35:checked ~ .layout-maestro-detalle .panel-detalles #detalle35,
+  #item36:checked ~ .layout-maestro-detalle .panel-detalles #detalle36,
+  #item37:checked ~ .layout-maestro-detalle .panel-detalles #detalle37,
+  #item38:checked ~ .layout-maestro-detalle .panel-detalles #detalle38,
+  #item39:checked ~ .layout-maestro-detalle .panel-detalles #detalle39,
+  #item40:checked ~ .layout-maestro-detalle .panel-detalles #detalle40,
+  #item41:checked ~ .layout-maestro-detalle .panel-detalles #detalle41,
+  #item42:checked ~ .layout-maestro-detalle .panel-detalles #detalle42,
+  #item43:checked ~ .layout-maestro-detalle .panel-detalles #detalle43,
+  #item44:checked ~ .layout-maestro-detalle .panel-detalles #detalle44,
+  #item45:checked ~ .layout-maestro-detalle .panel-detalles #detalle45,
+  #item46:checked ~ .layout-maestro-detalle .panel-detalles #detalle46,
+  #item47:checked ~ .layout-maestro-detalle .panel-detalles #detalle47,
+  #item48:checked ~ .layout-maestro-detalle .panel-detalles #detalle48 {
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    .layout-maestro-detalle {
+      grid-template-columns: 1fr;
+    }
+  
+    .tabla-elementos {
+      border-right: none;
+      border-bottom: 2px solid #c8e6f5;
+      max-height: 35vh;
+    }
+  
+    .panel-detalles {
+      max-height: none;
+    }
+  
+    .modulo-interactivo {
+      padding: 1.2rem 1rem;
+    }
+  
+    #item1:checked  ~ .layout-maestro-detalle .tabla-elementos label[for="item1"],
+    #item2:checked  ~ .layout-maestro-detalle .tabla-elementos label[for="item2"],
+    #item3:checked  ~ .layout-maestro-detalle .tabla-elementos label[for="item3"],
+    #item4:checked  ~ .layout-maestro-detalle .tabla-elementos label[for="item4"],
+    #item5:checked  ~ .layout-maestro-detalle .tabla-elementos label[for="item5"],
+    #item6:checked  ~ .layout-maestro-detalle .tabla-elementos label[for="item6"],
+    #item7:checked  ~ .layout-maestro-detalle .tabla-elementos label[for="item7"],
+    #item8:checked  ~ .layout-maestro-detalle .tabla-elementos label[for="item8"],
+    #item9:checked  ~ .layout-maestro-detalle .tabla-elementos label[for="item9"],
+    #item10:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item10"],
+    #item11:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item11"],
+    #item12:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item12"],
+    #item13:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item13"],
+    #item14:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item14"],
+    #item15:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item15"],
+    #item16:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item16"],
+    #item17:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item17"],
+    #item18:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item18"],
+    #item19:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item19"],
+    #item20:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item20"],
+    #item21:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item21"],
+    #item22:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item22"],
+    #item23:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item23"],
+    #item24:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item24"],
+    #item25:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item25"],
+    #item26:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item26"],
+    #item27:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item27"],
+    #item28:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item28"],
+    #item29:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item29"],
+    #item30:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item30"],
+    #item31:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item31"],
+    #item32:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item32"],
+    #item33:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item33"],
+    #item34:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item34"],
+    #item35:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item35"],
+    #item36:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item36"],
+    #item37:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item37"],
+    #item38:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item38"],
+    #item39:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item39"],
+    #item40:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item40"],
+    #item41:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item41"],
+    #item42:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item42"],
+    #item43:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item43"],
+    #item44:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item44"],
+    #item45:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item45"],
+    #item46:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item46"],
+    #item47:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item47"],
+    #item48:checked ~ .layout-maestro-detalle .tabla-elementos label[for="item48"] {
+      border-left: 3px solid transparent;
+      border-bottom: 3px solid #154d78;
+    }
+  }

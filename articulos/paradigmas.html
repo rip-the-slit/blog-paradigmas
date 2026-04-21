@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../estilos/index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap"
+      rel="stylesheet"
+    />
     <title>Paradigmas - Blog Paradigmas</title>
   </head>
   <body>
@@ -17,70 +23,73 @@
       </ul>
     </header>
     <main>
-      <nav class="toc" aria-label="Tabla de contenido">
-        <h2>Contenido</h2>
-        <ul>
-          <li>
-            <a href="#paradigmas-imperativos">Paradigmas Imperativos</a>
-            <ul>
-              <li>
-                <a href="#ejemplos-imperativos"
-                  >Ejemplos de paradigmas imperativos</a
-                >
-              </li>
-              <li>
-                <a href="#tech-imperativos"
-                  >Tecnologías y lenguajes representativos</a
-                >
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="#paradigmas-declarativos">Paradigmas Declarativos</a>
-            <ul>
-              <li>
-                <a href="#ejemplos-declarativos"
-                  >Ejemplos específicos de paradigmas declarativos</a
-                >
-              </li>
-              <li>
-                <a href="#tech-declarativos"
-                  >Tecnologías y lenguajes representativos</a
-                >
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="#cliente-servidor">Arquitectura Cliente-Servidor</a>
-            <ul>
-              <li>
-                <a href="#tres-capas">Arquitectura de tres capas</a>
-                <ul>
-                  <li><a href="#sitio-web">Sitio web</a></li>
-                  <li>
-                    <a href="#creacion-sitio-web"
-                      >Creación y configuración de un sitio web</a
-                    >
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </nav>
+      <div>
+        <nav class="toc" aria-label="Tabla de contenido">
+          <h2>Contenido</h2>
+          <ul>
+            <li>
+              <a href="#paradigmas-imperativos">Paradigmas Imperativos</a>
+              <ul>
+                <li>
+                  <a href="#ejemplos-imperativos"
+                    >Ejemplos de paradigmas imperativos</a
+                  >
+                </li>
+                <li>
+                  <a href="#tech-imperativos"
+                    >Tecnologías y lenguajes representativos</a
+                  >
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#paradigmas-declarativos">Paradigmas Declarativos</a>
+              <ul>
+                <li>
+                  <a href="#ejemplos-declarativos"
+                    >Ejemplos específicos de paradigmas declarativos</a
+                  >
+                </li>
+                <li>
+                  <a href="#tech-declarativos"
+                    >Tecnologías y lenguajes representativos</a
+                  >
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#cliente-servidor">Arquitectura Cliente-Servidor</a>
+              <ul>
+                <li>
+                  <a href="#tres-capas">Arquitectura de tres capas</a>
+                  <ul>
+                    <li><a href="#sitio-web">Sitio web</a></li>
+                    <li>
+                      <a href="#creacion-sitio-web"
+                        >Creación y configuración de un sitio web</a
+                      >
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+        <a href="./paradigmas.html" download>Descarga esta página</a>
+      </div>
       <article>
         <h1>Paradigmas de Programación + Arquitectura Cliente-Servidor</h1>
 
         <p>
           Los
-          <details class="interactive-keyword">
-            <summary>paradigmas de programación</summary>
-            <mark
+          <span class="interactive-keyword">
+            <span class="tooltip">paradigmas</span>
+            <span class="description"
               >Un paradigma es como una "filosofía" o un plano general que dicta
               cómo debes estructurar y pensar la lógica de tu código a la hora
-              de resolver un problema.</mark
+              de resolver un problema.</span
             >
-          </details>
+          </span>
           son enfoques teóricos y estilos fundamentales para el desarrollo de
           software. Estos se dividen en dos vertientes principales, determinadas
           por el grado de interacción directa que requieren con las
@@ -106,14 +115,14 @@
             El enfoque imperativo implica un desglose exhaustivo y secuencial de
             los pasos exactos que necesita realizar el computador para producir
             un resultado. Se caracteriza por el uso intensivo de la
-            <details class="interactive-keyword">
-              <summary>asignación y mutación de variables</summary>
-              <mark
-                >Es la acción de cambiar el valor almacenado en un espacio de
+            <span class="interactive-keyword">
+              <span class="tooltip">asignación y mutación de variables</span>
+              <span class="description">
+                Es la acción de cambiar el valor almacenado en un espacio de
                 memoria durante la ejecución de un programa. Muy común en
-                lenguajes imperativos (ej. x = x + 1).</mark
+                lenguajes imperativos (ej. x = x + 1).</span
               >
-            </details>
+            </span>
             , estructuras de control de flujo (bucles y condicionales), y en
             lenguajes de más bajo nivel, la manipulación directa de direcciones
             en memoria.
@@ -133,15 +142,15 @@
               el desarrollo de software mediante entidades u objetos que
               amalgaman tanto el estado como el comportamiento, promoviendo
               niveles superiores de abstracción y
-              <details class="interactive-keyword">
-                <summary>encapsulamiento</summary>
-                <mark
+              <span class="interactive-keyword">
+                <span class="tooltip">encapsulamiento</span>
+                <span class="description"
                   >Un principio de la POO que agrupa los datos y los métodos que
                   operan sobre esos datos en una sola unidad (la clase),
                   ocultando los detalles internos de funcionamiento al
-                  exterior.</mark
+                  exterior.</span
                 >
-              </details>
+              </span>
               .
             </li>
             <li>
@@ -224,15 +233,15 @@
               <strong>Programación Funcional:</strong> Trata la computación como
               la evaluación de funciones matemáticas, evitando cambiar el estado
               y mutar los datos, lo que elimina
-              <details class="interactive-keyword">
-                <summary>efectos secundarios</summary>
-                <mark
+              <span class="interactive-keyword">
+                <span class="tooltip">efectos secundarios</span>
+                <span class="description"
                   >Ocurre cuando una función modifica el estado de un programa
                   fuera de su propio ámbito local (por ejemplo, alterando una
                   variable global o escribiendo en un archivo). La programación
-                  funcional busca evitarlos.</mark
+                  funcional busca evitarlos.</span
                 >
-              </details>
+              </span>
               indeseados.
             </li>
             <li>
@@ -262,15 +271,15 @@
               <strong>React (junto a JavaScript):</strong> Una biblioteca que
               materializa la programación reactiva y declarativa en el
               desarrollo web. En lugar de manipular el
-              <details class="interactive-keyword">
-                <summary>DOM</summary>
-                <mark
+              <span class="interactive-keyword">
+                <span class="tooltip">DOM</span>
+                <span class="description"
                   >Document Object Model. Es una representación en forma de
                   árbol del documento HTML. Manipularlo implica cambiar la
                   estructura, estilo o contenido de la página web
-                  dinámicamente.</mark
+                  dinámicamente.</span
                 >
-              </details>
+              </span>
               manualmente paso a paso, declaras cómo debe verse la interfaz para
               un estado dado, y la tecnología se encarga de actualizarla
               eficientemente.
@@ -350,15 +359,15 @@
             <li>
               <strong
                 >Capa de Lógica de Negocio (Aplicación /
-                <details class="interactive-keyword">
-                  <summary>Middleware</summary>
-                  <mark
+                <span class="interactive-keyword">
+                  <span class="tooltip">Middleware</span>
+                  <span class="description"
                     >Software que se sitúa entre el sistema operativo y las
                     aplicaciones, o entre distintas capas de una arquitectura,
                     facilitando la comunicación y gestión de datos (como un
-                    puente o mediador).</mark
+                    puente o mediador).</span
                   >
-                </details>
+                </span>
                 ):</strong
               >
               Es el "cerebro" del sistema. Contiene las reglas, cálculos y
@@ -440,15 +449,15 @@
                 <li>
                   <em>Dominio:</em> Registro de un identificador alfanumérico
                   legible (ej. <em>tusitio.com</em>) que los
-                  <details class="interactive-keyword">
-                    <summary>servidores DNS</summary>
-                    <mark
+                  <span class="interactive-keyword">
+                    <span class="tooltip">servidores DNS</span>
+                    <span class="description"
                       >Domain Name System. Es el "directorio telefónico" de
                       Internet. Traduce nombres legibles para humanos (como
                       www.google.com) en direcciones IP legibles por
-                      máquinas.</mark
+                      máquinas.</span
                     >
-                  </details>
+                  </span>
                   traducen unívocamente a una dirección IP de red.
                 </li>
                 <li>
@@ -488,13 +497,16 @@
       </article>
     </main>
     <footer>
-        <div>
-            <img src="https://avatars.githubusercontent.com/u/171191896?v=4" alt="Mi foto">
-            <p>
-              Blog hecho por Kelvim Bolívar. Encuentra mis otros proyectos en mi
-              pagina de <a href="https://github.com/rip-the-slit/">Github</a>
-            </p>
-          </div>
+      <div>
+        <img
+          src="https://avatars.githubusercontent.com/u/171191896?v=4"
+          alt="Mi foto"
+        />
+        <p>
+          Blog hecho por Kelvim Bolívar. Encuentra mis otros proyectos en mi
+          pagina de <a href="https://github.com/rip-the-slit/">Github</a>
+        </p>
+      </div>
     </footer>
   </body>
 </html>

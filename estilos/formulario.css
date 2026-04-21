@@ -1,0 +1,98 @@
+article form {
+    margin-top: 1.5rem;
+  }
+  
+  fieldset {
+    border: 2px solid var(--blue-light);
+    border-radius: var(--radius);
+    padding: 1.8rem 2rem;
+    background: var(--blue-lightest);
+  }
+  
+  legend {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--blue-dark);
+    padding: 0 0.6rem;
+  }
+  
+  fieldset > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin-bottom: 1.2rem;
+  }
+  
+  fieldset label {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--blue-darker);
+  }
+  
+  fieldset input[type="text"],
+  fieldset input[type="email"],
+  fieldset input[type="number"],
+  fieldset input[type="date"],
+  fieldset input[type="password"],
+  fieldset select,
+  fieldset textarea {
+    padding: 0.6rem 0.85rem;
+    border: 1.5px solid var(--blue-mid);
+    border-radius: 7px;
+    font-size: 0.95rem;
+    background: var(--white);
+    color: var(--text-main);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  
+  fieldset input:focus,
+  fieldset select:focus,
+  fieldset textarea:focus {
+    border-color: var(--blue-main);
+    box-shadow: 0 0 0 3px rgba(58, 155, 213, 0.18);
+  }
+  
+  fieldset div:has(input[type="checkbox"]) label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  fieldset div:last-child {
+    flex-direction: row;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+  
+  fieldset button[type="submit"],
+  fieldset button[type="reset"] {
+    padding: 0.65rem 1.8rem;
+    border: none;
+    border-radius: 7px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  
+  fieldset button[type="submit"] {
+    background: var(--blue-main);
+    color: var(--white);
+  }
+  
+  fieldset button[type="submit"]:hover {
+    background: var(--blue-dark);
+    transform: translateY(-1px);
+  }
+  
+  fieldset button[type="reset"] {
+    background: var(--blue-light);
+    color: var(--blue-darker);
+  }
+  
+  fieldset button[type="reset"]:hover {
+    background: var(--blue-mid);
+  }
