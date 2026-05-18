@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../estilos/index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
+    <title>Scripts JavaScript - Blog Paradigmas</title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="../index.html">Blog Paradigmas</a></h1>
+      <ul>
+        <li><a href="./paradigmas.html">Paradigmas</a></li>
+        <li><a href="./etiquetas.html">Etiquetas HTML</a></li>
+        <li><a href="./estilos.html">Estilos CSS</a></li>
+        <li><a href="./formulario.html">Demo de Formulario</a></li>
+        <li><a href="./scripts.html">Scripts JavaScript</a></li>
+        <li><a href="./hoja_excel.html">Hoja de Excel</a></li>
+      </ul>
+    </header>
+    <main>
+      <div>
+        <nav class="toc" aria-label="Tabla de contenido">
+          <h2>Contenido</h2>
+          <ul>
+            <li>
+              <a href="#conceptos-basicos-css">Conceptos básicos de CSS</a>
+              <ul>
+                <li>
+                  <a href="#estructura-documento-css"
+                    >Estructura de un documento CSS</a
+                  >
+                </li>
+                <li>
+                  <a href="#formas-aplicar-css">Formas de aplicar CSS</a>
+                </li>
+                <li>
+                  <a href="#selectores-css">Selectores en CSS</a>
+                  <ul>
+                    <li><a href="#selectores-basicos">Selectores básicos</a></li>
+                    <li>
+                      <a href="#selectores-combinadores"
+                        >Selectores combinadores</a
+                      >
+                    </li>
+                    <li>
+                      <a href="#selectores-atributo">Selectores de atributo</a>
+                    </li>
+                    <li><a href="#pseudoclases">Pseudoclases</a></li>
+                    <li><a href="#pseudoelementos">Pseudoelementos</a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#propiedades-basicas-formato"
+                    >Propiedades básicas de formato</a
+                  >
+                  <ul>
+                    <li>
+                      <a href="#propiedades-color-fondo"
+                        >Propiedades de color y fondo</a
+                      >
+                    </li>
+                    <li>
+                      <a href="#propiedades-texto-fuente"
+                        >Propiedades de texto y fuente</a
+                      >
+                    </li>
+                    <li>
+                      <a href="#propiedades-modelo-caja"
+                        >Propiedades del modelo de caja</a
+                      >
+                    </li>
+                    <li>
+                      <a href="#propiedades-visualizacion-posicionamiento"
+                        >Propiedades de visualización y posicionamiento</a
+                      >
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#concepto-cascada-prioridad"
+                    >Concepto de cascada y prioridad</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+        <a href="./estilos.html" download>Descarga esta página</a>
+      </div>
+
+      <article>
+        <h1 id="conceptos-basicos-css">Conceptos básicos de CSS</h1>
+        <p>
+          CSS (Cascading Style Sheets) es el lenguaje utilizado para definir la
+          presentación visual de un documento HTML. Mientras que HTML se encarga
+          de la estructura y el contenido, CSS controla el diseño, los colores,
+          tamaños, espaciados y la disposición de los elementos en la página.
+          Gracias a CSS es posible separar el contenido de la presentación, lo
+          que facilita el mantenimiento y mejora la organización del código.
+          Esta separación permite modificar completamente la apariencia de un
+          sitio web sin alterar su estructura HTML.
+        </p>
+        <h2 id="estructura-documento-css">Estructura de un documento CSS</h2>
+        <p>
+          Un documento CSS está compuesto por reglas que siguen una estructura
+          específica formada por un selector y un bloque de declaraciones. Cada
+          declaración incluye una propiedad y un valor, separados por dos puntos
+          y finalizados con punto y coma. El selector indica a qué elemento HTML
+          se aplicarán los estilos definidos. El bloque de declaraciones se
+          encierra entre llaves y puede contener múltiples propiedades. Esta
+          estructura permite aplicar estilos de manera clara, organizada y
+          reutilizable.
+        </p>
+        <pre>
+        selector {
+            propiedad: valor;
+            propiedad: valor;
+        }
+        </pre>
+        <h2 id="formas-aplicar-css">Formas de aplicar CSS</h2>
+        <ul>
+          <li>
+            <strong>CSS externo:</strong> Se define en un archivo separado con
+            extensión .css y se enlaza al documento HTML mediante la etiqueta
+            link dentro del elemento head. Este método permite reutilizar los
+            estilos en múltiples páginas, facilita el mantenimiento y mejora la
+            organización del código. Es la forma más utilizada en proyectos web
+            reales porque mantiene una clara separación entre estructura y
+            diseño.
+            <figure>
+              <img
+                src="https://comocreartuweb.com/imagenes/199-relacionar-archivo-de-estilo.gif"
+                alt="Ejemplo de enlace a archivo CSS externo"
+              />
+              <figcaption>
+                Ejemplo de vinculación de un archivo CSS externo utilizando la
+                etiqueta link dentro del elemento head del documento HTML.
+              </figcaption>
+            </figure>
+          </li>
+          <li>
+            <strong>CSS interno:</strong> Se escribe dentro de una etiqueta
+            style ubicada en la sección head del documento HTML. Este método es
+            útil cuando se desea aplicar estilos a una sola página sin crear un
+            archivo adicional. Aunque es práctico para proyectos pequeños o
+            pruebas, no es recomendable para sitios grandes debido a la
+            dificultad de reutilización.
+            <figure>
+              <img
+                src="https://www.webempresa.com/wp-content/uploads/2024/01/que-es-css-05.png"
+                alt="Ejemplo de uso de la etiqueta style en HTML"
+              />
+              <figcaption>
+                Ejemplo de definición de estilos dentro de la etiqueta style en
+                el mismo documento HTML.
+              </figcaption>
+            </figure>
+          </li>
+          <li>
+            <strong>CSS en línea:</strong> Se aplica directamente dentro del
+            atributo style de una etiqueta HTML específica. Este método tiene
+            mayor prioridad en la cascada, pero no es recomendable para el
+            desarrollo estructurado porque mezcla contenido y presentación. Se
+            utiliza principalmente para cambios rápidos o ajustes muy
+            específicos en un elemento individual.
+            <figure>
+              <img
+                src="https://i.sstatic.net/ihnKv.png"
+                alt="Ejemplo de estilo en línea en una etiqueta HTML"
+              />
+              <figcaption>
+                Ejemplo de aplicación de estilos directamente en una etiqueta
+                HTML mediante el atributo style.
+              </figcaption>
+            </figure>
+          </li>
+        </ul>
+        <h2 id="selectores-css">Selectores en CSS</h2>
+        <p>
+          Los selectores en CSS permiten identificar qué elementos HTML
+          recibirán un conjunto específico de estilos dentro de una hoja de
+          estilo. Cada selector tiene una función particular y puede combinarse
+          con otros para crear reglas más específicas y precisas. Existen
+          selectores básicos, combinadores, selectores de atributo, pseudoclases
+          y pseudoelementos, todos con aplicaciones distintas. Comprender cómo
+          funciona cada uno es esencial para escribir código CSS limpio,
+          eficiente y bien estructurado. A continuación se presenta una lista
+          organizada de los principales selectores con su respectiva
+          descripción.
+        </p>
+
+        <h3 id="selectores-basicos">Selectores básicos</h3>
+
+        <ul>
+          <li>
+            <strong>* (selector universal):</strong> Selecciona todos los
+            elementos del documento HTML.
+          </li>
+          <li>
+            <strong>elemento (selector de tipo):</strong> Selecciona todos los
+            elementos de una etiqueta específica, como p, div o h1.
+          </li>
+          <li>
+            <strong>.clase (selector de clase):</strong> Selecciona todos los
+            elementos que tienen asignada una clase específica.
+          </li>
+          <li>
+            <strong>#id (selector de ID):</strong> Selecciona el elemento que
+            tiene un identificador único determinado.
+          </li>
+          <li>
+            <strong>selector1, selector2 (selector agrupado):</strong> Permite
+            aplicar los mismos estilos a varios selectores al mismo tiempo.
+          </li>
+        </ul>
+
+        <h3 id="selectores-combinadores">Selectores combinadores</h3>
+
+        <ul>
+          <li>
+            <strong>A B (descendente):</strong> Selecciona todos los elementos B
+            que estén dentro de un elemento A.
+          </li>
+          <li>
+            <strong>A > B (hijo directo):</strong> Selecciona solo los elementos
+            B que sean hijos directos de A.
+          </li>
+          <li>
+            <strong>A + B (hermano adyacente):</strong> Selecciona el elemento B
+            que esté inmediatamente después de A.
+          </li>
+          <li>
+            <strong>A ~ B (hermano general):</strong> Selecciona todos los
+            elementos B que sean hermanos de A y estén después de él.
+          </li>
+        </ul>
+
+        <h3 id="selectores-atributo">Selectores de atributo</h3>
+
+        <ul>
+          <li>
+            <strong>[atributo]:</strong> Selecciona los elementos que contienen
+            un atributo específico.
+          </li>
+          <li>
+            <strong>[atributo="valor"]:</strong> Selecciona los elementos cuyo
+            atributo coincide exactamente con un valor.
+          </li>
+          <li>
+            <strong>[atributo~="valor"]:</strong> Selecciona elementos cuyo
+            atributo contiene una palabra específica separada por espacios.
+          </li>
+          <li>
+            <strong>[atributo|="valor"]:</strong> Selecciona elementos cuyo
+            atributo comienza con un valor específico seguido opcionalmente de
+            un guion.
+          </li>
+          <li>
+            <strong>[atributo^="valor"]:</strong> Selecciona elementos cuyo
+            atributo comienza con el valor indicado.
+          </li>
+          <li>
+            <strong>[atributo$="valor"]:</strong> Selecciona elementos cuyo
+            atributo termina con el valor indicado.
+          </li>
+          <li>
+            <strong>[atributo*="valor"]:</strong> Selecciona elementos cuyo
+            atributo contiene el valor indicado en cualquier posición.
+          </li>
+        </ul>
+
+        <h3 id="pseudoclases">Pseudoclases</h3>
+
+        <ul>
+          <li>
+            <strong>:hover:</strong> Aplica estilos cuando el usuario coloca el
+            cursor sobre el elemento.
+          </li>
+          <li>
+            <strong>:active:</strong> Se activa cuando el elemento está siendo
+            presionado.
+          </li>
+          <li>
+            <strong>:focus:</strong> Se aplica cuando un elemento recibe el foco
+            del teclado.
+          </li>
+          <li>
+            <strong>:visited:</strong> Selecciona enlaces que ya han sido
+            visitados.
+          </li>
+          <li>
+            <strong>:link:</strong> Selecciona enlaces que aún no han sido
+            visitados.
+          </li>
+          <li>
+            <strong>:first-child:</strong> Selecciona el primer hijo de su
+            elemento padre.
+          </li>
+          <li>
+            <strong>:last-child:</strong> Selecciona el último hijo de su
+            elemento padre.
+          </li>
+          <li>
+            <strong>:nth-child(n):</strong> Selecciona el hijo en una posición
+            específica.
+          </li>
+          <li>
+            <strong>:nth-of-type(n):</strong> Selecciona elementos de un tipo
+            específico según su posición.
+          </li>
+          <li>
+            <strong>:not(selector):</strong> Selecciona elementos que no
+            coinciden con el selector indicado.
+          </li>
+          <li>
+            <strong>:checked:</strong> Selecciona elementos de formulario
+            marcados, como checkboxes.
+          </li>
+          <li>
+            <strong>:disabled:</strong> Selecciona elementos de formulario
+            deshabilitados.
+          </li>
+          <li>
+            <strong>:enabled:</strong> Selecciona elementos de formulario
+            habilitados.
+          </li>
+          <li>
+            <strong>:required:</strong> Selecciona campos de formulario
+            obligatorios.
+          </li>
+          <li>
+            <strong>:valid:</strong> Selecciona elementos con contenido válido
+            según sus restricciones.
+          </li>
+          <li>
+            <strong>:invalid:</strong> Selecciona elementos con contenido
+            inválido.
+          </li>
+          <li>
+            <strong>:root:</strong> Selecciona el elemento raíz del documento,
+            generalmente html.
+          </li>
+        </ul>
+
+        <h3 id="pseudoelementos">Pseudoelementos</h3>
+
+        <ul>
+          <li>
+            <strong>::before:</strong> Inserta contenido antes del contenido
+            real del elemento.
+          </li>
+          <li>
+            <strong>::after:</strong> Inserta contenido después del contenido
+            real del elemento.
+          </li>
+          <li>
+            <strong>::first-letter:</strong> Selecciona la primera letra del
+            texto de un elemento.
+          </li>
+          <li>
+            <strong>::first-line:</strong> Selecciona la primera línea del
+            texto.
+          </li>
+          <li>
+            <strong>::selection:</strong> Aplica estilos al texto seleccionado
+            por el usuario.
+          </li>
+          <li>
+            <strong>::placeholder:</strong> Aplica estilos al texto de marcador
+            de posición en campos de formulario.
+          </li>
+          <li>
+            <strong>::marker:</strong> Selecciona los marcadores de listas, como
+            números o viñetas.
+          </li>
+        </ul>
+
+        <h2 id="propiedades-basicas-formato">Propiedades básicas de formato</h2>
+        <p>
+          Las propiedades en CSS permiten controlar la apariencia visual y el
+          comportamiento de los elementos HTML dentro de una página web. Cada
+          propiedad define un aspecto específico del diseño, como colores,
+          tamaños, márgenes o posiciones. Se escriben dentro de una regla CSS
+          con el formato propiedad: valor y pueden combinarse para lograr
+          diseños complejos. Comprender qué hace cada propiedad es esencial para
+          desarrollar sitios web organizados y visualmente consistentes. A
+          continuación se presentan las propiedades básicas con una breve
+          descripción de su función.
+        </p>
+
+        <h3 id="propiedades-color-fondo">Propiedades de color y fondo</h3>
+
+        <ul>
+          <li>
+            <strong>color:</strong> Define el color del texto del elemento.
+          </li>
+          <li>
+            <strong>background:</strong> Propiedad abreviada para definir todas
+            las propiedades de fondo en una sola declaración.
+          </li>
+          <li>
+            <strong>background-color:</strong> Establece el color de fondo de un
+            elemento.
+          </li>
+          <li>
+            <strong>background-image:</strong> Define una imagen como fondo del
+            elemento.
+          </li>
+          <li>
+            <strong>background-repeat:</strong> Controla si la imagen de fondo
+            se repite y cómo lo hace.
+          </li>
+          <li>
+            <strong>background-position:</strong> Especifica la posición inicial
+            de la imagen de fondo.
+          </li>
+          <li>
+            <strong>background-size:</strong> Determina el tamaño de la imagen
+            de fondo.
+          </li>
+          <li>
+            <strong>background-attachment:</strong> Indica si el fondo se
+            desplaza con el contenido o permanece fijo.
+          </li>
+          <li>
+            <strong>opacity:</strong> Define el nivel de transparencia del
+            elemento.
+          </li>
+        </ul>
+
+        <h3 id="propiedades-texto-fuente">Propiedades de texto y fuente</h3>
+
+        <ul>
+          <li>
+            <strong>font:</strong> Propiedad abreviada para definir varias
+            características de la fuente.
+          </li>
+          <li>
+            <strong>font-family:</strong> Especifica el tipo de letra del texto.
+          </li>
+          <li><strong>font-size:</strong> Define el tamaño del texto.</li>
+          <li>
+            <strong>font-style:</strong> Establece el estilo de la fuente, como
+            normal o italic.
+          </li>
+          <li><strong>font-weight:</strong> Define el grosor del texto.</li>
+          <li>
+            <strong>font-variant:</strong> Controla variantes tipográficas como
+            small-caps.
+          </li>
+          <li>
+            <strong>line-height:</strong> Establece la altura de línea o espacio
+            vertical entre líneas de texto.
+          </li>
+          <li><strong>text-align:</strong> Alinea el texto horizontalmente.</li>
+          <li>
+            <strong>text-decoration:</strong> Agrega o elimina decoraciones como
+            subrayado o tachado.
+          </li>
+          <li>
+            <strong>text-transform:</strong> Controla la transformación del
+            texto en mayúsculas o minúsculas.
+          </li>
+          <li>
+            <strong>text-indent:</strong> Define la sangría de la primera línea
+            del texto.
+          </li>
+          <li>
+            <strong>letter-spacing:</strong> Ajusta el espacio entre caracteres.
+          </li>
+          <li>
+            <strong>word-spacing:</strong> Ajusta el espacio entre palabras.
+          </li>
+          <li>
+            <strong>white-space:</strong> Controla cómo se manejan los espacios
+            y saltos de línea.
+          </li>
+        </ul>
+
+        <h3 id="propiedades-modelo-caja">Propiedades del modelo de caja</h3>
+        <ul>
+          <li><strong>width:</strong> Define el ancho del elemento.</li>
+          <li><strong>height:</strong> Define la altura del elemento.</li>
+          <li>
+            <strong>min-width:</strong> Establece el ancho mínimo permitido.
+          </li>
+          <li>
+            <strong>max-width:</strong> Establece el ancho máximo permitido.
+          </li>
+          <li>
+            <strong>min-height:</strong> Define la altura mínima permitida.
+          </li>
+          <li>
+            <strong>max-height:</strong> Define la altura máxima permitida.
+          </li>
+          <li>
+            <strong>margin:</strong> Propiedad abreviada para definir los
+            márgenes exteriores.
+          </li>
+          <li><strong>margin-top:</strong> Define el margen superior.</li>
+          <li><strong>margin-right:</strong> Define el margen derecho.</li>
+          <li><strong>margin-bottom:</strong> Define el margen inferior.</li>
+          <li><strong>margin-left:</strong> Define el margen izquierdo.</li>
+          <li>
+            <strong>padding:</strong> Propiedad abreviada para definir el
+            espacio interno.
+          </li>
+          <li>
+            <strong>padding-top:</strong> Define el espacio interno superior.
+          </li>
+          <li>
+            <strong>padding-right:</strong> Define el espacio interno derecho.
+          </li>
+          <li>
+            <strong>padding-bottom:</strong> Define el espacio interno inferior.
+          </li>
+          <li>
+            <strong>padding-left:</strong> Define el espacio interno izquierdo.
+          </li>
+          <li>
+            <strong>border:</strong> Propiedad abreviada para definir borde,
+            ancho, estilo y color.
+          </li>
+          <li><strong>border-width:</strong> Define el grosor del borde.</li>
+          <li>
+            <strong>border-style:</strong> Define el estilo del borde, como
+            sólido o punteado.
+          </li>
+          <li><strong>border-color:</strong> Define el color del borde.</li>
+          <li>
+            <strong>border-radius:</strong> Redondea las esquinas del borde.
+          </li>
+          <li>
+            <strong>box-sizing:</strong> Controla cómo se calculan el ancho y
+            alto del elemento.
+          </li>
+        </ul>
+
+        <h3 id="propiedades-visualizacion-posicionamiento">
+          Propiedades de visualización y posicionamiento
+        </h3>
+        <ul>
+          <li>
+            <strong>display:</strong> Define el tipo de caja del elemento, como
+            block o inline.
+          </li>
+          <li>
+            <strong>visibility:</strong> Controla si el elemento es visible o
+            no.
+          </li>
+          <li>
+            <strong>position:</strong> Establece el método de posicionamiento
+            del elemento.
+          </li>
+          <li>
+            <strong>top:</strong> Define la distancia desde la parte superior en
+            elementos posicionados.
+          </li>
+          <li><strong>right:</strong> Define la distancia desde la derecha.</li>
+          <li>
+            <strong>bottom:</strong> Define la distancia desde la parte
+            inferior.
+          </li>
+          <li>
+            <strong>left:</strong> Define la distancia desde la izquierda.
+          </li>
+          <li>
+            <strong>z-index:</strong> Controla el orden de apilamiento de
+            elementos.
+          </li>
+          <li>
+            <strong>float:</strong> Permite que un elemento flote a la izquierda
+            o derecha.
+          </li>
+          <li>
+            <strong>clear:</strong> Controla el comportamiento frente a
+            elementos flotantes.
+          </li>
+          <li>
+            <strong>overflow:</strong> Define qué ocurre cuando el contenido
+            excede el tamaño del elemento.
+          </li>
+          <li>
+            <strong>overflow-x:</strong> Controla el desbordamiento horizontal.
+          </li>
+          <li>
+            <strong>overflow-y:</strong> Controla el desbordamiento vertical.
+          </li>
+        </ul>
+        <h2 id="concepto-cascada-prioridad">Concepto de cascada y prioridad</h2>
+        <p>
+          El término cascading hace referencia al sistema de prioridad que
+          utiliza CSS para aplicar estilos cuando existen múltiples reglas que
+          afectan al mismo elemento. Los estilos en línea tienen mayor prioridad
+          que los definidos en archivos externos o internos. Los selectores de
+          ID tienen mayor especificidad que los de clase, y estos a su vez mayor
+          que los de etiqueta. Además, cuando dos reglas tienen la misma
+          especificidad, se aplicará la que esté definida más abajo en el
+          documento. Comprender este mecanismo es esencial para evitar
+          conflictos en el diseño.
+        </p>
+      </article>
+    </main>
+    <footer>
+      <div>
+        <img src="https://avatars.githubusercontent.com/u/171191896?v=4" alt="Mi foto">
+        <p>
+          Blog hecho por Kelvim Bolívar. Encuentra mis otros proyectos en mi
+          pagina de <a href="https://github.com/rip-the-slit/">Github</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+#hoja-excel {
+    display: flex;
+    grid-template-columns: 1fr 1fr;
+}
+
+#hoja-excel > table {
+    background-color: gainsboro;
+    border: 1px ;
+}
