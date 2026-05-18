@@ -38,15 +38,17 @@ body {
 }
 
 ::-webkit-scrollbar {
-    width: 6px;
-  }
+  width: 6px;
+}
+
 ::-webkit-scrollbar-track {
-    background: var(--blue-light);
-  }
+  background: var(--blue-light);
+}
+
 ::-webkit-scrollbar-thumb {
-    background: var(--blue-main);
-    border-radius: 4px;
-  }
+  background: var(--blue-main);
+  border-radius: 4px;
+}
 
 a[download] {
   color: var(--blue-main);
@@ -70,11 +72,9 @@ a[download]::after {
 }
 
 header {
-  background: linear-gradient(
-    135deg,
-    var(--blue-dark) 0%,
-    var(--blue-main) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--blue-dark) 0%,
+      var(--blue-main) 100%);
   color: var(--white);
   padding: 0 2rem;
   display: flex;
@@ -238,6 +238,32 @@ article pre code {
   color: inherit;
 }
 
+article pre .keyword {
+  color: #c586c0;
+  font-weight: 500;
+}
+
+article pre .string {
+  color: #ce9178;
+}
+
+article pre .function {
+  color: #dcdcaa;
+}
+
+article pre .variable {
+  color: #9cdcfe;
+}
+
+article pre .number {
+  color: #b5cea8;
+}
+
+article pre .comment {
+  color: #6a9955;
+  font-style: italic;
+}
+
 
 div:has(.toc) {
   position: sticky;
@@ -338,7 +364,7 @@ figcaption {
   color: var(--blue-darker);
 }
 
-.interactive-keyword .tooltip:hover ~ .description {
+.interactive-keyword .tooltip:hover~.description {
   position: absolute;
   display: block;
   padding: 0.7rem 1rem;
@@ -352,30 +378,28 @@ figcaption {
   font-style: normal;
 }
 
-main > h1:first-child {
+main>h1:first-child {
   font-size: 2rem;
   color: var(--blue-darker);
   margin-bottom: 1rem;
 }
 
-main > p {
+main>p {
   font-size: 1.05rem;
   color: var(--text-muted);
   max-width: 680px;
 }
 
 footer {
-  background: linear-gradient(
-    135deg,
-    var(--blue-darker) 0%,
-    var(--blue-dark) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--blue-darker) 0%,
+      var(--blue-dark) 100%);
   color: var(--blue-lightest);
   padding: 1.5rem 2rem;
   margin-top: auto;
 }
 
-footer > div {
+footer>div {
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
@@ -444,7 +468,7 @@ footer a:hover {
     margin: 1.2rem auto;
   }
 
-  footer > div {
+  footer>div {
     flex-direction: column;
     text-align: center;
   }
