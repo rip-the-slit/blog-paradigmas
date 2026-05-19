@@ -10,14 +10,16 @@ export default class Estudiante {
 
     const crearCelda = (valor, campo, placeholder, indiceNota = null) => {
       const celda = document.createElement("td");
+
       const entrada = document.createElement("input");
 
       entrada.value = valor;
       entrada.name = campo === "notas" ? `nota_${indiceFila}_${indiceNota}` : `${campo}_${indiceFila}`;
-      entrada.type = campo === "notas" || campo === "cedula" ? "number" : "text";
+      entrada.type = campo === "notas" || campo === "cedula" || campo === "porcentaje" ? "number" : "text";
       entrada.min = campo === "notas" ? "0" : undefined;
       entrada.max = campo === "notas" ? "100" : undefined;
       entrada.placeholder = placeholder || "";
+      entrada.readOnly = campo === "porcentaje" ? true : false;
 
       celda.appendChild(entrada);
       return celda;
@@ -28,6 +30,7 @@ export default class Estudiante {
 
     this.notas.forEach((nota, i) => {
       fila.appendChild(crearCelda(nota, "notas", `Nota ${i + 1}`, i));
+      fila.appendChild(crearCelda((nota / 4).toFixed(0), "porcentaje", `Porcentaje ${i + 1}`, i));
     });
 
     const celdaBoton = document.createElement("td");

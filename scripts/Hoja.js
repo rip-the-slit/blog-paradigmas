@@ -61,7 +61,7 @@ export default class Hoja {
 
       const celdaAgregar = document.createElement("td");
       const columnasTotales =
-        this.estudiantes.length > 0 ? this.estudiantes[0].notas.length + 3 : 7;
+        this.estudiantes.length > 0 ? (this.estudiantes[0].notas.length * 2) + 3 : 7;
       celdaAgregar.colSpan = columnasTotales;
 
       const botonAgregar = document.createElement("button");
