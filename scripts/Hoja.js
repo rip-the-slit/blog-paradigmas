@@ -1,53 +1,6 @@
-class Estudiante {
-  constructor(cedula, nombre, notas = [0, 0, 0, 0]) {
-    this.cedula = cedula;
-    this.nombre = nombre;
-    this.notas = notas;
-  }
+import Estudiante from "./Estudiante.js";
 
-  render(indiceFila) {
-    const fila = document.createElement("tr");
-
-    const crearCelda = (valor, campo, indiceNota = null) => {
-      const celda = document.createElement("td");
-      const entrada = document.createElement("input");
-
-      entrada.value = valor;
-
-      if (indiceNota !== null) {
-        entrada.name = `nota_${indiceFila}_${indiceNota}`;
-        entrada.type = "number";
-      } else {
-        entrada.name = `${campo}_${indiceFila}`;
-        entrada.type = "text";
-      }
-
-      celda.appendChild(entrada);
-      return celda;
-    };
-
-    fila.appendChild(crearCelda(this.cedula, "cedula"));
-    fila.appendChild(crearCelda(this.nombre, "nombre"));
-
-    this.notas.forEach((nota, i) => {
-      fila.appendChild(crearCelda(nota, "notas", i));
-    });
-
-    const celdaBoton = document.createElement("td");
-    const botonEliminar = document.createElement("button");
-    botonEliminar.type = "submit";
-    botonEliminar.textContent = "Eliminar";
-    botonEliminar.dataset.accion = "eliminar";
-    botonEliminar.dataset.indice = indiceFila;
-
-    celdaBoton.appendChild(botonEliminar);
-    fila.appendChild(celdaBoton);
-
-    return fila;
-  }
-}
-
-class Hoja {
+export default class Hoja {
   constructor(formulario, estudiantes) {
     this.formulario = formulario;
     this.estudiantes = estudiantes;
@@ -85,14 +38,9 @@ class Hoja {
 
   limpiarTabla() {
     const tabla = this.formulario.querySelector("table");
-    const cuerpoTabla = tabla.querySelector("tbody");
 
-    if (cuerpoTabla) {
-      cuerpoTabla.innerHTML = "";
-    } else {
-      const filas = tabla.querySelectorAll("tr:not(:first-child)");
-      filas.forEach((fila) => fila.remove());
-    }
+    const filas = tabla.querySelectorAll("tr:not(:first-child)");
+    filas.forEach((fila) => fila.remove());
 
     const filaAgregar = tabla.querySelector(".fila-agregar");
     if (filaAgregar) filaAgregar.remove();
@@ -118,7 +66,7 @@ class Hoja {
 
       const botonAgregar = document.createElement("button");
       botonAgregar.type = "submit";
-      botonAgregar.textContent = "Agregar Estudiante";
+      botonAgregar.textContent = "Agregar Estudiante +";
       botonAgregar.dataset.accion = "agregar";
 
       celdaAgregar.appendChild(botonAgregar);
@@ -127,9 +75,3 @@ class Hoja {
     }
   }
 }
-
-const muestra = [
-    new Estudiante("19283", "hjfds")
-]
-const formulario = document.querySelector("#hoja-excel > form")
-const hoja = new Hoja(formulario, muestra)
