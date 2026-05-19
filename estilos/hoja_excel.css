@@ -1,9 +1,175 @@
 #hoja-excel {
-    display: flex;
-    grid-template-columns: 1fr 1fr;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
 }
 
-#hoja-excel > table {
-    background-color: gainsboro;
-    border: 1px ;
+#hoja-excel table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  background-color: #ffffff;
+  font-family: 'DM Mono', monospace;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+#hoja-excel table tbody tr:nth-child(even) {
+  background-color: #f6f8fa;
+
+}
+
+#hoja-excel th,
+#hoja-excel td {
+  border: 1px solid #d0d7de;
+  padding: 0;
+  text-align: center;
+  vertical-align: middle;
+}
+
+#hoja-excel th {
+  background-color: #e2e8f0;
+  padding: 12px;
+  font-weight: 500;
+  color: #24292f;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+#hoja-excel td input {
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  padding: 10px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  text-align: center;
+  background-color: transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+#hoja-excel td input:focus {
+  outline: 2px solid #0969da;
+  outline-offset: -2px;
+  background-color: #f0f8ff;
+}
+
+#hoja-excel td input[type="number"]::-webkit-outer-spin-button,
+#hoja-excel td input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+#hoja-excel td input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+#hoja-excel td input[name^="nombre_"] {
+  text-align: left;
+  padding-left: 12px;
+}
+
+#hoja-excel button {
+  font-family: 'DM Mono', monospace;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#hoja-excel td button[data-accion="eliminar"] {
+  background-color: #cf222e;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  margin: 4px;
+}
+
+#hoja-excel td button[data-accion="eliminar"]:hover {
+  background-color: #a40e26;
+}
+
+.fila-agregar button {
+  color: #333;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  font-weight: 500;
+  font-size: 1rem;
+  background-color: #e2e8f0a6;
+}
+
+.fila-agregar button:hover {
+  background-color: #d1d9e0ad;
+}
+
+#hoja-excel > form > button[type="submit"] {
+  background-color: #0969da;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  display: block;
+}
+
+#hoja-excel > form > button[type="submit"]:hover {
+  background-color: #3b82f6;
+}
+
+.resumen-pestanas {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: auto;
+  max-height: 70vh;
+  font-family: 'DM Mono', monospace;
+  position: relative;
+}
+
+.barra-botones {
+  display: flex;
+  background-color: #e2e8f0;
+  border-bottom: 1px solid #ddd;
+  position:sticky;
+  top: 0;
+}
+
+.barra-botones button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-weight: 400;
+  transition: background-color 0.2s;
+}
+
+.barra-botones button.activo {
+  background-color: #f1f5f9;
+  font-weight: 500;
+  border-bottom: 2px solid #333;
+}
+
+.panel-resumen {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.panel-resumen ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.panel-resumen li {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px dashed #eee;
+}
+
+.panel-resumen li :nth-child(2) {
+  text-align: right;
 }

@@ -14,7 +14,7 @@
   --blue-main: #60a5fa;
   --blue-dark: #3b82f6;
   --blue-darker: #2563eb;
-  --text-main: #1e40af;
+  --text-main:   box-shadow: var(--shadow-md);
   --text-muted: #5a6e80;
   --white: #ffffff;
   --shadow-sm: 0 2px 8px rgba(30, 111, 168, 0.1);
@@ -72,9 +72,7 @@ a[download]::after {
 }
 
 header {
-  background: linear-gradient(135deg,
-      var(--blue-dark) 0%,
-      var(--blue-main) 100%);
+  background: #262626;
   color: var(--white);
   padding: 0 2rem;
   display: flex;
@@ -82,7 +80,6 @@ header {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 1rem;
-  box-shadow: var(--shadow-md);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -239,28 +236,28 @@ article pre code {
 }
 
 article pre .keyword {
-  color: #c586c0;
+  color: #f472b6;
   font-weight: 500;
 }
 
 article pre .string {
-  color: #ce9178;
+  color: #fb923c;
 }
 
 article pre .function {
-  color: #dcdcaa;
+  color: #fbbf24;
 }
 
 article pre .variable {
-  color: #9cdcfe;
+  color: #60a5fa;
 }
 
 article pre .number {
-  color: #b5cea8;
+  color: #86efac;
 }
 
 article pre .comment {
-  color: #6a9955;
+  color: #22c55e;
   font-style: italic;
 }
 
@@ -344,7 +341,6 @@ figcaption {
 
 .interactive-keyword {
   display: inline;
-  position: relative;
 }
 
 .interactive-keyword .tooltip {
@@ -354,6 +350,7 @@ figcaption {
   font-weight: 600;
   list-style: none;
   transition: color 0.2s;
+  position: relative;
 }
 
 .interactive-keyword .description {
