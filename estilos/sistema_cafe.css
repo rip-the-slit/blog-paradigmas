@@ -1,0 +1,46 @@
+#sistema-cafe {
+    background-color: white;
+    padding: 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+}
+
+#barra-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    gap: 1rem;
+}
+
+#barra-info > div > p {
+    font-weight: 500;
+    color: #3f6212;
+    background-color: #bef264;
+    border: #65a30d solid 1px;
+    border-radius: 4px;
+    box-shadow: inset 0 0 10px #3f621240;
+    padding: .3rem .5rem;
+}
+
+div:has(#panel-proveedor, #panel-inventario, #negocio) {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 200px;
+}
+
+#panel-proveedor, #negocio {
+    flex: 1;
+}
+
+#panel-inventario {
+    flex: 0 0 5rem;
+}
+
+#panel-proveedor, #panel-inventario, #negocio {
+    background-color: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    padding: 1rem;
+    margin-top: 1rem;
+}

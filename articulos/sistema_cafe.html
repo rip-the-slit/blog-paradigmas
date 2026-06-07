@@ -1,17 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="../scripts/hoja_excel.js" type="module" defer></script>
     <link rel="stylesheet" href="../estilos/index.css" />
-    <link rel="stylesheet" href="../estilos/hoja_excel.css" />
+    <link rel="stylesheet" href="../estilos/sistema_cafe.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap"
       rel="stylesheet"
     />
+    <script type="module" src="../scripts/sistemaCafe/main.js"></script>
     <script src="//cdn.jsdelivr.net/alasql/0.2/alasql.min.js"></script>
     <title>Sistema Café - Blog Paradigmas</title>
   </head>
@@ -31,7 +31,21 @@
     </header>
     <main>
       <section id="sistema-cafe">
-        
+        <div id="barra-info">
+          <div id="fecha">
+            <div>Fecha</div>
+            <p>10 de Junio</p>
+          </div>
+          <div id="saldo">
+            <div>Saldo</div>
+            <p>$1,000.00</p>
+          </div>
+        </div>
+        <div>
+          <div id="panel-proveedor"></div>
+          <div id="panel-inventario"></div>
+          <div id="negocio"></div>
+        </div>
       </section>
     </main>
     <footer>
