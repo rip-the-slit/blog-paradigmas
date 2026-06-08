@@ -1,13 +1,19 @@
 import Repositorio from "./Repositorio.js";
 import BarraInfo from "./BarraInfo.js";
+import PanelProveedor from "./panelProveedor/PanelProveedor.js";
 
 const distribuidor = Repositorio.obtenerDistribuidores()[0];
 
 const nodoBarraInfo = document.querySelector("#barra-info");
 const barraInfo = new BarraInfo(
   nodoBarraInfo,
-  (nuevaFecha) => (Repositorio.fecha = nuevaFecha),
-  { fecha: Repositorio.fecha, saldo: distribuidor.saldo_bs },
+  Repositorio
+);
+
+const nodoProveedor = document.querySelector("#panel-proveedor");
+const panelProveedor = new PanelProveedor(
+  nodoProveedor,
+  Repositorio
 );
 
 const controller = new AbortController();
@@ -16,7 +22,8 @@ const { signal } = controller;
 Repositorio.addEventListener(
   "cambioInfo",
   (e) => {
-    barraInfo.render(e.detail);
+    barraInfo.render();
+    panelProveedor.render();
   },
   { signal },
 );

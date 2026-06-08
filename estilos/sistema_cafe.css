@@ -1,46 +1,120 @@
 #sistema-cafe {
-    background-color: white;
-    padding: 1rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
+  background-color: white;
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
 }
 
 #barra-info {
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-    gap: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  gap: 1rem;
 }
 
 #barra-info > div > p {
-    font-weight: 500;
-    color: #3f6212;
-    background-color: #bef264;
-    border: #65a30d solid 1px;
-    border-radius: 4px;
-    box-shadow: inset 0 0 10px #3f621240;
-    padding: .3rem .5rem;
+  font-weight: 500;
+  color: #3f6212;
+  background-color: #bef264;
+  border: #65a30d solid 1px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 10px #3f621240;
+  padding: 0.3rem 0.5rem;
 }
 
-div:has(#panel-proveedor, #panel-inventario, #negocio) {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    min-height: 200px;
+div:has(#panel-proveedor, #panel-inventario, #panel-negocio) {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 200px;
 }
 
-#panel-proveedor, #negocio {
-    flex: 1;
+#panel-proveedor,
+#panel-negocio {
+  flex: 1;
+  max-height: 50vh;
+  overflow: auto;
+}
+
+#panel-proveedor > h2,
+#panel-negocio > h2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+#panel-proveedor > h2 > .cantidad,
+#panel-negocio > h2 > .cantidad {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #3f6212;
+  background-color: #bef264;
+  border: #65a30d solid 1px;
+  border-radius: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  font-weight: 400;
 }
 
 #panel-inventario {
-    flex: 0 0 5rem;
+  flex: 0 0 5rem;
 }
 
-#panel-proveedor, #panel-inventario, #negocio {
-    background-color: #f3f4f6;
-    border: 1px solid #e5e7eb;
-    border-radius: 4px;
-    padding: 1rem;
-    margin-top: 1rem;
+#panel-proveedor,
+#panel-inventario,
+#panel-negocio {
+  background-color: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+ul {
+  padding: 0;
+  padding-top: 1rem;
+}
+
+li {
+  list-style: none;
+}
+
+
+.proveedor {
+  color: #f9fafb;
+  background-color: #262626;
+  padding: 1rem;
+  border-radius: 5px;
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: .5rem;
+}
+
+.proveedor > div {
+  flex: 1;
+}
+
+.encabezado {
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.encabezado > p {
+  color: #e5e7eb;
+}
+
+.productos {
+  font-size: .6rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.productos img {
+  width: 50%;
+  height: auto;
 }

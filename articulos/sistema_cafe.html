@@ -42,10 +42,48 @@
           </div>
         </div>
         <div>
-          <div id="panel-proveedor"></div>
+          <div id="panel-proveedor">
+            <h2>
+              Lista de Proveedores
+              <div class="cantidad">0</div>
+            </h2>
+            <ul></ul>
+          </div>
           <div id="panel-inventario"></div>
-          <div id="negocio"></div>
+          <div id="panel-negocio">
+            <h2>
+              Lista de Negocios
+              <div class="cantidad">0</div>
+            </h2>
+            <ul></ul>
+          </div>
         </div>
+
+        <template id="proveedor">
+          <li class="proveedor">
+            >
+            <div>
+              <div class="encabezado">
+                <h3>Proveedor 1</h3>
+                <p>RIF: J-123456789</p>
+              </div>
+              <ul class="productos">
+                
+              </ul>
+            </div>
+          </li>
+        </template>
+
+        <template id="producto">
+          <li class="producto">
+            <img src="../multimedia/icono-cafe.png" alt="Icono de café">
+            <div>
+              <h4 class="nombre">Producto 1</h4>
+              <p class="tipo">Tipo 1</p>
+              <p class="precio">$100.00</p>
+            </div>
+          </li>
+        </template>
       </section>
     </main>
     <footer>

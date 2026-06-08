@@ -34,15 +34,15 @@ class Repositorio extends EventTarget {
         rif_proveedor VARCHAR(20) PRIMARY KEY,
         nombre VARCHAR(100) NOT NULL,
         cedula_contacto VARCHAR(20),
-        FOREIGN KEY (cedula_contacto) REFERENCES CONTACTO(cedula_cont)
+        FOREIGN KEY (cedula_contacto) REFERENCES contacto(cedula_contacto)
       );
-
+      
       CREATE TABLE IF NOT EXISTS negocio (
         rif_negocio VARCHAR(20) PRIMARY KEY,
         nombre VARCHAR(100) NOT NULL,
-        cedula_conta VARCHAR(20),
+        cedula_contacto VARCHAR(20),
         direccion VARCHAR(255),
-        FOREIGN KEY (cedula_conta) REFERENCES CONTACTO(cedula_cont)
+        FOREIGN KEY (cedula_contacto) REFERENCES contacto(cedula_contacto)
       );
 
       CREATE TABLE IF NOT EXISTS tipo_cafe(
@@ -55,7 +55,9 @@ class Repositorio extends EventTarget {
         nombre VARCHAR(100) NOT NULL,
         precio_kg_bs DECIMAL(10, 2) NOT NULL,
         id_tipo INT,
-        FOREIGN KEY (id_tipo) REFERENCES tipo_cafe(id_tipo)
+        rif_proveedor VARCHAR(20),
+        FOREIGN KEY (id_tipo) REFERENCES tipo_cafe(id_tipo),
+        FOREIGN KEY (rif_proveedor) REFERENCES proveedor(rif_proveedor)
       );
 
       CREATE TABLE IF NOT EXISTS inventario (
@@ -113,6 +115,22 @@ class Repositorio extends EventTarget {
 
       INSERT INTO distribuidor (rif_dist, contrasena, saldo_bs) VALUES
         ('D-12345678', 'contrasena123', 10000.00);
+
+      INSERT INTO contacto (cedula_contacto, nombre, numero_telf) VALUES
+        ('C-12345678', 'Contacto Uno', '04141234567');
+
+      INSERT INTO proveedor (rif_proveedor, nombre, cedula_contacto) VALUES
+        ('P-12345678', 'Proveedor Uno', 'C-12345678');
+
+      INSERT INTO proveedor (rif_proveedor, nombre, cedula_contacto) VALUES
+        ('P-87654321', 'Proveedor Dos', 'C-12345678');
+
+      INSERT INTO cafe (id_cafe, nombre, precio_kg_bs, id_tipo, rif_proveedor) VALUES
+        (1, 'Café Arabica Premium', 50.00, 1, 'P-12345678'),
+        (2, 'Café Robusta Clásico', 30.00, 2, 'P-12345678'),
+        (3, 'Café Liberica Exótico', 40.00, 3, 'P-87654321'),
+        (4, 'Café Excelsa Único', 45.00, 4, 'P-87654321');
+
   `);
   }
 
@@ -120,6 +138,31 @@ class Repositorio extends EventTarget {
     const result = alasql(sql`
       SELECT rif_dist, saldo_bs FROM distribuidor
     `);
+    return result;
+  }
+
+  obtenerProveedores() {
+    const result = alasql(sql`
+      SELECT proveedor.nombre AS nombre_proveedor, contacto.nombre AS nombre_contacto, * 
+      FROM proveedor LEFT JOIN contacto ON proveedor.cedula_contacto = contacto.cedula_contacto
+    `);
+    return result;
+  }
+  
+  obtenerNegocios() {
+    const result = alasql(sql`
+      SELECT negocio.nombre AS nombre_negocio, contacto.nombre AS nombre_contacto, * 
+      FROM negocio LEFT JOIN contacto ON negocio.cedula_contacto = contacto.cedula_contacto
+    `);
+    return result;
+  }
+
+  obtenerProductosPorProveedor(rif_proveedor) {
+    const result = alasql(sql`
+      SELECT cafe.nombre AS nombre_cafe, cafe.precio_kg_bs, tipo_cafe.nombre AS tipo_cafe, * 
+      FROM cafe INNER JOIN tipo_cafe ON cafe.id_tipo = tipo_cafe.id_tipo
+      WHERE cafe.rif_proveedor = ?
+    `, [rif_proveedor]);
     return result;
   }
 }
