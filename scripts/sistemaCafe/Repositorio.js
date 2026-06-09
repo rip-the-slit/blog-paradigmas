@@ -125,6 +125,12 @@ class Repositorio extends EventTarget {
       INSERT INTO proveedor (rif_proveedor, nombre, cedula_contacto) VALUES
         ('P-87654321', 'Proveedor Dos', 'C-12345678');
 
+      INSERT INTO negocio (rif_negocio, nombre, cedula_contacto, direccion) VALUES
+        ('N-12345678', 'Negocio Uno', 'C-12345678', 'Av. Principal, local 1');
+
+      INSERT INTO negocio (rif_negocio, nombre, cedula_contacto, direccion) VALUES
+        ('N-87654321', 'Negocio Dos', 'C-12345678', 'Calle Comercio, local 2');
+
       INSERT INTO cafe (id_cafe, nombre, precio_kg_bs, id_tipo, rif_proveedor) VALUES
         (1, 'Café Arabica Premium', 50.00, 1, 'P-12345678'),
         (2, 'Café Robusta Clásico', 30.00, 2, 'P-12345678'),
@@ -211,6 +217,35 @@ class Repositorio extends EventTarget {
     this.dispatchEvent(
       new CustomEvent("cambioProveedor", {
         detail: { rif_proveedor, cedula_contacto },
+      }),
+    );
+  }
+
+  agregarNegocio(negocio) {
+    alasql(
+      "INSERT INTO negocio (rif_negocio, nombre, cedula_contacto, direccion) VALUES (?, ?, ?, ?)",
+      [
+        negocio.rif_negocio,
+        negocio.nombre,
+        negocio.cedula_contacto || null,
+        negocio.direccion,
+      ],
+    );
+    this.dispatchEvent(
+      new CustomEvent("cambioNegocio", {
+        detail: { rif_negocio: negocio.rif_negocio },
+      }),
+    );
+  }
+
+  actualizarContactoNegocio(rif_negocio, cedula_contacto) {
+    alasql(
+      "UPDATE negocio SET cedula_contacto = ? WHERE rif_negocio = ?",
+      [cedula_contacto, rif_negocio],
+    );
+    this.dispatchEvent(
+      new CustomEvent("cambioNegocio", {
+        detail: { rif_negocio, cedula_contacto },
       }),
     );
   }

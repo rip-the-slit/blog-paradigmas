@@ -95,7 +95,8 @@ li {
 }
 
 
-.proveedor {
+.proveedor,
+.negocio {
   position: relative;
   color: #f9fafb;
   background-color: #262626;
@@ -106,7 +107,8 @@ li {
   margin-bottom: .5rem;
 }
 
-.proveedor > div {
+.proveedor > div,
+.negocio > div {
   flex: 1;
 }
 
@@ -348,7 +350,8 @@ button[type="submit"]:hover {
   background-color: #a3e635;
 }
 
-.formulario-proveedor {
+.formulario-proveedor,
+.formulario-negocio {
   position: sticky;
   left: 1rem;
   bottom: 4.75rem;
@@ -373,19 +376,22 @@ button[type="submit"]:hover {
   gap: 0.5rem;
 }
 
-.formulario-proveedor h3 {
+.formulario-proveedor h3,
+.formulario-negocio h3 {
   margin: 0;
   font-size: 1rem;
 }
 
-.formulario-proveedor input {
+.formulario-proveedor input,
+.formulario-negocio input {
   border: 1px solid #d4d4d4;
   border-radius: 4px;
   padding: 0.45rem;
   font: inherit;
 }
 
-.formulario-proveedor .selector-contacto-proveedor {
+.formulario-proveedor .selector-contacto-proveedor,
+.formulario-negocio .selector-contacto-proveedor {
   text-align: left;
   color: #525252;
 }
