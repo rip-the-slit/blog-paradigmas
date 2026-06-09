@@ -1,6 +1,7 @@
 import Repositorio from "./Repositorio.js";
 import BarraInfo from "./BarraInfo.js";
 import PanelProveedor from "./panelProveedor/PanelProveedor.js";
+import PanelInventario from "./panelInventario/PanelInventario.js";
 
 const distribuidor = Repositorio.obtenerDistribuidores()[0];
 
@@ -16,6 +17,12 @@ const panelProveedor = new PanelProveedor(
   Repositorio
 );
 
+const nodoInventario = document.querySelector("#panel-inventario");
+const panelInventario = new PanelInventario(
+  nodoInventario,
+  Repositorio
+);
+
 const controller = new AbortController();
 const { signal } = controller;
 
@@ -24,6 +31,7 @@ Repositorio.addEventListener(
   (e) => {
     barraInfo.render();
     panelProveedor.render();
+    panelInventario.render();
   },
   { signal },
 );

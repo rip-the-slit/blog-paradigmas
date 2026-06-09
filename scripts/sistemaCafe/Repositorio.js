@@ -131,6 +131,10 @@ class Repositorio extends EventTarget {
         (3, 'Café Liberica Exótico', 40.00, 3, 'P-87654321'),
         (4, 'Café Excelsa Único', 45.00, 4, 'P-87654321');
 
+      INSERT INTO inventario (id_inv, cantidad_kg, rif_dist, id_tipo) VALUES
+        (1, 100.00, 'D-12345678', 1),
+        (2, 50.00, 'D-12345678', 2),
+        (3, 75.00, 'D-12345678', 3);
   `);
   }
 
@@ -163,6 +167,15 @@ class Repositorio extends EventTarget {
       SELECT id_tipo, nombre
       FROM tipo_cafe
       ORDER BY nombre
+    `);
+    return result;
+  }
+
+  obtenerInventario() {
+    const result = alasql(sql`
+      SELECT inventario.id_inv, inventario.cantidad_kg, tipo_cafe.nombre AS tipo_cafe
+      FROM inventario INNER JOIN tipo_cafe ON inventario.id_tipo = tipo_cafe.id_tipo
+      ORDER BY tipo_cafe.nombre
     `);
     return result;
   }
