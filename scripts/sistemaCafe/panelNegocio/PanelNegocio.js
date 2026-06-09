@@ -1,15 +1,18 @@
 import Negocio from "./Negocio.js";
 import FormularioNegocio from "./FormularioNegocio.js";
+import VentasNegocio from "./VentasNegocio.js";
 
 export default class PanelNegocio {
   #nodo;
   #repositorio;
   #botonAgregar;
+  #botonVentas;
 
   constructor(nodo, repositorio) {
     this.#nodo = nodo;
     this.#repositorio = repositorio;
     this.#crearBotonAgregar();
+    this.#crearBotonVentas();
     this.render();
   }
 
@@ -39,5 +42,23 @@ export default class PanelNegocio {
     });
 
     this.#nodo.appendChild(this.#botonAgregar);
+  }
+
+  #crearBotonVentas() {
+    this.#botonVentas = document.createElement("button");
+    this.#botonVentas.className = "boton-compras-panel boton-ventas-panel";
+    this.#botonVentas.type = "button";
+    this.#botonVentas.textContent = "Ventas";
+    this.#botonVentas.ariaLabel = "Ver ventas";
+    this.#botonVentas.addEventListener("click", () => {
+      const abierto = this.#nodo.querySelector(".ventas-negocio-reporte");
+
+      abierto?.remove();
+      if (!abierto) {
+        this.#nodo.appendChild(new VentasNegocio(this.#repositorio).render());
+      }
+    });
+
+    this.#nodo.appendChild(this.#botonVentas);
   }
 }

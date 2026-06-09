@@ -470,6 +470,63 @@ class Repositorio extends EventTarget {
       ));
   }
 
+  obtenerVentas() {
+    const result = alasql(sql`
+      SELECT venta.id_venta,
+             venta.fecha_venta,
+             venta.cantidad_kg,
+             venta.cantidad_abonos,
+             negocio.nombre AS nombre_negocio,
+             tipo_cafe.nombre AS tipo_cafe,
+             AVG(cafe.precio_kg_bs) AS precio_kg_bs,
+             COUNT(pago_venta.id_pago) AS abonos_pagados,
+             SUM(pago_venta.monto) AS monto_pagado
+      FROM venta
+      INNER JOIN negocio ON venta.rif_negocio = negocio.rif_negocio
+      INNER JOIN inventario ON venta.id_inv = inventario.id_inv
+      INNER JOIN tipo_cafe ON inventario.id_tipo = tipo_cafe.id_tipo
+      LEFT JOIN cafe ON inventario.id_tipo = cafe.id_tipo
+      LEFT JOIN pago_venta ON venta.id_venta = pago_venta.id_venta
+      GROUP BY venta.id_venta,
+               venta.fecha_venta,
+               venta.cantidad_kg,
+               venta.cantidad_abonos,
+               negocio.nombre,
+               tipo_cafe.nombre
+      ORDER BY venta.fecha_venta DESC, venta.id_venta DESC
+    `);
+
+    return result.map((venta) => {
+      const monto = venta.cantidad_kg * venta.precio_kg_bs;
+
+      return {
+        ...venta,
+        monto,
+        monto_pagado: venta.monto_pagado || 0,
+        monto_debe: monto - (venta.monto_pagado || 0),
+      };
+    });
+  }
+
+  obtenerAbonosVentaDelDia() {
+    const fecha = this.#fecha.toISOString().slice(0, 10);
+    const result = alasql(sql`
+      SELECT pago_venta.id_pago,
+             pago_venta.fecha_pago,
+             pago_venta.monto,
+             negocio.nombre AS nombre_negocio,
+             tipo_cafe.nombre AS tipo_cafe
+      FROM pago_venta
+      INNER JOIN venta ON pago_venta.id_venta = venta.id_venta
+      INNER JOIN negocio ON venta.rif_negocio = negocio.rif_negocio
+      INNER JOIN inventario ON venta.id_inv = inventario.id_inv
+      INNER JOIN tipo_cafe ON inventario.id_tipo = tipo_cafe.id_tipo
+      WHERE pago_venta.fecha_pago = ?
+      ORDER BY pago_venta.id_pago DESC
+    `, [fecha]);
+    return result;
+  }
+
   abonarVenta(id_venta) {
     const venta = alasql(
       "SELECT venta.*, inventario.id_tipo FROM venta INNER JOIN inventario ON venta.id_inv = inventario.id_inv WHERE venta.id_venta = ?",

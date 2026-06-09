@@ -254,6 +254,39 @@ li {
   text-align: right;
 }
 
+.boton-ventas-panel {
+  right: 1rem;
+}
+
+.ventas-negocio-reporte__abonos {
+  border-top: 2px solid #ca8a04;
+  padding: 0.5rem;
+}
+
+.ventas-negocio-reporte__abonos h4 {
+  color: #713f12;
+  margin: 0 0 0.4rem;
+  font-size: 0.8rem;
+}
+
+.ventas-negocio-reporte__abonos ul {
+  max-height: 6rem;
+  overflow: auto;
+  padding: 0;
+}
+
+.ventas-negocio-reporte__abonos li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.2rem 0.5rem;
+  padding: 0.35rem 0;
+}
+
+.ventas-negocio-reporte__abonos li > small {
+  color: #713f12;
+  grid-column: 1 / -1;
+}
+
 .menu-contacto-proveedor {
   position: absolute;
   z-index: 20;
