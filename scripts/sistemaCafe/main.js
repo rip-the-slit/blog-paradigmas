@@ -28,4 +28,13 @@ Repositorio.addEventListener(
   { signal },
 );
 
+Repositorio.addEventListener(
+  "cambioProveedor",
+  (e) => {
+    panelProveedor.render();
+  },
+  { signal },
+);
+
+
 // controller.abort();

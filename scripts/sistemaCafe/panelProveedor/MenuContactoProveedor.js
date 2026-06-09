@@ -1,12 +1,14 @@
 export default class MenuContactoProveedor {
   #proveedor;
   #repositorio;
+  #onSeleccionar;
   #nodo;
   #controlador;
 
-  constructor(proveedor, repositorio) {
+  constructor(proveedor, repositorio, opciones = {}) {
     this.#proveedor = proveedor;
     this.#repositorio = repositorio;
+    this.#onSeleccionar = opciones.onSeleccionar;
     this.#controlador = new AbortController();
   }
 
@@ -71,10 +73,7 @@ export default class MenuContactoProveedor {
       boton.type = "button";
       boton.append(nombre, detalle);
       boton.addEventListener("click", () => {
-        this.#repositorio.actualizarContactoProveedor(
-          this.#proveedor.rif_proveedor,
-          contacto.cedula_contacto,
-        );
+        this.#seleccionarContacto(contacto);
         this.cerrar();
       });
 
@@ -114,10 +113,7 @@ export default class MenuContactoProveedor {
       }
 
       this.#repositorio.agregarContacto(contacto);
-      this.#repositorio.actualizarContactoProveedor(
-        this.#proveedor.rif_proveedor,
-        contacto.cedula_contacto,
-      );
+      this.#seleccionarContacto(contacto);
       this.cerrar();
     });
 
@@ -132,6 +128,18 @@ export default class MenuContactoProveedor {
     input.required = nombre !== "numero_telf";
 
     return input;
+  }
+
+  #seleccionarContacto(contacto) {
+    if (this.#onSeleccionar) {
+      this.#onSeleccionar(contacto);
+      return;
+    }
+
+    this.#repositorio.actualizarContactoProveedor(
+      this.#proveedor.rif_proveedor,
+      contacto.cedula_contacto,
+    );
   }
 
   #posicionar(disparador) {

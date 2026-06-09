@@ -165,13 +165,29 @@ class Repositorio extends EventTarget {
     );
   }
 
+  agregarProveedor(proveedor) {
+    alasql(
+      "INSERT INTO proveedor (rif_proveedor, nombre, cedula_contacto) VALUES (?, ?, ?)",
+      [
+        proveedor.rif_proveedor,
+        proveedor.nombre,
+        proveedor.cedula_contacto || null,
+      ],
+    );
+    this.dispatchEvent(
+      new CustomEvent("cambioProveedor", {
+        detail: { rif_proveedor: proveedor.rif_proveedor },
+      }),
+    );
+  }
+
   actualizarContactoProveedor(rif_proveedor, cedula_contacto) {
     alasql(
       "UPDATE proveedor SET cedula_contacto = ? WHERE rif_proveedor = ?",
       [cedula_contacto, rif_proveedor],
     );
     this.dispatchEvent(
-      new CustomEvent("cambioInfo", {
+      new CustomEvent("cambioProveedor", {
         detail: { rif_proveedor, cedula_contacto },
       }),
     );
