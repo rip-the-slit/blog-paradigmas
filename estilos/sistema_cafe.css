@@ -62,12 +62,6 @@ div:has(#panel-proveedor, #panel-inventario, #panel-negocio) {
   font-weight: 400;
 }
 
-#panel-inventario {
-  flex: 0 0 5rem;
-  max-height: 50vh;
-  overflow: auto;
-}
-
 #panel-proveedor,
 #panel-inventario,
 #panel-negocio {
@@ -76,6 +70,14 @@ div:has(#panel-proveedor, #panel-inventario, #panel-negocio) {
   border-radius: 4px;
   padding: 1rem;
   margin-top: 1rem;
+}
+
+
+#panel-inventario {
+  flex: 0 0 7rem;
+  max-height: 50vh;
+  overflow: auto;
+  padding: 0.6rem;
 }
 
 ul {
@@ -319,6 +321,12 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: grab;
+  border-radius: 5px;
+}
+
+.producto:active {
+  cursor: grabbing;
 }
 
 .producto:hover {
@@ -328,6 +336,13 @@ button:hover {
 #panel-inventario > ul {
   display: grid;
   gap: 0.5rem;
+  min-height: 6rem;
+  border: 1px dashed transparent;
+  border-radius: 5px;
+}
+
+#panel-inventario > ul.inventario-drop-activo {
+  border-color: #d4d4d4;
 }
 
 .inventario {
@@ -343,7 +358,7 @@ button:hover {
 }
 
 .inventario img {
-  width: 100%;
+  width: 60%;
   height: auto;
 }
 
@@ -361,6 +376,24 @@ button:hover {
   border-radius: 4px;
   padding: 0.1rem 0.25rem;
   font-size: 0.6rem;
+}
+
+.inventario-pendiente .contador {
+  left: -0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
+  color: #f9fafb;
+  background-color: #404040;
+  border-color: #737373;
+}
+
+.inventario-pendiente .contador input {
+  width: 2.4rem;
+  border: 1px solid #737373;
+  border-radius: 3px;
+  padding: 0.1rem;
+  font: inherit;
 }
 
 .agregar-producto {

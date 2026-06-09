@@ -19,7 +19,7 @@ export default class BarraInfo {
         fecha?.toLocaleDateString("es-VE", opcionesFecha) || "";
     }
 
-    if (saldo) {
+    if (saldo !== undefined) {
       nodoSaldo.textContent = `$${saldo?.toFixed(2) || "0.00"}`;
     }
   }

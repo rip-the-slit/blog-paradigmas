@@ -173,7 +173,7 @@ class Repositorio extends EventTarget {
 
   obtenerInventario() {
     const result = alasql(sql`
-      SELECT inventario.id_inv, inventario.cantidad_kg, tipo_cafe.nombre AS tipo_cafe
+      SELECT inventario.id_inv, inventario.cantidad_kg, inventario.id_tipo, tipo_cafe.nombre AS tipo_cafe
       FROM inventario INNER JOIN tipo_cafe ON inventario.id_tipo = tipo_cafe.id_tipo
       ORDER BY tipo_cafe.nombre
     `);
@@ -237,6 +237,71 @@ class Repositorio extends EventTarget {
         detail: { rif_proveedor: producto.rif_proveedor },
       }),
     );
+  }
+
+  comprarCafe(producto, cantidad_kg) {
+    const distribuidor = this.obtenerDistribuidores()[0];
+    const monto = cantidad_kg * producto.precio_kg_bs;
+
+    if (!distribuidor || cantidad_kg <= 0 || monto > distribuidor.saldo_bs) {
+      return false;
+    }
+
+    const inventario = alasql(
+      "SELECT id_inv, cantidad_kg FROM inventario WHERE rif_dist = ? AND id_tipo = ?",
+      [distribuidor.rif_dist, producto.id_tipo],
+    )[0];
+
+    if (inventario) {
+      alasql(
+        "UPDATE inventario SET cantidad_kg = ? WHERE id_inv = ?",
+        [inventario.cantidad_kg + cantidad_kg, inventario.id_inv],
+      );
+    } else {
+      const [{ ultimo_id }] = alasql(
+        "SELECT MAX(id_inv) AS ultimo_id FROM inventario",
+      );
+      alasql(
+        "INSERT INTO inventario (id_inv, cantidad_kg, rif_dist, id_tipo) VALUES (?, ?, ?, ?)",
+        [(ultimo_id || 0) + 1, cantidad_kg, distribuidor.rif_dist, producto.id_tipo],
+      );
+    }
+
+    const [{ ultima_compra }] = alasql(
+      "SELECT MAX(id_compra) AS ultima_compra FROM compra",
+    );
+    alasql(
+      "INSERT INTO compra (id_compra, fecha_compra, cantidad_kg, cantidad_abonos, rif_proveedor, rif_dist, id_cafe) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      [
+        (ultima_compra || 0) + 1,
+        this.#fecha.toISOString().slice(0, 10),
+        cantidad_kg,
+        1,
+        producto.rif_proveedor,
+        distribuidor.rif_dist,
+        producto.id_cafe,
+      ],
+    );
+
+    const [{ ultimo_pago }] = alasql(
+      "SELECT MAX(id_pago) AS ultimo_pago FROM pago_compra",
+    );
+    alasql(
+      "INSERT INTO pago_compra (id_pago, fecha_pago, monto) VALUES (?, ?, ?)",
+      [(ultimo_pago || 0) + 1, this.#fecha.toISOString().slice(0, 10), monto],
+    );
+
+    alasql(
+      "UPDATE distribuidor SET saldo_bs = ? WHERE rif_dist = ?",
+      [distribuidor.saldo_bs - monto, distribuidor.rif_dist],
+    );
+
+    this.dispatchEvent(
+      new CustomEvent("cambioInfo", {
+        detail: { id_cafe: producto.id_cafe, cantidad_kg, monto },
+      }),
+    );
+    return true;
   }
   
   obtenerNegocios() {

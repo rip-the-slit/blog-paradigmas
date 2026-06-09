@@ -52,6 +52,7 @@ export default class Proveedor {
         `Precio: ${producto.precio_kg_bs} Bs/kg`;
       clonProducto.querySelector(".tipo").textContent =
         `Tipo: ${producto.tipo_cafe}`;
+      this.#hacerProductoArrastrable(clonProducto, producto);
 
       this.#cantidadKgPorProducto.set(producto.nombre_cafe, 0);
 
@@ -78,5 +79,25 @@ export default class Proveedor {
 
     item.appendChild(boton);
     return item;
+  }
+
+  #hacerProductoArrastrable(clonProducto, producto) {
+    const nodoProducto = clonProducto.querySelector(".producto");
+
+    nodoProducto.draggable = true;
+    nodoProducto.addEventListener("dragstart", (evento) => {
+      evento.dataTransfer.effectAllowed = "copy";
+      const data = JSON.stringify({
+        id_cafe: producto.id_cafe,
+        nombre_cafe: producto.nombre_cafe,
+        precio_kg_bs: producto.precio_kg_bs,
+        id_tipo: producto.id_tipo,
+        tipo_cafe: producto.tipo_cafe,
+        rif_proveedor: producto.rif_proveedor,
+      });
+
+      evento.dataTransfer.setData("application/json", data);
+      evento.dataTransfer.setData("text/plain", data);
+    });
   }
 }
