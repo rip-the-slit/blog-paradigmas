@@ -158,6 +158,15 @@ class Repositorio extends EventTarget {
     return result;
   }
 
+  obtenerTiposCafe() {
+    const result = alasql(sql`
+      SELECT id_tipo, nombre
+      FROM tipo_cafe
+      ORDER BY nombre
+    `);
+    return result;
+  }
+
   agregarContacto(contacto) {
     alasql(
       "INSERT INTO contacto (cedula_contacto, nombre, numero_telf) VALUES (?, ?, ?)",
@@ -189,6 +198,30 @@ class Repositorio extends EventTarget {
     this.dispatchEvent(
       new CustomEvent("cambioProveedor", {
         detail: { rif_proveedor, cedula_contacto },
+      }),
+    );
+  }
+
+  agregarProductoCafe(producto) {
+    const [{ ultimo_id }] = alasql(
+      "SELECT MAX(id_cafe) AS ultimo_id FROM cafe",
+    );
+    const siguiente_id = (ultimo_id || 0) + 1;
+
+    alasql(
+      "INSERT INTO cafe (id_cafe, nombre, precio_kg_bs, id_tipo, rif_proveedor) VALUES (?, ?, ?, ?, ?)",
+      [
+        siguiente_id,
+        producto.nombre,
+        producto.precio_kg_bs,
+        producto.id_tipo,
+        producto.rif_proveedor,
+      ],
+    );
+
+    this.dispatchEvent(
+      new CustomEvent("cambioProveedor", {
+        detail: { rif_proveedor: producto.rif_proveedor },
       }),
     );
   }

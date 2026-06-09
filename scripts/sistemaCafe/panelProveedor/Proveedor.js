@@ -1,4 +1,5 @@
 import MenuContactoProveedor from "./MenuContactoProveedor.js";
+import FormularioProducto from "./FormularioProducto.js";
 
 export default class Proveedor {
   #repositorio;
@@ -35,10 +36,12 @@ export default class Proveedor {
       proveedor.rif_proveedor,
     );
     const ulProductos = clon.querySelector(".productos");
+    const botonAgregarProducto = this.#crearBotonAgregarProducto(proveedor);
 
     if (productos.length === 0) {
       const li = document.createElement("li");
       li.textContent = "No hay productos disponibles";
+      li.className = "productos-vacio";
       ulProductos.appendChild(li);
     }
 
@@ -55,6 +58,25 @@ export default class Proveedor {
       ulProductos.appendChild(clonProducto);
     }
 
+    ulProductos.appendChild(botonAgregarProducto);
+
     return clon;
+  }
+
+  #crearBotonAgregarProducto(proveedor) {
+    const item = document.createElement("li");
+    const boton = document.createElement("button");
+
+    item.className = "agregar-producto";
+    boton.type = "button";
+    boton.textContent = "+";
+    boton.ariaLabel = "Agregar producto";
+    boton.addEventListener("click", (evento) => {
+      evento.stopPropagation();
+      new FormularioProducto(proveedor, this.#repositorio).abrir(boton);
+    });
+
+    item.appendChild(boton);
+    return item;
   }
 }
