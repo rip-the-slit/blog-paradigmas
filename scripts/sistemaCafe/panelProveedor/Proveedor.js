@@ -100,4 +100,5 @@ export default class Proveedor {
       evento.dataTransfer.setData("text/plain", data);
     });
   }
+
 }

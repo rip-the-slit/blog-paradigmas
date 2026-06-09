@@ -5,6 +5,11 @@
   border-radius: 10px;
 }
 
+#sistema-cafe *::-webkit-scrollbar-thumb {
+  background-color: #65a30d;
+  border-radius: 999px;
+}
+
 #barra-info {
   display: flex;
   flex-direction: row;
@@ -91,6 +96,7 @@ li {
 
 
 .proveedor {
+  position: relative;
   color: #f9fafb;
   background-color: #262626;
   padding: 1rem;
@@ -102,6 +108,22 @@ li {
 
 .proveedor > div {
   flex: 1;
+}
+
+.boton-compras-panel {
+  position: sticky;
+  left: 100%;
+  bottom: 1rem;
+  z-index: 15;
+  border-color: #ca8a04;
+  background-color: #fde047;
+  color: #713f12;
+  font-size: 0.75rem;
+  padding: 0.45rem 0.65rem;
+}
+
+.boton-compras-panel:hover {
+  background-color: #facc15;
 }
 
 .encabezado {
@@ -147,6 +169,87 @@ li {
 
 .contacto > p {
   margin: 0;
+}
+
+.compras-proveedor {
+  position: sticky;
+  left: 100%;
+  bottom: 4rem;
+  z-index: 16;
+  width: min(22rem, calc(100% - 2rem));
+  color: #262626;
+  background-color: #fef9c3;
+  border: 1px solid #ca8a04;
+  border-radius: 4px;
+  margin: 0.75rem 0;
+  overflow: hidden;
+  max-height: 15rem;
+  overflow: auto;
+}
+
+.compras-proveedor__modos {
+  display: flex;
+  background-color: #fde047;
+  border-bottom: 2px solid #ca8a04;
+}
+
+.compras-proveedor__modos button {
+  flex: 1;
+  border: 0;
+  border-right: 1px solid #ca8a04;
+  border-radius: 0;
+  background-color: #fde047;
+  color: #713f12;
+  font-size: 0.7rem;
+}
+
+.compras-proveedor__modos button:last-child {
+  border-right: 0;
+}
+
+.compras-proveedor__modos button.activo {
+  background-color: #ca8a04;
+  color: #fff7ed;
+}
+
+.compras-proveedor__lista {
+  padding: 0.5rem;
+}
+
+.compras-proveedor__lista ul {
+  max-height: 8rem;
+  overflow: auto;
+  padding: 0;
+}
+
+.compras-proveedor__lista li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.2rem 0.5rem;
+  padding: 0.35rem 0;
+}
+
+.compras-proveedor__lista li > small {
+  color: #713f12;
+  grid-column: 1 / -1;
+}
+
+.compras-proveedor__lista li > strong {
+  color: #854d0e;
+}
+
+.compras-proveedor__vacio {
+  display: block;
+  color: #713f12;
+}
+
+.compras-proveedor__total {
+  border-top: 2px solid #ca8a04;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  color: #713f12;
+  font-weight: 600;
+  text-align: right;
 }
 
 .menu-contacto-proveedor {

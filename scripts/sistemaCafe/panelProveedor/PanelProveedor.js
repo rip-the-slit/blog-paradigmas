@@ -1,15 +1,18 @@
 import Proveedor from "./Proveedor.js";
 import FormularioProveedor from "./FormularioProveedor.js";
+import ComprasProveedor from "./ComprasProveedor.js";
 
 export default class PanelProveedor {
   #nodo;
   #repositorio;
   #botonAgregar;
+  #botonCompras;
 
   constructor(nodo, repositorio) {
     this.#nodo = nodo;
     this.#repositorio = repositorio;
     this.#crearBotonAgregar();
+    this.#crearBotonCompras();
     this.render();
   }
 
@@ -40,5 +43,23 @@ export default class PanelProveedor {
     });
 
     this.#nodo.appendChild(this.#botonAgregar);
+  }
+
+  #crearBotonCompras() {
+    this.#botonCompras = document.createElement("button");
+    this.#botonCompras.className = "boton-compras-panel";
+    this.#botonCompras.type = "button";
+    this.#botonCompras.textContent = "Compras";
+    this.#botonCompras.ariaLabel = "Ver compras";
+    this.#botonCompras.addEventListener("click", () => {
+      const abierto = this.#nodo.querySelector(".compras-proveedor");
+
+      abierto?.remove();
+      if (!abierto) {
+        this.#nodo.appendChild(new ComprasProveedor(this.#repositorio).render());
+      }
+    });
+
+    this.#nodo.appendChild(this.#botonCompras);
   }
 }

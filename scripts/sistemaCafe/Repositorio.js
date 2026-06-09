@@ -303,6 +303,27 @@ class Repositorio extends EventTarget {
     );
     return true;
   }
+
+  obtenerCompras() {
+    const result = alasql(sql`
+      SELECT compra.id_compra,
+             compra.fecha_compra,
+             compra.cantidad_kg,
+             proveedor.nombre AS nombre_proveedor,
+             cafe.nombre AS nombre_cafe,
+             cafe.precio_kg_bs,
+             tipo_cafe.nombre AS tipo_cafe
+      FROM compra
+      INNER JOIN proveedor ON compra.rif_proveedor = proveedor.rif_proveedor
+      INNER JOIN cafe ON compra.id_cafe = cafe.id_cafe
+      INNER JOIN tipo_cafe ON cafe.id_tipo = tipo_cafe.id_tipo
+      ORDER BY compra.fecha_compra DESC, compra.id_compra DESC
+    `);
+    return result.map((compra) => ({
+      ...compra,
+      monto: compra.cantidad_kg * compra.precio_kg_bs,
+    }));
+  }
   
   obtenerNegocios() {
     const result = alasql(sql`
