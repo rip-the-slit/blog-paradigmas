@@ -7,6 +7,7 @@ export default class PanelNegocio {
   #repositorio;
   #botonAgregar;
   #botonVentas;
+  #ventas;
 
   constructor(nodo, repositorio) {
     this.#nodo = nodo;
@@ -29,6 +30,7 @@ export default class PanelNegocio {
     }
 
     this.#nodo.querySelector(".cantidad").textContent = negocios.length;
+    this.#ventas?.actualizar();
   }
 
   #crearBotonAgregar() {
@@ -55,7 +57,10 @@ export default class PanelNegocio {
 
       abierto?.remove();
       if (!abierto) {
-        this.#nodo.appendChild(new VentasNegocio(this.#repositorio).render());
+        this.#ventas = new VentasNegocio(this.#repositorio);
+        this.#nodo.appendChild(this.#ventas.render());
+      } else {
+        this.#ventas = null;
       }
     });
 

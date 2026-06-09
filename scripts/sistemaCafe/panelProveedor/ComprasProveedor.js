@@ -14,6 +14,10 @@ export default class ComprasProveedor {
     return this.#nodo;
   }
 
+  actualizar() {
+    this.#nodo?.replaceChildren(this.#crearModos(), this.#crearLista());
+  }
+
   #crearModos() {
     const modos = document.createElement("div");
 
@@ -103,7 +107,7 @@ export default class ComprasProveedor {
   }
 
   #obtenerPeriodo(fechaCompra) {
-    const fecha = new Date(`${fechaCompra}T00:00:00`);
+    const fecha = new Date(`${this.#normalizarFecha(fechaCompra)}T00:00:00`);
 
     if (this.#modo === "diarias") {
       return fecha.toLocaleDateString("es-VE");
@@ -124,5 +128,13 @@ export default class ComprasProveedor {
     const dias = Math.floor((fecha - inicio) / 86400000);
 
     return Math.ceil((dias + inicio.getDay() + 1) / 7);
+  }
+
+  #normalizarFecha(fecha) {
+    if (fecha instanceof Date) {
+      return fecha.toISOString().slice(0, 10);
+    }
+
+    return String(fecha).slice(0, 10);
   }
 }

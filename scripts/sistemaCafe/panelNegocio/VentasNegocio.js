@@ -20,6 +20,14 @@ export default class VentasNegocio {
     return this.#nodo;
   }
 
+  actualizar() {
+    this.#nodo?.replaceChildren(
+      this.#crearModos(),
+      this.#crearLista(),
+      this.#crearAbonos(),
+    );
+  }
+
   #crearModos() {
     const modos = document.createElement("div");
 

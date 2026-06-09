@@ -7,6 +7,7 @@ export default class PanelProveedor {
   #repositorio;
   #botonAgregar;
   #botonCompras;
+  #compras;
 
   constructor(nodo, repositorio) {
     this.#nodo = nodo;
@@ -30,6 +31,7 @@ export default class PanelProveedor {
     }
 
     this.#nodo.querySelector(".cantidad").textContent = proveedores.length;
+    this.#compras?.actualizar();
   }
 
   #crearBotonAgregar() {
@@ -56,7 +58,10 @@ export default class PanelProveedor {
 
       abierto?.remove();
       if (!abierto) {
-        this.#nodo.appendChild(new ComprasProveedor(this.#repositorio).render());
+        this.#compras = new ComprasProveedor(this.#repositorio);
+        this.#nodo.appendChild(this.#compras.render());
+      } else {
+        this.#compras = null;
       }
     });
 

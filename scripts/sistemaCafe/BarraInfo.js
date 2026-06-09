@@ -5,6 +5,7 @@ export default class BarraInfo {
   constructor(nodo, repositorio) {
     this.#nodo = nodo;
     this.#repositorio = repositorio;
+    this.#configurarFecha();
     this.render();
   }
 
@@ -22,5 +23,35 @@ export default class BarraInfo {
     if (saldo !== undefined) {
       nodoSaldo.textContent = `$${saldo?.toFixed(2) || "0.00"}`;
     }
+  }
+
+  #configurarFecha() {
+    const nodoFecha = this.#nodo.querySelector("#fecha");
+
+    nodoFecha.addEventListener("click", () => {
+      if (nodoFecha.querySelector("input")) {
+        return;
+      }
+
+      const input = document.createElement("input");
+      const fechaMinima = new Date(this.#repositorio.fecha);
+
+      fechaMinima.setDate(fechaMinima.getDate() + 1);
+      input.type = "date";
+      input.min = this.#formatearFechaInput(fechaMinima);
+      input.value = input.min;
+
+      nodoFecha.querySelector("p").replaceChildren(input);
+      input.focus();
+      input.showPicker?.();
+
+      input.addEventListener("change", () => {
+        this.#repositorio.fecha = new Date(`${input.value}T00:00:00`);
+      });
+    });
+  }
+
+  #formatearFechaInput(fecha) {
+    return fecha.toISOString().slice(0, 10);
   }
 }
