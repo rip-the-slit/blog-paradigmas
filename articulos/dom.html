@@ -33,398 +33,187 @@
           <h2>Contenido</h2>
           <ul>
             <li>
-              <a href="#concepto-javascript">Conceptos básicos de JavaScript</a>
+              <a href="#concepto-dom">¿Qué es el DOM?</a>
             </li>
             <li>
-              <a href="#enlace-javascript">Formas de enlazar JavaScript</a>
+              <a href="#seleccion-nodos">Selección de Nodos</a>
             </li>
             <li>
-              <a href="#scope-js">Ámbito (Scope) en JavaScript</a>
+              <a href="#modificacion-nodos">Modificación de Elementos</a>
+            </li>
+            <li>
+              <a href="#creacion-nodos">Creación y Eliminación de Nodos</a>
+            </li>
+            <li>
+              <a href="#eventos-listeners">Eventos y Event Listeners</a>
               <ul>
-                <li><a href="#ambito-global">Ámbito Global</a></li>
-                <li><a href="#ambito-funcion">Ámbito de Función</a></li>
-                <li><a href="#ambito-bloque">Ámbito de Bloque</a></li>
+                <li><a href="#objeto-evento">El Objeto Evento</a></li>
               </ul>
-            </li>
-            <li>
-              <a href="#variables-tipos">Variables y Tipos de Datos</a>
-              <ul>
-                <li><a href="#tipos-datos">Tipos de datos existentes</a></li>
-              </ul>
-            </li>
-            <li>
-              <a href="#condicionales">Condicionales</a>
-            </li>
-            <li>
-              <a href="#ciclos-repetitivos">Ciclos Repetitivos (Bucles)</a>
-            </li>
-            <li>
-              <a href="#tipos-funciones">Tipos de Funciones</a>
             </li>
           </ul>
         </nav>
-        <a href="./pdfs/Scripts JavaScript - Blog Paradigmas.pdf" download
+        <a href="./pdfs/Manipulación del DOM - Blog Paradigmas.pdf" download
           >Descarga esta página</a
         >
       </div>
 
       <article>
-        <h1 id="concepto-javascript">Conceptos básicos de JavaScript</h1>
+        <h1 id="concepto-dom">¿Qué es el DOM?</h1>
         <p>
-          JavaScript (JS) es un lenguaje de programación ligero, interpretado y
-          orientado a objetos con funciones de primera clase. Es conocido
-          principalmente como el lenguaje de scripting para las páginas web,
-          permitiendo crear contenido dinámico, controlar multimedia, animar
-          imágenes y mucho más.
+          El DOM (Document Object Model) es una interfaz de programación para los
+          documentos web. Representa la página para que los programas puedan
+          cambiar la estructura, el estilo y el contenido del documento. El DOM
+          representa el documento como nodos y objetos; de esta forma, los
+          lenguajes de programación como JavaScript pueden conectarse a la página.
         </p>
         <p>
-          Una de las características más importantes de JS es su
+          En el DOM, cada etiqueta HTML es un 
           <span class="interactive-keyword">
-            <span class="tooltip">tipado dinámico</span>
+            <span class="tooltip">Nodo</span>
             <span class="description"
-              >Significa que no es necesario declarar el tipo de dato de una
-              variable antes de usarla. El tipo se determina automáticamente en
-              tiempo de ejecución según el valor asignado.</span
+              >Un punto de intersección o conexión dentro del árbol del DOM. Un nodo puede ser un elemento HTML, un atributo o incluso texto plano.</span
             >
           </span>
-          y su naturaleza asíncrona, lo que lo hace ideal para el desarrollo web
-          moderno, incluyendo el desarrollo de interfaces de usuario complejas y
-          la conexión con bases de datos.
+          que forma parte de una estructura de árbol gigantesca.
         </p>
 
-        <figure>
-          <img
-            src="https://static.vecteezy.com/system/resources/previews/027/127/463/non_2x/javascript-logo-javascript-icon-transparent-free-png.png"
-            alt="Logotipo de JavaScript"
-            style="max-width: 200px; display: block; margin: 0 auto"
-          />
-          <figcaption>
-            El escudo amarillo que representa el ecosistema de JavaScript.
-          </figcaption>
-        </figure>
-
-        <h2 id="enlace-javascript">Formas de enlazar JavaScript con HTML</h2>
+        <h2 id="seleccion-nodos">Selección de Nodos</h2>
         <p>
-          Existen tres formas principales de integrar código JavaScript en un
-          documento HTML, dependiendo de la envergadura del script y la
-          organización del proyecto:
+          Para manipular un elemento HTML, primero necesitamos seleccionarlo desde 
+          JavaScript. Estos son los métodos principales que nos proporciona el objeto <code>document</code>:
         </p>
-        <ol>
+        <ul>
           <li>
-            <strong>JavaScript en línea:</strong> Se ejecuta directamente dentro
-            de un atributo HTML (como <code>onclick</code>). No es recomendado
-            para proyectos reales porque mezcla la estructura con la lógica.
-            <pre class="code-block">
-&lt;<span class="function">button</span> <span class="keyword">onclick</span>=<span class="string">"alert('¡Hola!')"</span>&gt;Haz clic&lt;/<span class="function">button</span>&gt;
-            </pre>
+            <strong>getElementById():</strong> Selecciona un único elemento por su atributo <code>id</code>.
           </li>
           <li>
-            <strong>JavaScript interno:</strong> Se coloca dentro de una
-            etiqueta <code>&lt;script&gt;</code> en el
-            <code>&lt;head&gt;</code> o antes del cierre del
-            <code>&lt;body&gt;</code>. Útil para scripts pequeños o específicos
-            de una sola página.
+            <strong>querySelector():</strong> Devuelve el primer elemento que coincida con el selector CSS especificado.
           </li>
           <li>
-            <strong>JavaScript externo:</strong> Es la mejor práctica. Se crea
-            un archivo <code>.js</code> independiente y se enlaza mediante el
-            atributo <code>src</code>. Permite reutilizar la lógica y mantener
-            el código ordenado.
-            <pre class="code-block">
-&lt;<span class="function">script</span> <span class="keyword">src</span>=<span class="string">"app.js"</span>&gt;&lt;/<span class="function">script</span>&gt;
-            </pre>
+            <strong>querySelectorAll():</strong> Devuelve todos los elementos que coincidan con un selector CSS en forma de una lista de nodos (NodeList).
           </li>
-        </ol>
+        </ul>
 
-        <section id="scope-js">
-          <h2>Ámbito (Scope) en JavaScript</h2>
+        <pre class="code-block">
+<span class="comment">// Seleccionando elementos del DOM</span>
+<span class="keyword">const</span> <span class="variable">titulo Principal</span> = <span class="function">document.getElementById</span>(<span class="string">'titulo'</span>);
+<span class="keyword">const</span> <span class="variable">primerParrafo</span> = <span class="function">document.querySelector</span>(<span class="string">'.parrafo'</span>);
+<span class="keyword">const</span> <span class="variable">todosLosBotones</span> = <span class="function">document.querySelectorAll</span>(<span class="string">'button'</span>);
+        </pre>
+
+        <section id="modificacion-nodos">
+          <h2>Modificación de Elementos</h2>
           <p>
-            Antes de entrar en el tema de la declaración de variables, es
-            importante entender el concepto de
-            <span class="interactive-keyword">
-              <span class="tooltip">Ámbito (Scope)</span>
-              <span class="description"
-                >El ámbito determina la accesibilidad y la "visibilidad" de las
-                variables en distintas partes de tu código. Dicta dónde puedes
-                usar una variable una vez que la has declarado.</span
-              >
-            </span>
-            en JavaScript. El ámbito define el contexto en el que las variables
-            y funciones son válidas y pueden ser referenciadas.
-          </p>
-          <p>
-            Dependiendo de cómo declares una variable (con <code>var</code>,
-            <code>let</code> o <code>const</code>), JavaScript le asignará un
-            tipo de ámbito diferente: Ámbito Global, Ámbito de Función o Ámbito
-            de Bloque.
+            Una vez que tienes un nodo seleccionado, puedes modificar su contenido, 
+            sus atributos o sus estilos CSS directamente desde JavaScript.
           </p>
 
-          <h3 id="ambito-global">Ámbito Global (Global Scope)</h3>
+          <h3>Contenido de Texto y HTML</h3>
           <p>
-            Una variable tiene ámbito global si se declara en el nivel superior
-            del documento, fuera de cualquier función o bloque. Estas variables
-            son accesibles y modificables desde cualquier parte del código a lo
-            largo de todo el programa. Aunque pueda parecer conveniente al
-            principio, abusar del ámbito global se considera una mala práctica
-            porque aumenta el riesgo de sobrescribir variables accidentalmente
-            (colisión de nombres) y hace que el código sea difícil de depurar.
+            Propiedades como <code>textContent</code> e <code>innerHTML</code> permiten 
+            leer o sobrescribir el interior de una etiqueta. <code>textContent</code> solo 
+            inserta texto seguro, mientras que <code>innerHTML</code> permite procesar nuevas 
+            etiquetas HTML.
           </p>
 
-          <h3 id="ambito-funcion">Ámbito de Función (Function Scope)</h3>
+          <h3>Modificando Clases y Estilos</h3>
           <p>
-            Cuando declaras una variable dentro de una función, esta pertenece
-            de forma exclusiva al ámbito de esa función. Significa que solo
-            puede ser leída y modificada desde dentro de la función misma.
-            Cualquier bloque de código externo a la función será completamente
-            ciego a la existencia de esa variable.
-          </p>
-
-          <h3 id="ambito-bloque">Ámbito de Bloque (Block Scope)</h3>
-          <p>
-            Un "bloque" se define como cualquier fragmento de código encerrado
-            entre llaves
-            <code>{}</code>, como ocurre dentro de un condicional
-            <code>if</code>, un bucle <code>for</code> o un <code>while</code>.
-            Las variables con ámbito de bloque nacen y mueren estrictamente
-            dentro de esas llaves, proporcionando un control granular y evitando
-            que variables temporales "contaminen" el resto de la función.
+            La propiedad <code>classList</code> es la forma más eficiente de añadir, 
+            eliminar o alternar clases CSS dinámicamente.
           </p>
 
           <pre class="code-block">
-<span class="comment">// Ejemplo práctico de los distintos ámbitos</span>
-<span class="keyword">let</span> <span class="variable">mensajeGlobal</span> = <span class="string">"Soy global"</span>; <span class="comment">// Accesible en todos lados</span>
+<span class="comment">// Modificar contenido</span>
+<span class="variable">tituloPrincipal</span>.<span class="keyword">textContent</span> = <span class="string">"Nuevo Título Dinámico"</span>;
 
-<span class="keyword">function</span> <span class="function">demostrarScope</span>() {
-  <span class="keyword">var</span> <span class="variable">mensajeFuncion</span> = <span class="string">"Soy exclusivo de la función"</span>;
+<span class="comment">// Añadir HTML interno</span>
+<span class="variable">primerParrafo</span>.<span class="keyword">innerHTML</span> = <span class="string">"Texto con &lt;strong&gt;negritas&lt;/strong&gt;"</span>;
 
-  <span class="keyword">if</span> (<span class="keyword">true</span>) {
-    <span class="keyword">let</span> <span class="variable">mensajeBloque</span> = <span class="string">"Solo existo en el if"</span>;
-    <span class="function">console.log</span>(<span class="variable">mensajeBloque</span>); <span class="comment">// Se imprime correctamente</span>
-  }
-
-  <span class="function">console.log</span>(<span class="variable">mensajeFuncion</span>); <span class="comment">// Se imprime correctamente</span>
-  
-  <span class="comment">// console.log(mensajeBloque); </span>
-  <span class="comment">// ¡ERROR! ReferenceError: mensajeBloque is not defined</span>
-}
-
-<span class="function">demostrarScope</span>();
-<span class="comment">// console.log(mensajeFuncion); </span>
-<span class="comment">// ¡ERROR! No se puede acceder a la variable desde fuera de la función</span>
+<span class="comment">// Trabajar con clases CSS</span>
+<span class="variable">primerParrafo</span>.<span class="keyword">classList</span>.<span class="function">add</span>(<span class="string">'texto-destacado'</span>);
+<span class="variable">primerParrafo</span>.<span class="keyword">classList</span>.<span class="function">remove</span>(<span class="string">'oculto'</span>);
+<span class="variable">primerParrafo</span>.<span class="keyword">classList</span>.<span class="function">toggle</span>(<span class="string">'activo'</span>);
         </pre>
         </section>
 
-        <h2 id="variables-tipos">Variables y Tipos de Datos</h2>
+        <h2 id="creacion-nodos">Creación y Eliminación de Nodos</h2>
         <p>
-          En JavaScript, una variable es un contenedor para almacenar datos.
-          Gracias al tipado dinámico, la variable se amolda al tipo de dato que
-          se le asigna en ese momento, y puede cambiar de tipo posteriormente
-          sin generar errores. Existen tres formas de declarar variables:
+          JavaScript no solo puede modificar lo que ya existe, sino que también puede 
+          construir partes completamente nuevas de la página o destruir elementos.
         </p>
         <ul>
           <li>
-            <code>var</code>: La forma antigua. Tiene un alcance (scope) global
-            o de función, lo que puede causar bugs.
+            <strong>createElement(tag):</strong> Crea un nuevo nodo de elemento HTML en memoria.
           </li>
           <li>
-            <code>let</code>: La forma moderna. Tiene alcance de bloque, lo que
-            la hace más segura.
+            <strong>appendChild(nodo):</strong> Añade un nodo como el último hijo de un elemento padre.
           </li>
           <li>
-            <code>const</code>: Para declarar valores que no deben ser
-            reasignados.
-          </li>
-        </ul>
-
-        <h3 id="tipos-datos">Tipos de datos que existen</h3>
-        <p>
-          JavaScript maneja varios tipos de datos primitivos y estructurales:
-        </p>
-        <ul>
-          <li><strong>String:</strong> Cadenas de texto.</li>
-          <li>
-            <strong>Number:</strong> Números, ya sean enteros o decimales.
-          </li>
-          <li>
-            <strong>Boolean:</strong> Valores lógicos (<code>true</code> o
-            <code>false</code>).
-          </li>
-          <li>
-            <strong>Null:</strong> Representa la ausencia intencional de
-            cualquier valor.
-          </li>
-          <li>
-            <strong>Undefined:</strong> Una variable que ha sido declarada pero
-            aún no se le ha asignado un valor.
-          </li>
-          <li>
-            <strong>Object:</strong> Colecciones complejas de datos (como un
-            registro de estudiantes).
+            <strong>remove():</strong> Elimina el elemento actual del DOM.
           </li>
         </ul>
 
         <pre class="code-block">
-<span class="comment">// Ejemplo de tipado dinámico</span>
-<span class="keyword">let</span> <span class="variable">datoEstudiante</span> = <span class="string">"Kelvim"</span>; <span class="comment">// Inicialmente es un String</span>
-<span class="variable">datoEstudiante</span> = <span class="number">2026</span>; <span class="comment">// Ahora se amolda y es un Number (Año de graduación)</span>
-<span class="variable">datoEstudiante</span> = <span class="keyword">true</span>; <span class="comment">// Ahora es un Boolean (¿Está inscrito?)</span>
+<span class="comment">// 1. Crear el elemento en memoria</span>
+<span class="keyword">const</span> <span class="variable">nuevoLi</span> = <span class="function">document.createElement</span>(<span class="string">'li'</span>);
+<span class="variable">nuevoLi</span>.<span class="keyword">textContent</span> = <span class="string">"Elemento creado con JS"</span>;
 
-<span class="comment">// Objeto</span>
-<span class="keyword">const</span> <span class="variable">registro</span> = {
-  <span class="keyword">nombre</span>: <span class="string">"Perla"</span>,
-  <span class="keyword">carrera</span>: <span class="string">"Informática"</span>
-};
+<span class="comment">// 2. Seleccionar al padre y agregarlo</span>
+<span class="keyword">const</span> <span class="variable">lista</span> = <span class="function">document.querySelector</span>(<span class="string">'ul'</span>);
+<span class="variable">lista</span>.<span class="function">appendChild</span>(<span class="variable">nuevoLi</span>);
+
+<span class="comment">// Eliminar un elemento</span>
+<span class="keyword">const</span> <span class="variable">elementoViejo</span> = <span class="function">document.querySelector</span>(<span class="string">'.viejo'</span>);
+<span class="variable">elementoViejo</span>.<span class="function">remove</span>();
         </pre>
 
-        <h2 id="condicionales">Condicionales</h2>
+        <h2 id="eventos-listeners">Eventos y Event Listeners</h2>
         <p>
-          Las estructuras condicionales permiten ejecutar diferentes bloques de
-          código basándose en el cumplimiento de ciertas condiciones
-          (expresiones que retornan un booleano).
+          Las páginas web modernas son interactivas gracias a los eventos. Un evento es 
+          cualquier acción que ocurre en el sistema, como un clic del ratón, presionar 
+          una tecla, o el simple hecho de que la página termine de cargar.
         </p>
-        <ul>
-          <li><strong>if / else:</strong> La estructura básica de control.</li>
-          <li>
-            <strong>switch:</strong> Evalúa una expresión comparándola con
-            múltiples casos. Excelente para menús o estados definidos.
-          </li>
-          <li>
-            <strong>Operador Ternario:</strong> Una forma compacta de escribir
-            un <code>if...else</code>. Se compone de una condición seguida de un
-            signo de interrogación (<code>?</code>), la expresión si es
-            verdadera, dos puntos (<code>:</code>) y la expresión si es falsa.
-          </li>
-        </ul>
+        <p>
+          El método más seguro y poderoso para reaccionar a estos eventos es 
+          <code>addEventListener()</code>. Este método le indica al navegador que 
+          "escuche" una acción específica en un elemento y ejecute una función 
+          (conocida como callback) cuando esa acción suceda.
+        </p>
 
         <pre class="code-block">
-<span class="keyword">let</span> <span class="variable">notaProyecto</span> = <span class="number">18</span>;
+<span class="keyword">const</span> <span class="variable">botonGuardar</span> = <span class="function">document.getElementById</span>(<span class="string">'btn-guardar'</span>);
 
-<span class="keyword">if</span> (<span class="variable">notaProyecto</span> >= <span class="number">15</span>) {
-  <span class="function">console.log</span>(<span class="string">"Aprobado con honores."</span>);
-} <span class="keyword">else if</span> (<span class="variable">notaProyecto</span> >= <span class="number">10</span>) {
-  <span class="function">console.log</span>(<span class="string">"Aprobado."</span>);
-} <span class="keyword">else</span> {
-  <span class="function">console.log</span>(<span class="string">"Reprobado."</span>);
-}
-
-<span class="comment">// Operador Ternario</span>
-<span class="keyword">let</span> <span class="variable">estado</span> = (<span class="variable">notaProyecto</span> >= <span class="number">10</span>) ? <span class="string">"Pasa la materia"</span> : <span class="string">"Debe repetir"</span>;
+<span class="variable">botonGuardar</span>.<span class="function">addEventListener</span>(<span class="string">'click'</span>, () => {
+  <span class="function">alert</span>(<span class="string">'¡Formulario guardado con éxito!'</span>);
+  <span class="variable">botonGuardar</span>.<span class="keyword">classList</span>.<span class="function">add</span>(<span class="string">'exito'</span>);
+});
         </pre>
 
-        <h2 id="ciclos-repetitivos">Ciclos Repetitivos (Bucles)</h2>
+        <h3 id="objeto-evento">El Objeto Evento</h3>
         <p>
-          Los ciclos, también conocidos como bucles, son estructuras de control
-          que permiten ejecutar un bloque de código varias veces de forma
-          automatizada.
-        </p>
-
-        <ul>
-          <li>
-            <strong>for:</strong> Es el bucle más utilizado. Se emplea cuando
-            conoces de antemano la cantidad exacta de veces que necesitas
-            repetir el código. Se compone de tres partes definidas en una sola
-            línea: inicialización de la variable, condición de continuación y la
-            actualización (incremento o decremento).
-          </li>
-          <li>
-            <strong>while:</strong> Se ejecuta repetidamente mientras una
-            condición específica se evalúe como verdadera (<code>true</code>).
-            Es ideal cuando no sabes cuántas iteraciones se realizarán, pero
-            sabes cuándo deben detenerse.
-          </li>
-          <li>
-            <strong>do...while:</strong> Es muy similar al <code>while</code>,
-            pero con una diferencia clave: la condición se evalúa al
-            <em>final</em> del bucle. Esto garantiza que el código en su
-            interior se ejecutará obligatoriamente al menos una vez,
-            independientemente de si la condición es verdadera o falsa.
-          </li>
-        </ul>
-
-        <p>
-          Además, JavaScript moderno ofrece bucles especializados y muy potentes
-          como <code>for...of</code> (ideal para iterar fácilmente sobre los
-          elementos de un arreglo) y <code>for...in</code> (utilizado para
-          recorrer las propiedades de un objeto).
-        </p>
-
-        <pre class="code-block">
-<span class="comment">// Bucle for clásico: Imprime los números del 1 al 3</span>
-<span class="keyword">for</span> (<span class="keyword">let</span> <span class="variable">i</span> = <span class="number">1</span>; <span class="variable">i</span> <= <span class="number">3</span>; <span class="variable">i</span>++) {
-  <span class="function">console.log</span>(<span class="string">"Iteración for número: "</span> + <span class="variable">i</span>);
-}
-
-<span class="comment">// Bucle while: Repite mientras 'contador' sea menor a 3</span>
-<span class="keyword">let</span> <span class="variable">contador</span> = <span class="number">0</span>;
-<span class="keyword">while</span> (<span class="variable">contador</span> < <span class="number">3</span>) {
-  <span class="function">console.log</span>(<span class="string">"El contador es: "</span> + <span class="variable">contador</span>);
-  <span class="variable">contador</span>++; <span class="comment">// ¡Crucial para evitar un bucle infinito!</span>
-}
-
-<span class="comment">// Bucle do...while: Se ejecuta al menos una vez</span>
-<span class="keyword">let</span> <span class="variable">intentos</span> = <span class="number">0</span>;
-<span class="keyword">do</span> {
-  <span class="function">console.log</span>(<span class="string">"Intento número: "</span> + <span class="variable">intentos</span>);
-  <span class="variable">intentos</span>++;
-} <span class="keyword">while</span> (<span class="variable">intentos</span> < <span class="number">1</span>);
-
-<span class="comment">// Bucle for...of (Moderno, ideal para Arrays)</span>
-<span class="keyword">const</span> <span class="variable">frutas</span> = [<span class="string">"Manzana"</span>, <span class="string">"Pera"</span>, <span class="string">"Uva"</span>];
-<span class="keyword">for</span> (<span class="keyword">const</span> <span class="variable">fruta</span> <span class="keyword">of</span> <span class="variable">frutas</span>) {
-  <span class="function">console.log</span>(<span class="variable">fruta</span>);
-}
-          </pre>
-        <h2 id="tipos-funciones">Tipos de Funciones</h2>
-        <p>
-          Las funciones son bloques de código diseñados para realizar una tarea
-          particular. En JS, las funciones son
+          Cuando ocurre un evento, JavaScript pasa automáticamente un 
           <span class="interactive-keyword">
-            <span class="tooltip">ciudadanos de primera clase</span>
+            <span class="tooltip">Objeto Evento (e)</span>
             <span class="description"
-              >Esto implica que las funciones pueden ser asignadas a variables,
-              pasadas como argumentos a otras funciones o retornadas por otras
-              funciones.</span
-            > </span
-          >.
+              >Contiene toda la información sobre lo que acaba de ocurrir: qué tecla se presionó, las coordenadas del clic, o qué elemento detonó la acción.</span
+            >
+          </span>
+          a la función callback. Este objeto es crucial para acciones avanzadas, como 
+          prevenir comportamientos por defecto.
         </p>
 
-        <ol>
-          <li>
-            <strong>Funciones Declarativas:</strong> Se definen usando la
-            palabra clave <code>function</code>. Tienen "hoisting" (pueden ser
-            llamadas antes de ser declaradas en el código).
-          </li>
-          <li>
-            <strong>Funciones Expresivas (Anónimas):</strong> Se asignan a una
-            variable. No se pueden invocar antes de su inicialización.
-          </li>
-          <li>
-            <strong>Arrow Functions (Funciones Flecha):</strong> Introducidas en
-            ES6, ofrecen una sintaxis más corta y no tienen su propio contexto
-            para <code>this</code>, lo que las hace ideales para callbacks (muy
-            usadas en frameworks como React).
-          </li>
-        </ol>
-
         <pre class="code-block">
-<span class="comment">// 1. Declarativa</span>
-<span class="keyword">function</span> <span class="function">saludar</span>() {
-  <span class="keyword">return</span> <span class="string">"Hola a todos"</span>;
-}
+<span class="keyword">const</span> <span class="variable">formulario</span> = <span class="function">document.querySelector</span>(<span class="string">'form'</span>);
 
-<span class="comment">// 2. Expresiva</span>
-<span class="keyword">const</span> <span class="function">despedir</span> = <span class="keyword">function</span>() {
-  <span class="keyword">return</span> <span class="string">"Hasta luego"</span>;
-};
-
-<span class="comment">// 3. Función Flecha (Arrow Function)</span>
-<span class="keyword">const</span> <span class="function">calcularPromedio</span> = (<span class="variable">a</span>, <span class="variable">b</span>) => {
-  <span class="keyword">return</span> (<span class="variable">a</span> + <span class="variable">b</span>) / <span class="number">2</span>;
-};
-
-<span class="comment">// Flecha con retorno implícito (una sola línea)</span>
-<span class="keyword">const</span> <span class="function">multiplicar</span> = (<span class="variable">x</span>, <span class="variable">y</span>) => <span class="variable">x</span> * <span class="variable">y</span>;
+<span class="variable">formulario</span>.<span class="function">addEventListener</span>(<span class="string">'submit'</span>, (<span class="variable">e</span>) => {
+  <span class="comment">// Evita que la página se recargue al enviar el formulario</span>
+  <span class="variable">e</span>.<span class="function">preventDefault</span>();
+  
+  <span class="function">console.log</span>(<span class="string">'Procesando datos con JS...'</span>);
+  <span class="function">console.log</span>(<span class="string">'Elemento que detonó el evento:'</span>, <span class="variable">e</span>.<span class="keyword">target</span>);
+});
         </pre>
+
       </article>
     </main>
     <footer>
