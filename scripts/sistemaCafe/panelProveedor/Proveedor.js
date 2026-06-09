@@ -1,3 +1,5 @@
+import MenuContactoProveedor from "./MenuContactoProveedor.js";
+
 export default class Proveedor {
   #repositorio;
   #cantidadKgPorProducto = new Map();
@@ -13,9 +15,21 @@ export default class Proveedor {
     const plantillaProducto = document.getElementById("producto").content;
     const clon = plantillaProveedor.cloneNode(true);
 
-    clon.querySelector(".encabezado > h3").textContent =
+    clon.querySelector(".encabezado h3").textContent =
       proveedor.nombre_proveedor;
-    clon.querySelector(".encabezado > p").textContent = proveedor.rif_proveedor;
+    clon.querySelector(".rif").textContent = proveedor.rif_proveedor;
+    clon.querySelector(".nombre-contacto").textContent =
+      proveedor.nombre_contacto || "Sin contacto";
+    clon.querySelector(".telefono-contacto").textContent =
+      proveedor.numero_telf || "Sin telefono";
+    clon.querySelector(".cedula-contacto").textContent =
+      proveedor.cedula_contacto || "Sin cedula";
+
+    const contacto = clon.querySelector(".contacto");
+    contacto.addEventListener("click", (evento) => {
+      evento.stopPropagation();
+      new MenuContactoProveedor(proveedor, this.#repositorio).abrir(contacto);
+    });
 
     const productos = this.#repositorio.obtenerProductosPorProveedor(
       proveedor.rif_proveedor,
@@ -36,7 +50,7 @@ export default class Proveedor {
       clonProducto.querySelector(".tipo").textContent =
         `Tipo: ${producto.tipo_cafe}`;
 
-        this.#cantidadKgPorProducto.set(producto.nombre_cafe, 0);
+      this.#cantidadKgPorProducto.set(producto.nombre_cafe, 0);
 
       ulProductos.appendChild(clonProducto);
     }

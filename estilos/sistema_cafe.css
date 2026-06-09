@@ -99,12 +99,112 @@ li {
 }
 
 .encabezado {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid #e5e7eb;
 }
 
-.encabezado > p {
+.encabezado p {
   color: #e5e7eb;
+}
+
+.contacto {
+  text-align: right;
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+}
+
+.contacto:hover {
+  background-color: #404040;
+}
+
+.contacto > span {
+  display: block;
+  position: relative;
+  color: #a3e635;
+  font-weight: 500;
+  margin-bottom: 0.1rem;
+}
+
+.contacto > span::before {
+  content: url(../multimedia/telefono.svg);
+  display: block;
+  position: absolute;
+  width: .4rem;
+  height: auto;
+  left: -2rem;
+}
+
+.contacto > p {
+  margin: 0;
+}
+
+.menu-contacto-proveedor {
+  position: absolute;
+  z-index: 20;
+  color: #262626;
+  background-color: #ffffff;
+  border: 1px solid #d4d4d4;
+  border-radius: 4px;
+  box-shadow: 0 10px 24px #00000033;
+  padding: 0.75rem;
+  font-size: 0.75rem;
+}
+
+.menu-contacto-proveedor h4 {
+  margin: 0 0 0.5rem;
+  font-size: 0.8rem;
+}
+
+.menu-contacto-proveedor ul {
+  padding: 0;
+  margin: 0 0 0.75rem;
+}
+
+.menu-contacto-proveedor li {
+  margin-bottom: 0.25rem;
+}
+
+.menu-contacto-proveedor button {
+  width: 100%;
+  border: 1px solid #d4d4d4;
+  border-radius: 4px;
+  background-color: #f9fafb;
+  color: #262626;
+  cursor: pointer;
+  padding: 0.4rem;
+  text-align: left;
+}
+
+.menu-contacto-proveedor button:hover {
+  background-color: #e5e7eb;
+}
+
+.menu-contacto-proveedor button > span,
+.menu-contacto-proveedor button > small {
+  display: block;
+}
+
+.menu-contacto-proveedor button > small {
+  color: #525252;
+}
+
+.formulario-contacto {
+  display: grid;
+  gap: 0.4rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.formulario-contacto input {
+  border: 1px solid #d4d4d4;
+  border-radius: 4px;
+  padding: 0.4rem;
+  font: inherit;
 }
 
 .productos {
@@ -117,4 +217,14 @@ li {
 .productos img {
   width: 50%;
   height: auto;
+}
+
+.producto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.producto:hover {
+  background-color: #404040;
 }

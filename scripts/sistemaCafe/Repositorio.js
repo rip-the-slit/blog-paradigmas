@@ -148,6 +148,34 @@ class Repositorio extends EventTarget {
     `);
     return result;
   }
+
+  obtenerContactos() {
+    const result = alasql(sql`
+      SELECT cedula_contacto, nombre, numero_telf
+      FROM contacto
+      ORDER BY nombre
+    `);
+    return result;
+  }
+
+  agregarContacto(contacto) {
+    alasql(
+      "INSERT INTO contacto (cedula_contacto, nombre, numero_telf) VALUES (?, ?, ?)",
+      [contacto.cedula_contacto, contacto.nombre, contacto.numero_telf],
+    );
+  }
+
+  actualizarContactoProveedor(rif_proveedor, cedula_contacto) {
+    alasql(
+      "UPDATE proveedor SET cedula_contacto = ? WHERE rif_proveedor = ?",
+      [cedula_contacto, rif_proveedor],
+    );
+    this.dispatchEvent(
+      new CustomEvent("cambioInfo", {
+        detail: { rif_proveedor, cedula_contacto },
+      }),
+    );
+  }
   
   obtenerNegocios() {
     const result = alasql(sql`
