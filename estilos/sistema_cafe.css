@@ -450,8 +450,17 @@ button:hover {
   border-radius: 5px;
 }
 
-#panel-inventario > ul.inventario-drop-activo {
-  border-color: #d4d4d4;
+.negocio > div > .productos {
+  margin-top: 1rem;
+  min-height: 6rem;
+  border: 1px dashed #d4d4d4;
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+
+#panel-inventario > ul.inventario-drop-activo,
+.negocio > div > .productos.inventario-drop-activo {
+  border-color: #65a30d;
 }
 
 .inventario {
@@ -464,6 +473,11 @@ button:hover {
   align-items: center;
   justify-content: center;
   text-align: center;
+  cursor: grab;
+}
+
+.inventario:active {
+  cursor: grabbing;
 }
 
 .inventario img {
@@ -503,6 +517,59 @@ button:hover {
   border-radius: 3px;
   padding: 0.1rem;
   font: inherit;
+}
+
+.venta-pendiente .contador {
+  left: -1.8rem;
+  right: auto;
+}
+
+.venta-pendiente .contador input {
+  width: 2.2rem;
+}
+
+.venta-pendiente, .venta-negocio {
+  color: #ffffff;
+}
+
+.venta-negocio {
+  cursor: default;
+}
+
+.progreso-venta {
+  position: absolute;
+  left: 0.35rem;
+  right: 0.35rem;
+  bottom: 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.progreso-venta__barra {
+  flex: 1;
+  height: 0.35rem;
+  overflow: hidden;
+  background-color: #d4d4d4;
+  border-radius: 999px;
+}
+
+.progreso-venta__valor {
+  height: 100%;
+  background-color: #65a30d;
+}
+
+.progreso-venta > button {
+  width: 1.1rem;
+  height: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-color: #65a30d;
+  background-color: #bef264;
+  color: #3f6212;
+  font-size: 0.75rem;
 }
 
 .agregar-producto {

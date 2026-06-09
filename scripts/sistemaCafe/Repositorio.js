@@ -104,7 +104,9 @@ class Repositorio extends EventTarget {
       CREATE TABLE IF NOT EXISTS pago_venta (
         id_pago INT PRIMARY KEY,
         fecha_pago DATE NOT NULL,
-        monto DECIMAL(10, 2) NOT NULL
+        monto DECIMAL(10, 2) NOT NULL,
+        id_venta INT,
+        FOREIGN KEY (id_venta) REFERENCES venta(id_venta)
       );
 
       INSERT INTO  tipo_cafe (id_tipo, nombre) VALUES
@@ -179,8 +181,14 @@ class Repositorio extends EventTarget {
 
   obtenerInventario() {
     const result = alasql(sql`
-      SELECT inventario.id_inv, inventario.cantidad_kg, inventario.id_tipo, tipo_cafe.nombre AS tipo_cafe
+      SELECT inventario.id_inv,
+             inventario.cantidad_kg,
+             inventario.id_tipo,
+             tipo_cafe.nombre AS tipo_cafe,
+             AVG(cafe.precio_kg_bs) AS precio_kg_bs
       FROM inventario INNER JOIN tipo_cafe ON inventario.id_tipo = tipo_cafe.id_tipo
+      LEFT JOIN cafe ON inventario.id_tipo = cafe.id_tipo
+      GROUP BY inventario.id_inv, inventario.cantidad_kg, inventario.id_tipo, tipo_cafe.nombre
       ORDER BY tipo_cafe.nombre
     `);
     return result;
@@ -359,6 +367,159 @@ class Repositorio extends EventTarget {
       monto: compra.cantidad_kg * compra.precio_kg_bs,
     }));
   }
+
+  venderCafe(negocio, inventario, cantidad_kg, cantidad_abonos) {
+    const distribuidor = this.obtenerDistribuidores()[0];
+    const fecha = this.#fecha.toISOString().slice(0, 10);
+    const monto = cantidad_kg * inventario.precio_kg_bs;
+
+    if (
+      !distribuidor ||
+      cantidad_kg <= 0 ||
+      cantidad_abonos <= 0 ||
+      cantidad_kg > inventario.cantidad_kg
+    ) {
+      return false;
+    }
+
+    const ventaExistente = alasql(
+      "SELECT id_venta, cantidad_kg, cantidad_abonos FROM venta WHERE fecha_venta = ? AND rif_negocio = ? AND id_inv = ?",
+      [fecha, negocio.rif_negocio, inventario.id_inv],
+    )[0];
+    let idVenta;
+
+    if (ventaExistente) {
+      idVenta = ventaExistente.id_venta;
+      alasql(
+        "UPDATE venta SET cantidad_kg = ?, cantidad_abonos = ? WHERE id_venta = ?",
+        [
+          ventaExistente.cantidad_kg + cantidad_kg,
+          ventaExistente.cantidad_abonos + cantidad_abonos,
+          ventaExistente.id_venta,
+        ],
+      );
+    } else {
+      const [{ ultima_venta }] = alasql(
+        "SELECT MAX(id_venta) AS ultima_venta FROM venta",
+      );
+      idVenta = (ultima_venta || 0) + 1;
+      alasql(
+        "INSERT INTO venta (id_venta, fecha_venta, cantidad_kg, cantidad_abonos, rif_negocio, rif_dist, id_inv) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        [
+          idVenta,
+          fecha,
+          cantidad_kg,
+          cantidad_abonos,
+          negocio.rif_negocio,
+          distribuidor.rif_dist,
+          inventario.id_inv,
+        ],
+      );
+    }
+
+    alasql(
+      "UPDATE inventario SET cantidad_kg = ? WHERE id_inv = ?",
+      [inventario.cantidad_kg - cantidad_kg, inventario.id_inv],
+    );
+
+    this.abonarVenta(idVenta);
+    this.dispatchEvent(
+      new CustomEvent("cambioInfo", {
+        detail: { rif_negocio: negocio.rif_negocio, cantidad_kg, monto },
+      }),
+    );
+    return true;
+  }
+
+  obtenerVentasPorNegocio(rif_negocio) {
+    const fecha = this.#fecha.toISOString().slice(0, 10);
+    const result = alasql(sql`
+      SELECT venta.id_venta,
+             venta.fecha_venta,
+             venta.cantidad_kg,
+             venta.cantidad_abonos,
+             venta.rif_negocio,
+             inventario.id_tipo,
+             tipo_cafe.nombre AS tipo_cafe,
+             AVG(cafe.precio_kg_bs) AS precio_kg_bs,
+             COUNT(pago_venta.id_pago) AS abonos_pagados
+      FROM venta
+      INNER JOIN inventario ON venta.id_inv = inventario.id_inv
+      INNER JOIN tipo_cafe ON inventario.id_tipo = tipo_cafe.id_tipo
+      LEFT JOIN cafe ON inventario.id_tipo = cafe.id_tipo
+      LEFT JOIN pago_venta ON venta.id_venta = pago_venta.id_venta
+      WHERE venta.rif_negocio = ?
+      GROUP BY venta.id_venta,
+               venta.fecha_venta,
+               venta.cantidad_kg,
+               venta.cantidad_abonos,
+               venta.rif_negocio,
+               inventario.id_tipo,
+               tipo_cafe.nombre
+      ORDER BY venta.fecha_venta DESC, venta.id_venta DESC
+    `, [rif_negocio]);
+
+    return result
+      .map((venta) => ({
+        ...venta,
+        monto: venta.cantidad_kg * venta.precio_kg_bs,
+      }))
+      .filter((venta) => (
+        normalizarFecha(venta.fecha_venta) === fecha ||
+        venta.abonos_pagados < venta.cantidad_abonos
+      ));
+  }
+
+  abonarVenta(id_venta) {
+    const venta = alasql(
+      "SELECT venta.*, inventario.id_tipo FROM venta INNER JOIN inventario ON venta.id_inv = inventario.id_inv WHERE venta.id_venta = ?",
+      [id_venta],
+    )[0];
+
+    if (!venta) {
+      return false;
+    }
+
+    const [{ abonos_pagados }] = alasql(
+      "SELECT COUNT(*) AS abonos_pagados FROM pago_venta WHERE id_venta = ?",
+      [id_venta],
+    );
+
+    if (abonos_pagados >= venta.cantidad_abonos) {
+      return false;
+    }
+
+    const precio = alasql(
+      "SELECT AVG(precio_kg_bs) AS precio_kg_bs FROM cafe WHERE id_tipo = ?",
+      [venta.id_tipo],
+    )[0]?.precio_kg_bs || 0;
+    const monto = (venta.cantidad_kg * precio) / venta.cantidad_abonos;
+    const distribuidor = this.obtenerDistribuidores()[0];
+    const [{ ultimo_pago }] = alasql(
+      "SELECT MAX(id_pago) AS ultimo_pago FROM pago_venta",
+    );
+
+    alasql(
+      "INSERT INTO pago_venta (id_pago, fecha_pago, monto, id_venta) VALUES (?, ?, ?, ?)",
+      [
+        (ultimo_pago || 0) + 1,
+        this.#fecha.toISOString().slice(0, 10),
+        monto,
+        id_venta,
+      ],
+    );
+    alasql(
+      "UPDATE distribuidor SET saldo_bs = ? WHERE rif_dist = ?",
+      [distribuidor.saldo_bs + monto, distribuidor.rif_dist],
+    );
+
+    this.dispatchEvent(
+      new CustomEvent("cambioInfo", {
+        detail: { id_venta, monto },
+      }),
+    );
+    return true;
+  }
   
   obtenerNegocios() {
     const result = alasql(sql`
@@ -376,6 +537,14 @@ class Repositorio extends EventTarget {
     `, [rif_proveedor]);
     return result;
   }
+}
+
+function normalizarFecha(fecha) {
+  if (fecha instanceof Date) {
+    return fecha.toISOString().slice(0, 10);
+  }
+
+  return String(fecha).slice(0, 10);
 }
 
 function sql(strings, ...values) {return strings.reduce((result, string, i) => result + string + (values[i] || ''), '');}

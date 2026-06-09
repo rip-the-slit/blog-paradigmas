@@ -56,6 +56,7 @@ Repositorio.addEventListener(
   "cambioNegocio",
   (e) => {
     panelNegocio.render();
+    panelInventario.render();
   },
   { signal },
 );

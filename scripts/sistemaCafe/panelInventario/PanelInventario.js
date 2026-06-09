@@ -18,11 +18,30 @@ export default class PanelInventario {
 
     for (const item of inventario) {
       const clon = plantillaInventario.cloneNode(true);
+      const nodoInventario = clon.querySelector(".inventario");
 
       clon.querySelector(".tipo").textContent = item.tipo_cafe;
       clon.querySelector(".contador").textContent = `${item.cantidad_kg} kg`;
+      this.#hacerInventarioArrastrable(nodoInventario, item);
       ul.appendChild(clon);
     }
+  }
+
+  #hacerInventarioArrastrable(nodoInventario, item) {
+    nodoInventario.draggable = true;
+    nodoInventario.addEventListener("dragstart", (evento) => {
+      evento.dataTransfer.effectAllowed = "copy";
+      const data = JSON.stringify({
+        id_inv: item.id_inv,
+        id_tipo: item.id_tipo,
+        tipo_cafe: item.tipo_cafe,
+        cantidad_kg: item.cantidad_kg,
+        precio_kg_bs: item.precio_kg_bs,
+      });
+
+      evento.dataTransfer.setData("application/json", data);
+      evento.dataTransfer.setData("text/plain", data);
+    });
   }
 
   #configurarDrop() {
