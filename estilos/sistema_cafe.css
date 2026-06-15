@@ -123,6 +123,7 @@ li {
   box-shadow: inset 0 0 10px #92410eaf;
   font-size: 0.75rem;
   padding: 0.45rem 0.65rem;
+  margin-top: -5rem;
 }
 
 .boton-compras-panel::before {
@@ -194,7 +195,8 @@ li {
   border-radius: 4px;
   margin: 0.75rem 0;
   overflow: hidden;
-  max-height: 15rem;
+  height: 15rem;
+  margin-top: -15rem;
   overflow: auto;
 }
 
@@ -387,7 +389,7 @@ button[type="submit"]:hover {
   cursor: pointer;
   font-size: 1.8rem;
   line-height: 1;
-  margin-top: -3rem;
+  margin-top: -5rem;
 }
 
 .boton-agregar-proveedor:hover {
@@ -403,6 +405,8 @@ button[type="submit"]:hover {
   display: grid;
   gap: 0.5rem;
   width: min(20rem, calc(100vw - 2rem));
+  height: 17rem;
+  margin-top: -17rem;
   color: #262626;
   background-color: #ffffff;
   border: 1px solid #d4d4d4;
