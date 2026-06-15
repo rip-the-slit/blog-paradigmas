@@ -15,7 +15,7 @@ export default class VentasNegocio {
     this.#nodo.append(
       this.#crearModos(),
       this.#crearLista(),
-      this.#crearAbonos(),
+      this.#crearAbonos()
     );
     return this.#nodo;
   }
@@ -24,7 +24,7 @@ export default class VentasNegocio {
     this.#nodo?.replaceChildren(
       this.#crearModos(),
       this.#crearLista(),
-      this.#crearAbonos(),
+      this.#crearAbonos()
     );
   }
 
@@ -44,7 +44,7 @@ export default class VentasNegocio {
         this.#nodo.replaceChildren(
           this.#crearModos(),
           this.#crearLista(),
-          this.#crearAbonos(),
+          this.#crearAbonos()
         );
       });
 
@@ -78,8 +78,9 @@ export default class VentasNegocio {
       const monto = document.createElement("strong");
 
       periodo.textContent = venta.periodo;
-      detalle.textContent =
-        `${venta.cantidad_kg.toFixed(2)} kg - ${venta.detalle}`;
+      detalle.textContent = `${venta.cantidad_kg.toFixed(2)} kg - ${
+        venta.detalle
+      }`;
       monto.textContent = this.#formatearDolares(venta.monto);
 
       item.append(periodo, detalle, monto);
@@ -87,8 +88,9 @@ export default class VentasNegocio {
     }
 
     total.className = "compras-proveedor__total";
-    total.textContent =
-      `Ganancias totales: ${this.#formatearDolares(totalGanado)}`;
+    total.textContent = `Ganancias totales: ${this.#formatearDolares(
+      totalGanado
+    )}`;
     contenedor.append(lista, total);
 
     return contenedor;
@@ -102,7 +104,10 @@ export default class VentasNegocio {
     const abonos = this.#repositorio.obtenerAbonosVentaDelDia();
     const ventas = this.#repositorio.obtenerVentas();
     const totalPagado = abonos.reduce((suma, abono) => suma + abono.monto, 0);
-    const totalDebe = ventas.reduce((suma, venta) => suma + venta.monto_debe, 0);
+    const totalDebe = ventas.reduce(
+      (suma, venta) => venta.id_venta ? suma + venta.monto_debe : suma,
+      0
+    );
 
     contenedor.className = "ventas-negocio-reporte__abonos";
     titulo.textContent = "Abonos de hoy";
@@ -129,8 +134,9 @@ export default class VentasNegocio {
     }
 
     resumen.className = "compras-proveedor__total";
-    resumen.textContent =
-      `Pagado hoy: ${this.#formatearDolares(totalPagado)} | Deben: ${this.#formatearDolares(totalDebe)}`;
+    resumen.textContent = `Pagado hoy: ${this.#formatearDolares(
+      totalPagado
+    )} | Deben: ${this.#formatearDolares(totalDebe)}`;
     contenedor.append(titulo, lista, resumen);
 
     return contenedor;
@@ -141,6 +147,7 @@ export default class VentasNegocio {
     const grupos = new Map();
 
     for (const venta of ventas) {
+      if (!venta.id_venta) continue;
       const periodo = this.#obtenerPeriodo(venta.fecha_venta);
       const grupo = grupos.get(periodo) || {
         periodo,
@@ -159,7 +166,9 @@ export default class VentasNegocio {
 
     return [...grupos.values()].map((grupo) => ({
       ...grupo,
-      detalle: `${[...grupo.detalles].join(", ")} | ${[...grupo.negocios].join(", ")}`,
+      detalle: `${[...grupo.detalles].join(", ")} | ${[...grupo.negocios].join(
+        ", "
+      )}`,
     }));
   }
 
