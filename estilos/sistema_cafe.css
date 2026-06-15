@@ -511,7 +511,11 @@ button:hover {
 
 #panel-inventario > ul.inventario-drop-activo,
 .negocio > div > .productos.inventario-drop-activo {
-  border-color: #65a30d;
+  border: 1px dashed #65a30d;
+}
+
+#panel-inventario > ul {
+  border: 1px solid transparent;
 }
 
 .inventario {

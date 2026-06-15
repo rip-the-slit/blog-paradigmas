@@ -66,8 +66,40 @@ export default class Negocio {
         return;
       }
 
-      this.#agregarVentaPendiente(listaVentas, negocio, JSON.parse(data));
+      const inventario = this.#leerInventarioTransferido(data);
+      if (!inventario) {
+        return;
+      }
+
+      this.#agregarVentaPendiente(listaVentas, negocio, inventario);
     });
+  }
+
+  #leerInventarioTransferido(data) {
+    try {
+      const inventario = JSON.parse(data);
+
+      if (!this.#esInventarioCafe(inventario)) {
+        return null;
+      }
+
+      return inventario;
+    } catch {
+      return null;
+    }
+  }
+
+  #esInventarioCafe(inventario) {
+    return Boolean(
+      inventario &&
+        typeof inventario === "object" &&
+        Number.isFinite(inventario.id_inv) &&
+        Number.isFinite(inventario.id_tipo) &&
+        typeof inventario.tipo_cafe === "string" &&
+        inventario.tipo_cafe.trim() !== "" &&
+        Number.isFinite(inventario.cantidad_kg) &&
+        Number.isFinite(inventario.precio_kg_bs),
+    );
   }
 
   #renderVentas(listaVentas, negocio) {

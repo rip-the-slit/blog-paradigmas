@@ -49,6 +49,7 @@ export default class PanelInventario {
 
     ul.addEventListener("dragover", (evento) => {
       evento.preventDefault();
+      console.log(evento)
       ul.classList.add("inventario-drop-activo");
     });
 
@@ -67,8 +68,43 @@ export default class PanelInventario {
         return;
       }
 
-      this.#agregarCompraPendiente(JSON.parse(data));
+      const producto = this.#leerProductoTransferido(data);
+      if (!producto) {
+        return;
+      }
+
+      this.#agregarCompraPendiente(producto);
     });
+  }
+
+  #leerProductoTransferido(data) {
+    try {
+      const producto = JSON.parse(data);
+
+      if (!this.#esProductoCafe(producto)) {
+        return null;
+      }
+
+      return producto;
+    } catch {
+      return null;
+    }
+  }
+
+  #esProductoCafe(producto) {
+    return Boolean(
+      producto &&
+        typeof producto === "object" &&
+        Number.isFinite(producto.id_cafe) &&
+        typeof producto.nombre_cafe === "string" &&
+        producto.nombre_cafe.trim() !== "" &&
+        Number.isFinite(producto.precio_kg_bs) &&
+        Number.isFinite(producto.id_tipo) &&
+        typeof producto.tipo_cafe === "string" &&
+        producto.tipo_cafe.trim() !== "" &&
+        typeof producto.rif_proveedor === "string" &&
+        producto.rif_proveedor.trim() !== "",
+    );
   }
 
   #agregarCompraPendiente(producto) {
