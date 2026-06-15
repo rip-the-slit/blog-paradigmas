@@ -50,7 +50,6 @@ export default class PanelNegocio {
     this.#botonVentas = document.createElement("button");
     this.#botonVentas.className = "boton-compras-panel boton-ventas-panel";
     this.#botonVentas.type = "button";
-    this.#botonVentas.textContent = "Ventas";
     this.#botonVentas.ariaLabel = "Ver ventas";
     this.#botonVentas.addEventListener("click", () => {
       const abierto = this.#nodo.querySelector(".ventas-negocio-reporte");

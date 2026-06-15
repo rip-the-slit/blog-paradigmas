@@ -51,7 +51,6 @@ export default class PanelProveedor {
     this.#botonCompras = document.createElement("button");
     this.#botonCompras.className = "boton-compras-panel";
     this.#botonCompras.type = "button";
-    this.#botonCompras.textContent = "Compras";
     this.#botonCompras.ariaLabel = "Ver compras";
     this.#botonCompras.addEventListener("click", () => {
       const abierto = this.#nodo.querySelector(".compras-proveedor");

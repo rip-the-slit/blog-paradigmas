@@ -117,15 +117,24 @@ li {
   left: 100%;
   bottom: 1rem;
   z-index: 15;
-  border-color: #ca8a04;
-  background-color: #fde047;
-  color: #713f12;
+  border-color: #92400e;
+  background-color: #fcd34d;
+  color: #92400e;
+  box-shadow: inset 0 0 10px #92410eaf;
   font-size: 0.75rem;
   padding: 0.45rem 0.65rem;
 }
 
+.boton-compras-panel::before {
+  content: url(../multimedia/recibo.svg);
+}
+
 .boton-compras-panel:hover {
   background-color: #facc15;
+}
+
+.boton-compras-panel:active, .boton-ventas-panel:active, .boton-agregar-proveedor:active {
+  scale: 0.9;
 }
 
 .encabezado {
@@ -133,11 +142,11 @@ li {
   justify-content: space-between;
   gap: 1rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid #a3a3a3;
 }
 
 .encabezado p {
-  color: #e5e7eb;
+  color: #d4d4d4;
 }
 
 .contacto {
@@ -164,7 +173,7 @@ li {
   content: url(../multimedia/telefono.svg);
   display: block;
   position: absolute;
-  width: .4rem;
+  width: .3rem;
   height: auto;
   left: -2rem;
 }
@@ -373,10 +382,11 @@ button[type="submit"]:hover {
   border-radius: 50%;
   background-color: #a3e635;
   color: #3f6212;
-  box-shadow: 0 10px 24px #00000033;
+  box-shadow: inset 0 0 10px #3f621240;
   cursor: pointer;
   font-size: 1.8rem;
   line-height: 1;
+  margin-top: -3rem;
 }
 
 .boton-agregar-proveedor:hover {
@@ -479,16 +489,19 @@ button:hover {
   display: grid;
   gap: 0.5rem;
   min-height: 6rem;
-  border: 1px dashed transparent;
   border-radius: 5px;
 }
 
 .negocio > div > .productos {
   margin-top: 1rem;
   min-height: 6rem;
-  border: 1px dashed #d4d4d4;
+  border: 1px dashed #404040;
   border-radius: 5px;
   padding: 0.5rem;
+}
+
+.negocio > div > .productos:hover {
+  background-color: #4040401a;
 }
 
 #panel-inventario > ul.inventario-drop-activo,

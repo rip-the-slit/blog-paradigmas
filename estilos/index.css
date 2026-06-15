@@ -79,17 +79,18 @@ header {
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 1rem;
   position: sticky;
   top: 0;
   z-index: 100;
   min-height: 64px;
+  padding-block: .5rem;
 }
 
 header h1 {
   font-size: 1.5rem;
   font-weight: 700;
   letter-spacing: 0.5px;
+  margin: auto;
 }
 
 header h1 a {
@@ -107,6 +108,7 @@ header ul {
   display: flex;
   flex-wrap: wrap;
   gap: 0.25rem;
+  margin: auto;
 }
 
 header ul li a {
