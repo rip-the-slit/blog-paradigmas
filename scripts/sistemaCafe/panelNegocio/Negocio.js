@@ -1,4 +1,4 @@
-import MenuContactoProveedor from "../panelProveedor/MenuContactoProveedor.js";
+import MenuContacto from "../MenuContacto.js";
 
 export default class Negocio {
   #repositorio;
@@ -25,16 +25,17 @@ export default class Negocio {
       negocio.cedula_contacto || "Sin cedula";
 
     const contacto = clon.querySelector(".contacto");
+    const contenedor = clon.querySelector(".negocio");
     contacto.addEventListener("click", (evento) => {
       evento.stopPropagation();
-      new MenuContactoProveedor(null, this.#repositorio, {
+      new MenuContacto(this.#repositorio, {
         onSeleccionar: (contactoSeleccionado) => {
           this.#repositorio.actualizarContactoNegocio(
             negocio.rif_negocio,
             contactoSeleccionado.cedula_contacto,
           );
         },
-      }).abrir(contacto);
+      }).abrir(contacto, contenedor);
     });
 
     const listaVentas = clon.querySelector(".productos");
@@ -95,7 +96,6 @@ export default class Negocio {
     const inputAbonos = this.#crearInputNumero("1", "1");
     const total = document.createElement("span");
 
-    console.log(inventario)
     inputAbonos.value = "1";
     item.classList.add("inventario-pendiente", "venta-pendiente");
     item.querySelector(".tipo").textContent = inventario.tipo_cafe;

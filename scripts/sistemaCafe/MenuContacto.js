@@ -1,28 +1,25 @@
-export default class MenuContactoProveedor {
-  #proveedor;
+export default class MenuContacto {
   #repositorio;
   #onSeleccionar;
   #nodo;
   #controlador;
 
-  constructor(proveedor, repositorio, opciones = {}) {
-    this.#proveedor = proveedor;
+  constructor(repositorio, opciones = {}) {
     this.#repositorio = repositorio;
     this.#onSeleccionar = opciones.onSeleccionar;
     this.#controlador = new AbortController();
   }
 
-  abrir(disparador) {
-    MenuContactoProveedor.cerrarActivo();
+  abrir(disparador, contenedor) {
+    MenuContacto.cerrarActivo();
 
     this.#nodo = document.createElement("div");
-    this.#nodo.className = "menu-contacto-proveedor";
+    this.#nodo.className = "menu-contacto";
     this.#nodo.appendChild(this.#crearListaContactos());
     this.#nodo.appendChild(this.#crearFormularioContacto());
-    document.body.appendChild(this.#nodo);
+    contenedor.appendChild(this.#nodo);
 
-    this.#posicionar(disparador);
-    MenuContactoProveedor.activo = this;
+    MenuContacto.activo = this;
 
     document.addEventListener(
       "click",
@@ -34,7 +31,7 @@ export default class MenuContactoProveedor {
           this.cerrar();
         }
       },
-      { signal: this.#controlador.signal },
+      { signal: this.#controlador.signal }
     );
   }
 
@@ -43,13 +40,13 @@ export default class MenuContactoProveedor {
     this.#nodo?.remove();
     this.#nodo = null;
 
-    if (MenuContactoProveedor.activo === this) {
-      MenuContactoProveedor.activo = null;
+    if (MenuContacto.activo === this) {
+      MenuContacto.activo = null;
     }
   }
 
   static cerrarActivo() {
-    MenuContactoProveedor.activo?.cerrar();
+    MenuContacto.activo?.cerrar();
   }
 
   #crearListaContactos() {
@@ -69,11 +66,13 @@ export default class MenuContactoProveedor {
       const detalle = document.createElement("small");
 
       nombre.textContent = contacto.nombre;
-      detalle.textContent = `${contacto.cedula_contacto} - ${contacto.numero_telf || "Sin telefono"}`;
+      detalle.textContent = `${contacto.cedula_contacto} - ${
+        contacto.numero_telf || "Sin telefono"
+      }`;
       boton.type = "button";
       boton.append(nombre, detalle);
       boton.addEventListener("click", () => {
-        this.#seleccionarContacto(contacto);
+        this.#onSeleccionar(contacto);
         this.cerrar();
       });
 
@@ -113,7 +112,7 @@ export default class MenuContactoProveedor {
       }
 
       this.#repositorio.agregarContacto(contacto);
-      this.#seleccionarContacto(contacto);
+      this.#onSeleccionar(contacto);
       this.cerrar();
     });
 
@@ -129,26 +128,6 @@ export default class MenuContactoProveedor {
 
     return input;
   }
-
-  #seleccionarContacto(contacto) {
-    if (this.#onSeleccionar) {
-      this.#onSeleccionar(contacto);
-      return;
-    }
-
-    this.#repositorio.actualizarContactoProveedor(
-      this.#proveedor.rif_proveedor,
-      contacto.cedula_contacto,
-    );
-  }
-
-  #posicionar(disparador) {
-    const rect = disparador.getBoundingClientRect();
-
-    this.#nodo.style.top = `${rect.top + window.scrollY}px`;
-    this.#nodo.style.left = `${rect.left + window.scrollX}px`;
-    this.#nodo.style.minWidth = `${Math.max(rect.width, 220)}px`;
-  }
 }
 
-MenuContactoProveedor.activo = null;
+MenuContacto.activo = null;

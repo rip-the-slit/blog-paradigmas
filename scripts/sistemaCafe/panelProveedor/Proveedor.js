@@ -1,9 +1,8 @@
-import MenuContactoProveedor from "./MenuContactoProveedor.js";
 import FormularioProducto from "./FormularioProducto.js";
+import MenuContacto from "../MenuContacto.js";
 
 export default class Proveedor {
   #repositorio;
-  #cantidadKgPorProducto = new Map();
 
   constructor(data, repositorio) {
     this.data = data;
@@ -27,9 +26,17 @@ export default class Proveedor {
       proveedor.cedula_contacto || "Sin cedula";
 
     const contacto = clon.querySelector(".contacto");
+    const contenedor = clon.querySelector(".proveedor");
     contacto.addEventListener("click", (evento) => {
       evento.stopPropagation();
-      new MenuContactoProveedor(proveedor, this.#repositorio).abrir(contacto);
+      new MenuContacto(this.#repositorio, {
+        onSeleccionar: (contactoSeleccionado) => {
+          this.#repositorio.actualizarContactoProveedor(
+            proveedor.rif_proveedor,
+            contacto.cedula_contacto,
+          );
+        },
+      }).abrir(contacto, contenedor);
     });
 
     const productos = this.#repositorio.obtenerProductosPorProveedor(
@@ -53,8 +60,6 @@ export default class Proveedor {
       clonProducto.querySelector(".tipo").textContent =
         `Tipo: ${producto.tipo_cafe}`;
       this.#hacerProductoArrastrable(clonProducto, producto);
-
-      this.#cantidadKgPorProducto.set(producto.nombre_cafe, 0);
 
       ulProductos.appendChild(clonProducto);
     }

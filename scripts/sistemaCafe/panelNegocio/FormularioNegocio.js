@@ -1,4 +1,4 @@
-import MenuContactoProveedor from "../panelProveedor/MenuContactoProveedor.js";
+import MenuContacto from "../MenuContacto.js";
 
 export default class FormularioNegocio {
   #repositorio;
@@ -93,9 +93,9 @@ export default class FormularioNegocio {
     this.#botonContacto.textContent = "Sin contacto asignado";
     this.#botonContacto.addEventListener("click", (evento) => {
       evento.stopPropagation();
-      new MenuContactoProveedor(null, this.#repositorio, {
+      new MenuContacto(this.#repositorio, {
         onSeleccionar: (contacto) => this.#asignarContacto(contacto),
-      }).abrir(this.#botonContacto);
+      }).abrir(this.#botonContacto, this.#nodo);
     });
 
     return this.#botonContacto;

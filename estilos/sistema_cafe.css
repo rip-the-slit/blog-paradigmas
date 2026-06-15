@@ -296,8 +296,9 @@ li {
   grid-column: 1 / -1;
 }
 
-.menu-contacto-proveedor {
+.menu-contacto {
   position: absolute;
+  left: 50%;
   z-index: 20;
   color: #262626;
   background-color: #ffffff;
@@ -308,21 +309,21 @@ li {
   font-size: 0.75rem;
 }
 
-.menu-contacto-proveedor h4 {
+.menu-contacto h4 {
   margin: 0 0 0.5rem;
   font-size: 0.8rem;
 }
 
-.menu-contacto-proveedor ul {
+.menu-contacto ul {
   padding: 0;
   margin: 0 0 0.75rem;
 }
 
-.menu-contacto-proveedor li {
+.menu-contacto li {
   margin-bottom: 0.25rem;
 }
 
-.menu-contacto-proveedor button {
+.menu-contacto button {
   width: 100%;
   border: 1px solid #d4d4d4;
   border-radius: 4px;
@@ -344,16 +345,16 @@ button[type="submit"]:hover {
 }
 
 
-.menu-contacto-proveedor button:hover {
+.menu-contacto button:hover {
   background-color: #e5e7eb;
 }
 
-.menu-contacto-proveedor button > span,
-.menu-contacto-proveedor button > small {
+.menu-contacto button > span,
+.menu-contacto button > small {
   display: block;
 }
 
-.menu-contacto-proveedor button > small {
+.menu-contacto button > small {
   color: #525252;
 }
 
