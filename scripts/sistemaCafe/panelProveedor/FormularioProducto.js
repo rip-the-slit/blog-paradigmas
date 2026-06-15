@@ -10,7 +10,7 @@ export default class FormularioProducto {
     this.#controlador = new AbortController();
   }
 
-  abrir(disparador) {
+  abrir(disparador, contenedor) {
     FormularioProducto.cerrarActivo();
 
     this.#nodo = document.createElement("form");
@@ -23,8 +23,7 @@ export default class FormularioProducto {
       this.#crearAcciones(),
     );
 
-    document.body.appendChild(this.#nodo);
-    this.#posicionar(disparador);
+    contenedor.appendChild(this.#nodo);
     FormularioProducto.activo = this;
 
     this.#nodo.addEventListener(
@@ -154,13 +153,6 @@ export default class FormularioProducto {
 
     this.#repositorio.agregarProductoCafe(producto);
     this.cerrar();
-  }
-
-  #posicionar(disparador) {
-    const rect = disparador.getBoundingClientRect();
-
-    this.#nodo.style.top = `${rect.top + window.scrollY}px`;
-    this.#nodo.style.left = `${rect.left + window.scrollX}px`;
   }
 }
 

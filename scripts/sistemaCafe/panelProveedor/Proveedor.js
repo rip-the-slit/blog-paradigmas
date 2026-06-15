@@ -3,6 +3,7 @@ import MenuContacto from "../MenuContacto.js";
 
 export default class Proveedor {
   #repositorio;
+  #nodo;
 
   constructor(data, repositorio) {
     this.data = data;
@@ -15,6 +16,7 @@ export default class Proveedor {
     const plantillaProducto = document.getElementById("producto").content;
     const clon = plantillaProveedor.cloneNode(true);
 
+    this.#nodo =  clon.querySelector(".proveedor")
     clon.querySelector(".encabezado h3").textContent =
       proveedor.nombre_proveedor;
     clon.querySelector(".rif").textContent = proveedor.rif_proveedor;
@@ -26,7 +28,7 @@ export default class Proveedor {
       proveedor.cedula_contacto || "Sin cedula";
 
     const contacto = clon.querySelector(".contacto");
-    const contenedor = clon.querySelector(".proveedor");
+    const contenedor = this.#nodo;
     contacto.addEventListener("click", (evento) => {
       evento.stopPropagation();
       new MenuContacto(this.#repositorio, {
@@ -79,7 +81,7 @@ export default class Proveedor {
     boton.ariaLabel = "Agregar producto";
     boton.addEventListener("click", (evento) => {
       evento.stopPropagation();
-      new FormularioProducto(proveedor, this.#repositorio).abrir(boton);
+      new FormularioProducto(proveedor, this.#repositorio).abrir(boton, this.#nodo);
     });
 
     item.appendChild(boton);
