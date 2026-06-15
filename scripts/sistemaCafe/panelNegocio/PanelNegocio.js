@@ -35,12 +35,17 @@ export default class PanelNegocio {
 
   #crearBotonAgregar() {
     this.#botonAgregar = document.createElement("button");
-    this.#botonAgregar.className = "boton-agregar-proveedor boton-agregar-negocio";
+    this.#botonAgregar.className =
+      "boton-agregar-proveedor boton-agregar-negocio";
     this.#botonAgregar.type = "button";
     this.#botonAgregar.textContent = "+";
     this.#botonAgregar.ariaLabel = "Agregar negocio";
     this.#botonAgregar.addEventListener("click", () => {
-      new FormularioNegocio(this.#repositorio).abrir();
+      if (!FormularioNegocio.activo) {
+        new FormularioNegocio(this.#repositorio).abrir();
+        return;
+      }
+      FormularioNegocio.cerrarActivo();
     });
 
     this.#nodo.appendChild(this.#botonAgregar);

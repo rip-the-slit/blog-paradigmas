@@ -41,7 +41,11 @@ export default class PanelProveedor {
     this.#botonAgregar.textContent = "+";
     this.#botonAgregar.ariaLabel = "Agregar proveedor";
     this.#botonAgregar.addEventListener("click", () => {
-      new FormularioProveedor(this.#repositorio).abrir();
+      if (!FormularioProveedor.activo) {
+        new FormularioProveedor(this.#repositorio).abrir();
+        return;
+      }
+      FormularioProveedor.cerrarActivo();
     });
 
     this.#nodo.appendChild(this.#botonAgregar);
