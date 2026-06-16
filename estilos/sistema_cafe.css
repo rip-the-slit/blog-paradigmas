@@ -3,6 +3,7 @@
   padding: 1rem;
   border: 1px solid #e5e7eb;
   border-radius: 10px;
+  position: relative;
 }
 
 #sistema-cafe *::-webkit-scrollbar-thumb {
@@ -27,6 +28,134 @@
   padding: 0.3rem 0.5rem;
 }
 
+#sesion-distribuidor {
+  position: relative;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.menu-sesion {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  right: 0;
+  z-index: 30;
+  width: 14rem;
+  color: #262626;
+  background-color: #ffffff;
+  border: 1px solid #d4d4d4;
+  border-radius: 4px;
+  box-shadow: 0 10px 24px #00000033;
+  padding: 0.75rem;
+  font-size: 0.75rem;
+}
+
+.menu-sesion h4 {
+  margin: 0 0 0.5rem;
+  font-size: 0.8rem;
+}
+
+.menu-sesion ul {
+  padding: 0;
+  margin: 0;
+}
+
+.menu-sesion li {
+  margin-bottom: 0.25rem;
+}
+
+.menu-sesion button,
+.login-sesion__usuarios button {
+  width: 100%;
+  border: 1px solid #d4d4d4;
+  border-radius: 4px;
+  background-color: #f9fafb;
+  color: #262626;
+  cursor: pointer;
+  padding: 0.45rem;
+  text-align: left;
+}
+
+.menu-sesion button:hover,
+.login-sesion__usuarios button:hover,
+.login-sesion__usuarios button.activo {
+  background-color: #e5e7eb;
+}
+
+.menu-sesion button > span,
+.menu-sesion button > small,
+.login-sesion__usuarios button > span,
+.login-sesion__usuarios button > small {
+  display: block;
+}
+
+.menu-sesion button > small,
+.login-sesion__usuarios button > small {
+  color: #737373;
+}
+
+.login-sesion {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: #fffffff2;
+  backdrop-filter: blur(2px);
+}
+
+.login-sesion__panel {
+  display: grid;
+  grid-template-columns: minmax(10rem, 14rem) minmax(14rem, 20rem);
+  gap: 1rem;
+  width: min(38rem, 100%);
+  color: #262626;
+  background-color: #f3f4f6;
+  border: 1px solid #d4d4d4;
+  border-radius: 6px;
+  padding: 1rem;
+  box-shadow: 0 18px 42px #00000026;
+}
+
+.login-sesion__usuarios {
+  display: grid;
+  gap: 0.4rem;
+  align-content: start;
+}
+
+.login-sesion__formulario {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.login-sesion__formulario h3,
+.login-sesion__formulario p {
+  margin: 0;
+}
+
+.login-sesion__formulario > p {
+  color: #525252;
+}
+
+.login-sesion__formulario input {
+  border: 1px solid #d4d4d4;
+  border-radius: 4px;
+  padding: 0.45rem 0.55rem;
+}
+
+.login-sesion__error {
+  min-height: 1rem;
+  color: #b91c1c;
+  font-size: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .login-sesion__panel {
+    grid-template-columns: 1fr;
+  }
+}
+
 div:has(#panel-proveedor, #panel-inventario, #panel-negocio) {
   display: flex;
   justify-content: space-between;
@@ -41,6 +170,11 @@ div:has(#panel-proveedor, #panel-inventario, #panel-negocio) {
   overflow: auto;
   position: relative;
 }
+
+#panel-proveedor > ul, #panel-negocio > ul {
+  min-height: 50vh;
+}
+
 
 #panel-proveedor > h2,
 #panel-inventario > h2,

@@ -1,5 +1,6 @@
 class Repositorio extends EventTarget {
   #fecha;
+  #rifDistribuidorSesion = null;
 
   constructor() {
     super();
@@ -16,10 +17,48 @@ class Repositorio extends EventTarget {
     return this.#fecha;
   }
 
+  get distribuidorSesion() {
+    if (!this.#rifDistribuidorSesion) {
+      return null;
+    }
+
+    return this.obtenerDistribuidores()
+      .find((distribuidor) => distribuidor.rif_dist === this.#rifDistribuidorSesion) || null;
+  }
+
+  iniciarSesionDistribuidor(rif_dist, contrasena) {
+    const distribuidor = alasql(
+      "SELECT rif_dist, nombre, saldo_bs FROM distribuidor WHERE rif_dist = ? AND contrasena = ?",
+      [rif_dist, contrasena],
+    )[0];
+
+    if (!distribuidor) {
+      return false;
+    }
+
+    this.#rifDistribuidorSesion = distribuidor.rif_dist;
+    this.dispatchEvent(
+      new CustomEvent("cambioSesion", {
+        detail: { distribuidor },
+      }),
+    );
+    return true;
+  }
+
+  cerrarSesionDistribuidor() {
+    this.#rifDistribuidorSesion = null;
+    this.dispatchEvent(new CustomEvent("cambioSesion", { detail: null }));
+  }
+
+  #obtenerDistribuidorSesion() {
+    return this.distribuidorSesion;
+  }
+
   init() {
     alasql(sql`
       CREATE TABLE IF NOT EXISTS distribuidor (
         rif_dist VARCHAR(20) PRIMARY KEY,
+        nombre VARCHAR(100) NOT NULL,
         contrasena VARCHAR(255) NOT NULL,
         saldo_bs DECIMAL(12, 2) DEFAULT 0.00
       );
@@ -34,6 +73,8 @@ class Repositorio extends EventTarget {
         rif_proveedor VARCHAR(20) PRIMARY KEY,
         nombre VARCHAR(100) NOT NULL,
         cedula_contacto VARCHAR(20),
+        rif_dist VARCHAR(20),
+        FOREIGN KEY (rif_dist) REFERENCES distribuidor(rif_dist),
         FOREIGN KEY (cedula_contacto) REFERENCES contacto(cedula_contacto)
       );
       
@@ -42,6 +83,8 @@ class Repositorio extends EventTarget {
         nombre VARCHAR(100) NOT NULL,
         cedula_contacto VARCHAR(20),
         direccion VARCHAR(255),
+        rif_dist VARCHAR(20),
+        FOREIGN KEY (rif_dist) REFERENCES distribuidor(rif_dist),
         FOREIGN KEY (cedula_contacto) REFERENCES contacto(cedula_contacto)
       );
 
@@ -116,23 +159,26 @@ class Repositorio extends EventTarget {
         (3, 'Liberica'),
         (4, 'Excelsa');
 
-      INSERT INTO distribuidor (rif_dist, contrasena, saldo_bs) VALUES
-        ('J-12345678-9', 'contrasena123', 10000.00);
+      INSERT INTO distribuidor (rif_dist, nombre, contrasena, saldo_bs) VALUES
+        ('J-12345678-9', 'Distribuidor Uno', '12345', 10000.00);
+
+      INSERT INTO distribuidor (rif_dist, nombre, contrasena, saldo_bs) VALUES
+        ('J-87654321-5', 'Distribuidor Dos', '12345', 7500.00);
 
       INSERT INTO contacto (cedula_contacto, nombre, numero_telf) VALUES
         ('V-12345678', 'Contacto Uno', '04141234567');
 
-      INSERT INTO proveedor (rif_proveedor, nombre, cedula_contacto) VALUES
-        ('J-32345678-1', 'Proveedor Uno', 'V-12345678');
+      INSERT INTO proveedor (rif_proveedor, nombre, cedula_contacto, rif_dist) VALUES
+        ('J-32345678-1', 'Proveedor Uno', 'V-12345678', 'J-12345678-9');
 
-      INSERT INTO proveedor (rif_proveedor, nombre, cedula_contacto) VALUES
-        ('J-87654321-2', 'Proveedor Dos', 'V-12345678');
+      INSERT INTO proveedor (rif_proveedor, nombre, cedula_contacto, rif_dist) VALUES
+        ('J-87654321-2', 'Proveedor Dos', 'V-12345678', 'J-12345678-9');
 
-      INSERT INTO negocio (rif_negocio, nombre, cedula_contacto, direccion) VALUES
-        ('J-42345678-3', 'Negocio Uno', 'V-12345678', 'Av. Principal, local 1');
+      INSERT INTO negocio (rif_negocio, nombre, cedula_contacto, direccion, rif_dist) VALUES
+        ('J-42345678-3', 'Negocio Uno', 'V-12345678', 'Av. Principal, local 1', 'J-12345678-9');
 
-      INSERT INTO negocio (rif_negocio, nombre, cedula_contacto, direccion) VALUES
-        ('J-87654321-4', 'Negocio Dos', 'V-12345678', 'Calle Comercio, local 2');
+      INSERT INTO negocio (rif_negocio, nombre, cedula_contacto, direccion, rif_dist) VALUES
+        ('J-87654321-4', 'Negocio Dos', 'V-12345678', 'Calle Comercio, local 2', 'J-12345678-9');
 
       INSERT INTO cafe (id_cafe, nombre, precio_kg_bs, id_tipo, rif_proveedor) VALUES
         (1, 'Café Arabica Premium', 50.00, 1, 'J-32345678-1'),
@@ -149,16 +195,22 @@ class Repositorio extends EventTarget {
 
   obtenerDistribuidores() {
     const result = alasql(sql`
-      SELECT rif_dist, saldo_bs FROM distribuidor
+      SELECT rif_dist, nombre, saldo_bs FROM distribuidor
     `);
     return result;
   }
 
   obtenerProveedores() {
+    const distribuidor = this.#obtenerDistribuidorSesion();
+    if (!distribuidor) {
+      return [];
+    }
+
     const result = alasql(sql`
       SELECT proveedor.nombre AS nombre_proveedor, contacto.nombre AS nombre_contacto, * 
       FROM proveedor LEFT JOIN contacto ON proveedor.cedula_contacto = contacto.cedula_contacto
-    `);
+      WHERE proveedor.rif_dist = ?
+    `, [distribuidor.rif_dist]);
     return result;
   }
 
@@ -181,6 +233,11 @@ class Repositorio extends EventTarget {
   }
 
   obtenerInventario() {
+    const distribuidor = this.#obtenerDistribuidorSesion();
+    if (!distribuidor) {
+      return [];
+    }
+
     const result = alasql(sql`
       SELECT inventario.id_inv,
              inventario.cantidad_kg,
@@ -189,9 +246,10 @@ class Repositorio extends EventTarget {
              AVG(cafe.precio_kg_bs) AS precio_kg_bs
       FROM inventario INNER JOIN tipo_cafe ON inventario.id_tipo = tipo_cafe.id_tipo
       LEFT JOIN cafe ON inventario.id_tipo = cafe.id_tipo
+      WHERE inventario.rif_dist = ?
       GROUP BY inventario.id_inv, inventario.cantidad_kg, inventario.id_tipo, tipo_cafe.nombre
       ORDER BY tipo_cafe.nombre
-    `);
+    `, [distribuidor.rif_dist]);
     return result;
   }
 
@@ -203,12 +261,18 @@ class Repositorio extends EventTarget {
   }
 
   agregarProveedor(proveedor) {
+    const distribuidor = this.#obtenerDistribuidorSesion();
+    if (!distribuidor) {
+      return false;
+    }
+
     alasql(
-      "INSERT INTO proveedor (rif_proveedor, nombre, cedula_contacto) VALUES (?, ?, ?)",
+      "INSERT INTO proveedor (rif_proveedor, nombre, cedula_contacto, rif_dist) VALUES (?, ?, ?, ?)",
       [
         proveedor.rif_proveedor,
         proveedor.nombre,
         proveedor.cedula_contacto || null,
+        distribuidor.rif_dist,
       ],
     );
     this.dispatchEvent(
@@ -216,6 +280,7 @@ class Repositorio extends EventTarget {
         detail: { rif_proveedor: proveedor.rif_proveedor },
       }),
     );
+    return true;
   }
 
   actualizarContactoProveedor(rif_proveedor, cedula_contacto) {
@@ -231,13 +296,19 @@ class Repositorio extends EventTarget {
   }
 
   agregarNegocio(negocio) {
+    const distribuidor = this.#obtenerDistribuidorSesion();
+    if (!distribuidor) {
+      return false;
+    }
+
     alasql(
-      "INSERT INTO negocio (rif_negocio, nombre, cedula_contacto, direccion) VALUES (?, ?, ?, ?)",
+      "INSERT INTO negocio (rif_negocio, nombre, cedula_contacto, direccion, rif_dist) VALUES (?, ?, ?, ?, ?)",
       [
         negocio.rif_negocio,
         negocio.nombre,
         negocio.cedula_contacto || null,
         negocio.direccion,
+        distribuidor.rif_dist,
       ],
     );
     this.dispatchEvent(
@@ -245,6 +316,7 @@ class Repositorio extends EventTarget {
         detail: { rif_negocio: negocio.rif_negocio },
       }),
     );
+    return true;
   }
 
   actualizarContactoNegocio(rif_negocio, cedula_contacto) {
@@ -284,7 +356,7 @@ class Repositorio extends EventTarget {
   }
 
   comprarCafe(producto, cantidad_kg) {
-    const distribuidor = this.obtenerDistribuidores()[0];
+    const distribuidor = this.#obtenerDistribuidorSesion();
     const monto = cantidad_kg * producto.precio_kg_bs;
 
     if (!distribuidor || cantidad_kg <= 0 || monto > distribuidor.saldo_bs) {
@@ -349,6 +421,11 @@ class Repositorio extends EventTarget {
   }
 
   obtenerCompras() {
+    const distribuidor = this.#obtenerDistribuidorSesion();
+    if (!distribuidor) {
+      return [];
+    }
+
     const result = alasql(sql`
       SELECT compra.id_compra,
              compra.fecha_compra,
@@ -361,8 +438,9 @@ class Repositorio extends EventTarget {
       INNER JOIN proveedor ON compra.rif_proveedor = proveedor.rif_proveedor
       INNER JOIN cafe ON compra.id_cafe = cafe.id_cafe
       INNER JOIN tipo_cafe ON cafe.id_tipo = tipo_cafe.id_tipo
+      WHERE compra.rif_dist = ?
       ORDER BY compra.fecha_compra DESC, compra.id_compra DESC
-    `);
+    `, [distribuidor.rif_dist]);
     return result.map((compra) => ({
       ...compra,
       monto: compra.cantidad_kg * compra.precio_kg_bs,
@@ -370,7 +448,7 @@ class Repositorio extends EventTarget {
   }
 
   venderCafe(negocio, inventario, cantidad_kg, cantidad_abonos) {
-    const distribuidor = this.obtenerDistribuidores()[0];
+    const distribuidor = this.#obtenerDistribuidorSesion();
     const fecha = this.#fecha.toISOString().slice(0, 10);
     const precio_kg_bs = inventario.precio_kg_bs;
     const monto = cantidad_kg * precio_kg_bs;
@@ -387,8 +465,8 @@ class Repositorio extends EventTarget {
     }
 
     const ventaExistente = alasql(
-      "SELECT id_venta, cantidad_kg, cantidad_abonos, precio_kg_bs FROM venta WHERE fecha_venta = ? AND rif_negocio = ? AND id_inv = ?",
-      [fecha, negocio.rif_negocio, inventario.id_inv],
+      "SELECT id_venta, cantidad_kg, cantidad_abonos, precio_kg_bs FROM venta WHERE fecha_venta = ? AND rif_negocio = ? AND id_inv = ? AND rif_dist = ?",
+      [fecha, negocio.rif_negocio, inventario.id_inv, distribuidor.rif_dist],
     )[0];
     let idVenta;
 
@@ -444,6 +522,11 @@ class Repositorio extends EventTarget {
   }
 
   obtenerVentasPorNegocio(rif_negocio) {
+    const distribuidor = this.#obtenerDistribuidorSesion();
+    if (!distribuidor) {
+      return [];
+    }
+
     const fecha = this.#fecha.toISOString().slice(0, 10);
     const result = alasql(sql`
       SELECT venta.id_venta,
@@ -460,6 +543,7 @@ class Repositorio extends EventTarget {
       INNER JOIN tipo_cafe ON inventario.id_tipo = tipo_cafe.id_tipo
       LEFT JOIN pago_venta ON venta.id_venta = pago_venta.id_venta
       WHERE venta.rif_negocio = ?
+        AND venta.rif_dist = ?
       GROUP BY venta.id_venta,
                venta.fecha_venta,
                venta.cantidad_kg,
@@ -469,7 +553,7 @@ class Repositorio extends EventTarget {
                inventario.id_tipo,
                tipo_cafe.nombre
       ORDER BY venta.fecha_venta DESC, venta.id_venta DESC
-    `, [rif_negocio]);
+    `, [rif_negocio, distribuidor.rif_dist]);
 
     return result
       .map((venta) => ({
@@ -483,6 +567,11 @@ class Repositorio extends EventTarget {
   }
 
   obtenerVentas() {
+    const distribuidor = this.#obtenerDistribuidorSesion();
+    if (!distribuidor) {
+      return [];
+    }
+
     const result = alasql(sql`
       SELECT venta.id_venta,
              venta.fecha_venta,
@@ -498,6 +587,7 @@ class Repositorio extends EventTarget {
       INNER JOIN inventario ON venta.id_inv = inventario.id_inv
       INNER JOIN tipo_cafe ON inventario.id_tipo = tipo_cafe.id_tipo
       LEFT JOIN pago_venta ON venta.id_venta = pago_venta.id_venta
+      WHERE venta.rif_dist = ?
       GROUP BY venta.id_venta,
                venta.fecha_venta,
                venta.cantidad_kg,
@@ -506,7 +596,7 @@ class Repositorio extends EventTarget {
                negocio.nombre,
                tipo_cafe.nombre
       ORDER BY venta.fecha_venta DESC, venta.id_venta DESC
-    `);
+    `, [distribuidor.rif_dist]);
 
     return result.map((venta) => {
       const monto = venta.cantidad_kg * venta.precio_kg_bs;
@@ -521,6 +611,11 @@ class Repositorio extends EventTarget {
   }
 
   obtenerAbonosVentaDelDia() {
+    const distribuidor = this.#obtenerDistribuidorSesion();
+    if (!distribuidor) {
+      return [];
+    }
+
     const fecha = this.#fecha.toISOString().slice(0, 10);
     const result = alasql(sql`
       SELECT pago_venta.id_pago,
@@ -534,15 +629,21 @@ class Repositorio extends EventTarget {
       INNER JOIN inventario ON venta.id_inv = inventario.id_inv
       INNER JOIN tipo_cafe ON inventario.id_tipo = tipo_cafe.id_tipo
       WHERE pago_venta.fecha_pago = ?
+        AND venta.rif_dist = ?
       ORDER BY pago_venta.id_pago DESC
-    `, [fecha]);
+    `, [fecha, distribuidor.rif_dist]);
     return result;
   }
 
   abonarVenta(id_venta) {
+    const distribuidor = this.#obtenerDistribuidorSesion();
+    if (!distribuidor) {
+      return false;
+    }
+
     const venta = alasql(
-      "SELECT venta.*, inventario.id_tipo FROM venta INNER JOIN inventario ON venta.id_inv = inventario.id_inv WHERE venta.id_venta = ?",
-      [id_venta],
+      "SELECT venta.*, inventario.id_tipo FROM venta INNER JOIN inventario ON venta.id_inv = inventario.id_inv WHERE venta.id_venta = ? AND venta.rif_dist = ?",
+      [id_venta, distribuidor.rif_dist],
     )[0];
 
     if (!venta) {
@@ -563,7 +664,6 @@ class Repositorio extends EventTarget {
       [venta.id_tipo],
     )[0]?.precio_kg_bs ?? 0;
     const monto = (venta.cantidad_kg * precio) / venta.cantidad_abonos;
-    const distribuidor = this.obtenerDistribuidores()[0];
     const [{ ultimo_pago }] = alasql(
       "SELECT MAX(id_pago) AS ultimo_pago FROM pago_venta",
     );
@@ -591,10 +691,16 @@ class Repositorio extends EventTarget {
   }
   
   obtenerNegocios() {
+    const distribuidor = this.#obtenerDistribuidorSesion();
+    if (!distribuidor) {
+      return [];
+    }
+
     const result = alasql(sql`
       SELECT negocio.nombre AS nombre_negocio, contacto.nombre AS nombre_contacto, * 
       FROM negocio LEFT JOIN contacto ON negocio.cedula_contacto = contacto.cedula_contacto
-    `);
+      WHERE negocio.rif_dist = ?
+    `, [distribuidor.rif_dist]);
     return result;
   }
 

@@ -17,6 +17,7 @@ export default class PanelInventario {
     ul.innerHTML = "";
 
     for (const item of inventario) {
+      if (!item.id_inv) continue;
       const clon = plantillaInventario.cloneNode(true);
       const nodoInventario = clon.querySelector(".inventario");
 
