@@ -117,33 +117,33 @@ class Repositorio extends EventTarget {
         (4, 'Excelsa');
 
       INSERT INTO distribuidor (rif_dist, contrasena, saldo_bs) VALUES
-        ('D-12345678', 'contrasena123', 10000.00);
+        ('J-12345678-9', 'contrasena123', 10000.00);
 
       INSERT INTO contacto (cedula_contacto, nombre, numero_telf) VALUES
-        ('C-12345678', 'Contacto Uno', '04141234567');
+        ('V-12345678', 'Contacto Uno', '04141234567');
 
       INSERT INTO proveedor (rif_proveedor, nombre, cedula_contacto) VALUES
-        ('P-12345678', 'Proveedor Uno', 'C-12345678');
+        ('J-32345678-1', 'Proveedor Uno', 'V-12345678');
 
       INSERT INTO proveedor (rif_proveedor, nombre, cedula_contacto) VALUES
-        ('P-87654321', 'Proveedor Dos', 'C-12345678');
+        ('J-87654321-2', 'Proveedor Dos', 'V-12345678');
 
       INSERT INTO negocio (rif_negocio, nombre, cedula_contacto, direccion) VALUES
-        ('N-12345678', 'Negocio Uno', 'C-12345678', 'Av. Principal, local 1');
+        ('J-42345678-3', 'Negocio Uno', 'V-12345678', 'Av. Principal, local 1');
 
       INSERT INTO negocio (rif_negocio, nombre, cedula_contacto, direccion) VALUES
-        ('N-87654321', 'Negocio Dos', 'C-12345678', 'Calle Comercio, local 2');
+        ('J-87654321-4', 'Negocio Dos', 'V-12345678', 'Calle Comercio, local 2');
 
       INSERT INTO cafe (id_cafe, nombre, precio_kg_bs, id_tipo, rif_proveedor) VALUES
-        (1, 'Café Arabica Premium', 50.00, 1, 'P-12345678'),
-        (2, 'Café Robusta Clásico', 30.00, 2, 'P-12345678'),
-        (3, 'Café Liberica Exótico', 40.00, 3, 'P-87654321'),
-        (4, 'Café Excelsa Único', 45.00, 4, 'P-87654321');
+        (1, 'Café Arabica Premium', 50.00, 1, 'J-32345678-1'),
+        (2, 'Café Robusta Clásico', 30.00, 2, 'J-32345678-1'),
+        (3, 'Café Liberica Exótico', 40.00, 3, 'J-87654321-2'),
+        (4, 'Café Excelsa Único', 45.00, 4, 'J-87654321-2');
 
       INSERT INTO inventario (id_inv, cantidad_kg, rif_dist, id_tipo) VALUES
-        (1, 100.00, 'D-12345678', 1),
-        (2, 50.00, 'D-12345678', 2),
-        (3, 75.00, 'D-12345678', 3);
+        (1, 100.00, 'J-12345678-9', 1),
+        (2, 50.00, 'J-12345678-9', 2),
+        (3, 75.00, 'J-12345678-9', 3);
   `);
   }
 

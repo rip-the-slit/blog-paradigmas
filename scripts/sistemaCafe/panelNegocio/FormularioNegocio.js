@@ -1,5 +1,8 @@
 import MenuContacto from "../MenuContacto.js";
 
+const RIF_NEGOCIO_REGEX = /^J-\d+-\d$/;
+const CEDULA_CONTACTO_REGEX = /^[VE]-\d+$/;
+
 export default class FormularioNegocio {
   #repositorio;
   #nodo;
@@ -19,7 +22,10 @@ export default class FormularioNegocio {
     this.#nodo.className = "formulario-proveedor formulario-negocio";
     this.#nodo.append(
       this.#crearEncabezado(),
-      this.#crearCampo("RIF", "rif_negocio"),
+      this.#crearCampo("RIF", "rif_negocio", {
+        pattern: RIF_NEGOCIO_REGEX,
+        title: "Formato esperado: J-<numero>-<digito>",
+      }),
       this.#crearCampo("Nombre", "nombre"),
       this.#crearCampo("Direccion", "direccion"),
       this.#crearSelectorContacto(),
@@ -76,12 +82,21 @@ export default class FormularioNegocio {
     return encabezado;
   }
 
-  #crearCampo(placeholder, nombre) {
+  #crearCampo(placeholder, nombre, opciones = {}) {
     const input = document.createElement("input");
 
     input.name = nombre;
     input.placeholder = placeholder;
     input.required = true;
+    input.autocomplete = "off";
+
+    if (opciones.pattern) {
+      input.pattern = opciones.pattern.source;
+      input.title = opciones.title || "Formato inválido";
+      input.addEventListener("input", () => {
+        input.value = input.value.toUpperCase();
+      });
+    }
 
     return input;
   }
@@ -137,6 +152,10 @@ export default class FormularioNegocio {
   }
 
   #asignarContacto(contacto) {
+    if (!CEDULA_CONTACTO_REGEX.test(contacto.cedula_contacto)) {
+      return;
+    }
+
     this.#cedulaContacto = contacto.cedula_contacto;
     this.#botonContacto.textContent =
       `${contacto.nombre} (${contacto.cedula_contacto})`;

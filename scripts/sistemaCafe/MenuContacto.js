@@ -86,9 +86,18 @@ export default class MenuContacto {
   #crearFormularioContacto() {
     const formulario = document.createElement("form");
     const titulo = document.createElement("h4");
-    const cedula = this.#crearCampo("Cedula", "cedula_contacto");
+    const cedula = this.#crearCampo("Cedula", "cedula_contacto", {
+      pattern: /^[VE]-\d+$/,
+      title: "Formato esperado: V-<numero> o E-<numero>",
+    });
     const nombre = this.#crearCampo("Nombre", "nombre");
-    const telefono = this.#crearCampo("Telefono", "numero_telf");
+    const telefono = this.#crearCampo("Telefono", "numero_telf", {
+      pattern: /^\d{11}$/,
+      title: "Formato esperado: 11 digitos numericos",
+      numericOnly: true,
+      maxLength: 11,
+    });
+    telefono.type = "tel";
     const boton = document.createElement("button");
 
     formulario.className = "formulario-contacto";
@@ -102,7 +111,7 @@ export default class MenuContacto {
 
       const datos = new FormData(formulario);
       const contacto = {
-        cedula_contacto: datos.get("cedula_contacto").trim(),
+        cedula_contacto: datos.get("cedula_contacto").trim().toUpperCase(),
         nombre: datos.get("nombre").trim(),
         numero_telf: datos.get("numero_telf").trim(),
       };
@@ -110,6 +119,14 @@ export default class MenuContacto {
       if (!contacto.cedula_contacto || !contacto.nombre) {
         return;
       }
+
+      if (!/^[VE]-\d+$/.test(contacto.cedula_contacto)) {
+        cedula.setCustomValidity("Formato esperado: V-<numero> o E-<numero>");
+        cedula.reportValidity();
+        return;
+      }
+
+      cedula.setCustomValidity("");
 
       this.#repositorio.agregarContacto(contacto);
       this.#onSeleccionar(contacto);
@@ -119,12 +136,33 @@ export default class MenuContacto {
     return formulario;
   }
 
-  #crearCampo(placeholder, nombre) {
+  #crearCampo(placeholder, nombre, opciones = {}) {
     const input = document.createElement("input");
 
     input.name = nombre;
     input.placeholder = placeholder;
     input.required = nombre !== "numero_telf";
+    input.autocomplete = "off";
+
+    if (opciones.pattern) {
+      input.pattern = opciones.pattern.source;
+      input.title = opciones.title || "Formato inválido";
+      input.addEventListener("input", () => {
+        input.value = input.value.toUpperCase();
+        input.setCustomValidity("");
+      });
+    }
+
+    if (opciones.numericOnly) {
+      input.inputMode = "numeric";
+      input.addEventListener("input", () => {
+        input.value = input.value.replace(/\D+/g, "").slice(0, opciones.maxLength || Infinity);
+        input.setCustomValidity("");
+      });
+      if (opciones.maxLength) {
+        input.maxLength = opciones.maxLength;
+      }
+    }
 
     return input;
   }

@@ -47,13 +47,6 @@ export default class Proveedor {
     const ulProductos = clon.querySelector(".productos");
     const botonAgregarProducto = this.#crearBotonAgregarProducto(proveedor);
 
-    if (productos.length === 0) {
-      const li = document.createElement("li");
-      li.textContent = "No hay productos disponibles";
-      li.className = "productos-vacio";
-      ulProductos.appendChild(li);
-    }
-
     for (const producto of productos) {
       const clonProducto = plantillaProducto.cloneNode(true);
       clonProducto.querySelector(".nombre").textContent = producto.nombre_cafe;
