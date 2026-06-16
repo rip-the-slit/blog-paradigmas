@@ -35,7 +35,7 @@ export default class Proveedor {
         onSeleccionar: (contactoSeleccionado) => {
           this.#repositorio.actualizarContactoProveedor(
             proveedor.rif_proveedor,
-            contacto.cedula_contacto,
+            contactoSeleccionado.cedula_contacto,
           );
         },
       }).abrir(contacto, contenedor);
