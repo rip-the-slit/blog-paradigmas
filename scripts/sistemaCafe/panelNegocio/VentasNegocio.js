@@ -1,4 +1,4 @@
-const BS_POR_DOLAR = 563;
+export const BS_POR_DOLAR = 563;
 
 export default class VentasNegocio {
   #repositorio;

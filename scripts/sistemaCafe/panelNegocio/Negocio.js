@@ -1,4 +1,5 @@
 import MenuContacto from "../MenuContacto.js";
+import { BS_POR_DOLAR } from "./VentasNegocio.js";
 
 export default class Negocio {
   static rifExpandido = null;
@@ -147,16 +148,16 @@ export default class Negocio {
     const inputAbonos = this.#crearInputNumero("1", "1");
     const total = document.createElement("span");
 
-    inputPrecio.value = inventario.precio_kg_bs;
+    inputPrecio.value = (inventario.precio_kg_bs / BS_POR_DOLAR).toFixed(2);
     inputAbonos.value = "1";
     item.classList.add("inventario-pendiente", "venta-pendiente");
     item.querySelector(".tipo").textContent = inventario.tipo_cafe;
-    total.textContent = "0.00 Bs";
+    total.textContent = "$0.00";
     contador.replaceChildren(
       inputKg,
-      document.createTextNode("kg x "),
+      document.createTextNode("kg x $"),
       inputPrecio,
-      document.createTextNode("Bs=("),
+      document.createTextNode("=("),
       total,
       document.createTextNode(") en "),
       inputAbonos,
@@ -166,8 +167,7 @@ export default class Negocio {
     const actualizarTotal = () => {
       const cantidadKg = Number(inputKg.value) || 0;
       const precioKg = Number(inputPrecio.value) || 0;
-      total.textContent =
-        `${(cantidadKg * precioKg).toFixed(2)} Bs`;
+      total.textContent = `$${(cantidadKg * precioKg).toFixed(2)}`;
     };
 
     inputKg.addEventListener("input", actualizarTotal);
@@ -180,7 +180,7 @@ export default class Negocio {
 
       evento.preventDefault();
       const cantidadKg = Number(inputKg.value);
-      inventario.precio_kg_bs = Number(inputPrecio.value);
+      inventario.precio_kg_bs = Number(inputPrecio.value) * BS_POR_DOLAR;
       const cantidadAbonos = Number(inputAbonos.value);
       if (this.#repositorio.venderCafe(
         negocio,
