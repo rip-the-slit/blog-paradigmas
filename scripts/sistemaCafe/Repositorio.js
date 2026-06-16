@@ -93,6 +93,7 @@ class Repositorio extends EventTarget {
         fecha_venta DATE NOT NULL,
         cantidad_kg DECIMAL(10, 2) NOT NULL,
         cantidad_abonos INT DEFAULT 0,
+        precio_kg_bs DECIMAL(10, 2) NOT NULL,
         rif_negocio VARCHAR(20),
         rif_dist VARCHAR(20),
         id_inv INT,
@@ -371,10 +372,13 @@ class Repositorio extends EventTarget {
   venderCafe(negocio, inventario, cantidad_kg, cantidad_abonos) {
     const distribuidor = this.obtenerDistribuidores()[0];
     const fecha = this.#fecha.toISOString().slice(0, 10);
-    const monto = cantidad_kg * inventario.precio_kg_bs;
-
+    const precio_kg_bs = inventario.precio_kg_bs;
+    const monto = cantidad_kg * precio_kg_bs;
+  
     if (
       !distribuidor ||
+      !Number.isFinite(precio_kg_bs) ||
+      precio_kg_bs < 0 ||
       cantidad_kg <= 0 ||
       cantidad_abonos <= 0 ||
       cantidad_kg > inventario.cantidad_kg
@@ -383,18 +387,25 @@ class Repositorio extends EventTarget {
     }
 
     const ventaExistente = alasql(
-      "SELECT id_venta, cantidad_kg, cantidad_abonos FROM venta WHERE fecha_venta = ? AND rif_negocio = ? AND id_inv = ?",
+      "SELECT id_venta, cantidad_kg, cantidad_abonos, precio_kg_bs FROM venta WHERE fecha_venta = ? AND rif_negocio = ? AND id_inv = ?",
       [fecha, negocio.rif_negocio, inventario.id_inv],
     )[0];
     let idVenta;
 
     if (ventaExistente) {
       idVenta = ventaExistente.id_venta;
+      const precioExistente = ventaExistente.precio_kg_bs ?? precio_kg_bs;
+      const cantidadTotal = ventaExistente.cantidad_kg + cantidad_kg;
+      const precioPromedio =
+        ((ventaExistente.cantidad_kg * precioExistente) + monto) /
+        cantidadTotal;
+
       alasql(
-        "UPDATE venta SET cantidad_kg = ?, cantidad_abonos = ? WHERE id_venta = ?",
+        "UPDATE venta SET cantidad_kg = ?, cantidad_abonos = ?, precio_kg_bs = ? WHERE id_venta = ?",
         [
-          ventaExistente.cantidad_kg + cantidad_kg,
+          cantidadTotal,
           ventaExistente.cantidad_abonos + cantidad_abonos,
+          precioPromedio,
           ventaExistente.id_venta,
         ],
       );
@@ -404,12 +415,13 @@ class Repositorio extends EventTarget {
       );
       idVenta = (ultima_venta || 0) + 1;
       alasql(
-        "INSERT INTO venta (id_venta, fecha_venta, cantidad_kg, cantidad_abonos, rif_negocio, rif_dist, id_inv) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO venta (id_venta, fecha_venta, cantidad_kg, cantidad_abonos, precio_kg_bs, rif_negocio, rif_dist, id_inv) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
         [
           idVenta,
           fecha,
           cantidad_kg,
           cantidad_abonos,
+          precio_kg_bs,
           negocio.rif_negocio,
           distribuidor.rif_dist,
           inventario.id_inv,
@@ -441,12 +453,11 @@ class Repositorio extends EventTarget {
              venta.rif_negocio,
              inventario.id_tipo,
              tipo_cafe.nombre AS tipo_cafe,
-             AVG(cafe.precio_kg_bs) AS precio_kg_bs,
+             venta.precio_kg_bs,
              COUNT(pago_venta.id_pago) AS abonos_pagados
       FROM venta
       INNER JOIN inventario ON venta.id_inv = inventario.id_inv
       INNER JOIN tipo_cafe ON inventario.id_tipo = tipo_cafe.id_tipo
-      LEFT JOIN cafe ON inventario.id_tipo = cafe.id_tipo
       LEFT JOIN pago_venta ON venta.id_venta = pago_venta.id_venta
       WHERE venta.rif_negocio = ?
       GROUP BY venta.id_venta,
@@ -454,6 +465,7 @@ class Repositorio extends EventTarget {
                venta.cantidad_kg,
                venta.cantidad_abonos,
                venta.rif_negocio,
+               venta.precio_kg_bs,
                inventario.id_tipo,
                tipo_cafe.nombre
       ORDER BY venta.fecha_venta DESC, venta.id_venta DESC
@@ -478,19 +490,19 @@ class Repositorio extends EventTarget {
              venta.cantidad_abonos,
              negocio.nombre AS nombre_negocio,
              tipo_cafe.nombre AS tipo_cafe,
-             AVG(cafe.precio_kg_bs) AS precio_kg_bs,
+             venta.precio_kg_bs,
              COUNT(pago_venta.id_pago) AS abonos_pagados,
              SUM(pago_venta.monto) AS monto_pagado
       FROM venta
       INNER JOIN negocio ON venta.rif_negocio = negocio.rif_negocio
       INNER JOIN inventario ON venta.id_inv = inventario.id_inv
       INNER JOIN tipo_cafe ON inventario.id_tipo = tipo_cafe.id_tipo
-      LEFT JOIN cafe ON inventario.id_tipo = cafe.id_tipo
       LEFT JOIN pago_venta ON venta.id_venta = pago_venta.id_venta
       GROUP BY venta.id_venta,
                venta.fecha_venta,
                venta.cantidad_kg,
                venta.cantidad_abonos,
+               venta.precio_kg_bs,
                negocio.nombre,
                tipo_cafe.nombre
       ORDER BY venta.fecha_venta DESC, venta.id_venta DESC
@@ -546,10 +558,10 @@ class Repositorio extends EventTarget {
       return false;
     }
 
-    const precio = alasql(
+    const precio = venta.precio_kg_bs ?? alasql(
       "SELECT AVG(precio_kg_bs) AS precio_kg_bs FROM cafe WHERE id_tipo = ?",
       [venta.id_tipo],
-    )[0]?.precio_kg_bs || 0;
+    )[0]?.precio_kg_bs ?? 0;
     const monto = (venta.cantidad_kg * precio) / venta.cantidad_abonos;
     const distribuidor = this.obtenerDistribuidores()[0];
     const [{ ultimo_pago }] = alasql(

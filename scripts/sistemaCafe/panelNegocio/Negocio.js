@@ -125,27 +125,35 @@ export default class Negocio {
     const item = clon.querySelector(".inventario");
     const contador = clon.querySelector(".contador");
     const inputKg = this.#crearInputNumero("0", "0.01");
+    const inputPrecio = this.#crearInputNumero("0", "0.01");
     const inputAbonos = this.#crearInputNumero("1", "1");
     const total = document.createElement("span");
 
+    inputPrecio.value = inventario.precio_kg_bs;
     inputAbonos.value = "1";
     item.classList.add("inventario-pendiente", "venta-pendiente");
     item.querySelector(".tipo").textContent = inventario.tipo_cafe;
     total.textContent = "0.00 Bs";
     contador.replaceChildren(
       inputKg,
-      document.createTextNode("kg=("),
+      document.createTextNode("kg x "),
+      inputPrecio,
+      document.createTextNode("Bs=("),
       total,
       document.createTextNode(") en "),
       inputAbonos,
       document.createTextNode(" abonos"),
     );
 
-    inputKg.addEventListener("input", () => {
+    const actualizarTotal = () => {
       const cantidadKg = Number(inputKg.value) || 0;
+      const precioKg = Number(inputPrecio.value) || 0;
       total.textContent =
-        `${(cantidadKg * inventario.precio_kg_bs).toFixed(2)} Bs`;
-    });
+        `${(cantidadKg * precioKg).toFixed(2)} Bs`;
+    };
+
+    inputKg.addEventListener("input", actualizarTotal);
+    inputPrecio.addEventListener("input", actualizarTotal);
 
     const confirmar = (evento) => {
       if (evento.key !== "Enter") {
@@ -154,6 +162,7 @@ export default class Negocio {
 
       evento.preventDefault();
       const cantidadKg = Number(inputKg.value);
+      inventario.precio_kg_bs = Number(inputPrecio.value);
       const cantidadAbonos = Number(inputAbonos.value);
       if (this.#repositorio.venderCafe(
         negocio,
@@ -166,6 +175,7 @@ export default class Negocio {
     };
 
     inputKg.addEventListener("keydown", confirmar);
+    inputPrecio.addEventListener("keydown", confirmar);
     inputAbonos.addEventListener("keydown", confirmar);
     item.addEventListener("focusout", () => {
       setTimeout(() => {

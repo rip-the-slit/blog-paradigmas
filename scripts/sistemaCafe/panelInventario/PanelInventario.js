@@ -49,7 +49,6 @@ export default class PanelInventario {
 
     ul.addEventListener("dragover", (evento) => {
       evento.preventDefault();
-      console.log(evento)
       ul.classList.add("inventario-drop-activo");
     });
 
