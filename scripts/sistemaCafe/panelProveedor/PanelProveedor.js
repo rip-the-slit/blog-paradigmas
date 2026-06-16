@@ -25,7 +25,11 @@ export default class PanelProveedor {
     ul.innerHTML = "";
 
     for (const proveedor of proveedores) {
-      const clon = new Proveedor(proveedor, this.#repositorio).render();
+      const clon = new Proveedor(
+        proveedor,
+        this.#repositorio,
+        () => this.render(),
+      ).render(Proveedor.rifExpandido === proveedor.rif_proveedor);
 
       ul.appendChild(clon);
     }

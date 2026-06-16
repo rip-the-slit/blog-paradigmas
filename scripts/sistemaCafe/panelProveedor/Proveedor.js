@@ -2,15 +2,20 @@ import FormularioProducto from "./FormularioProducto.js";
 import MenuContacto from "../MenuContacto.js";
 
 export default class Proveedor {
+  static rifExpandido = null;
+
   #repositorio;
   #nodo;
+  #onCambiarExpansion;
 
-  constructor(data, repositorio) {
+  constructor(data, repositorio, onCambiarExpansion = () => {}) {
     this.data = data;
     this.#repositorio = repositorio;
+    this.#onCambiarExpansion = onCambiarExpansion;
+    Proveedor.rifExpandido ??= this.data.rif_proveedor;
   }
 
-  render() {
+  render(expandido = false) {
     const proveedor = this.data;
     const plantillaProveedor = document.getElementById("proveedor").content;
     const plantillaProducto = document.getElementById("producto").content;
@@ -27,6 +32,15 @@ export default class Proveedor {
     clon.querySelector(".cedula-contacto").textContent =
       proveedor.cedula_contacto || "Sin cedula";
 
+    const encabezado = clon.querySelector(".encabezado");
+    encabezado.addEventListener("click", () => {
+      Proveedor.rifExpandido =
+        Proveedor.rifExpandido === proveedor.rif_proveedor
+          ? null
+          : proveedor.rif_proveedor;
+      this.#onCambiarExpansion();
+    });
+
     const contacto = clon.querySelector(".contacto");
     const contenedor = this.#nodo;
     contacto.addEventListener("click", (evento) => {
@@ -41,25 +55,29 @@ export default class Proveedor {
       }).abrir(contacto, contenedor);
     });
 
-    const productos = this.#repositorio.obtenerProductosPorProveedor(
-      proveedor.rif_proveedor,
-    );
     const ulProductos = clon.querySelector(".productos");
-    const botonAgregarProducto = this.#crearBotonAgregarProducto(proveedor);
+    ulProductos.hidden = !expandido;
 
-    for (const producto of productos) {
-      const clonProducto = plantillaProducto.cloneNode(true);
-      clonProducto.querySelector(".nombre").textContent = producto.nombre_cafe;
-      clonProducto.querySelector(".precio").textContent =
-        `Precio: ${producto.precio_kg_bs} Bs/kg`;
-      clonProducto.querySelector(".tipo").textContent =
-        `Tipo: ${producto.tipo_cafe}`;
-      this.#hacerProductoArrastrable(clonProducto, producto);
+    if (expandido) {
+      const productos = this.#repositorio.obtenerProductosPorProveedor(
+        proveedor.rif_proveedor,
+      );
+      const botonAgregarProducto = this.#crearBotonAgregarProducto(proveedor);
 
-      ulProductos.appendChild(clonProducto);
+      for (const producto of productos) {
+        const clonProducto = plantillaProducto.cloneNode(true);
+        clonProducto.querySelector(".nombre").textContent = producto.nombre_cafe;
+        clonProducto.querySelector(".precio").textContent =
+          `Precio: ${producto.precio_kg_bs} Bs/kg`;
+        clonProducto.querySelector(".tipo").textContent =
+          `Tipo: ${producto.tipo_cafe}`;
+        this.#hacerProductoArrastrable(clonProducto, producto);
+
+        ulProductos.appendChild(clonProducto);
+      }
+
+      ulProductos.appendChild(botonAgregarProducto);
     }
-
-    ulProductos.appendChild(botonAgregarProducto);
 
     return clon;
   }

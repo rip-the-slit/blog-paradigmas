@@ -144,6 +144,7 @@ li {
   gap: 1rem;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid #a3a3a3;
+  cursor: pointer;
 }
 
 .encabezado p {

@@ -1,14 +1,19 @@
 import MenuContacto from "../MenuContacto.js";
 
 export default class Negocio {
-  #repositorio;
+  static rifExpandido = null;
 
-  constructor(data, repositorio) {
+  #repositorio;
+  #onCambiarExpansion;
+
+  constructor(data, repositorio, onCambiarExpansion = () => {}) {
     this.data = data;
     this.#repositorio = repositorio;
+    this.#onCambiarExpansion = onCambiarExpansion;
+    Negocio.rifExpandido ??= this.data.rif_negocio;
   }
 
-  render() {
+  render(expandido = false) {
     const negocio = this.data;
     const plantillaNegocio = document.getElementById("negocio").content;
     const clon = plantillaNegocio.cloneNode(true);
@@ -23,6 +28,15 @@ export default class Negocio {
       negocio.numero_telf || "Sin telefono";
     clon.querySelector(".cedula-contacto").textContent =
       negocio.cedula_contacto || "Sin cedula";
+
+    const encabezado = clon.querySelector(".encabezado");
+    encabezado.addEventListener("click", () => {
+      Negocio.rifExpandido =
+        Negocio.rifExpandido === negocio.rif_negocio
+          ? null
+          : negocio.rif_negocio;
+      this.#onCambiarExpansion();
+    });
 
     const contacto = clon.querySelector(".contacto");
     const contenedor = clon.querySelector(".negocio");
@@ -39,8 +53,12 @@ export default class Negocio {
     });
 
     const listaVentas = clon.querySelector(".productos");
-    this.#configurarDrop(listaVentas, negocio);
-    this.#renderVentas(listaVentas, negocio);
+    listaVentas.style.display = expandido ? "grid" : "none";
+
+    if (expandido) {
+      this.#configurarDrop(listaVentas, negocio);
+      this.#renderVentas(listaVentas, negocio);
+    }
 
     return clon;
   }

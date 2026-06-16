@@ -24,7 +24,11 @@ export default class PanelNegocio {
     ul.innerHTML = "";
 
     for (const negocio of negocios) {
-      const clon = new Negocio(negocio, this.#repositorio).render();
+      const clon = new Negocio(
+        negocio,
+        this.#repositorio,
+        () => this.render(),
+      ).render(Negocio.rifExpandido === negocio.rif_negocio);
 
       ul.appendChild(clon);
     }
