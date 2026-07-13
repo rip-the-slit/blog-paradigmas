@@ -390,9 +390,7 @@ main>p {
 }
 
 footer {
-  background: linear-gradient(135deg,
-      var(--blue-darker) 0%,
-      var(--blue-dark) 100%);
+  background: var(--blue-darker);
   color: var(--blue-lightest);
   padding: 1.5rem 2rem;
   margin-top: auto;
@@ -472,3 +470,16 @@ footer a:hover {
     text-align: center;
   }
 }
+/* Menú principal agrupado */
+header nav { margin: auto; }
+header .nav-menu { margin: 0; }
+header .nav-dropdown { position: relative; }
+header .nav-toggle { color: var(--blue-lightest); background: transparent; border: 0; cursor: pointer; padding: .45rem .9rem; border-radius: 6px; font: inherit; font-size: .92rem; font-weight: 500; }
+header .nav-toggle::after { content: "⌄"; margin-left: .45rem; }
+header .nav-dropdown:focus-within > .nav-toggle, header .nav-toggle:hover { background: rgba(255,255,255,.2); color: var(--white); }
+header .nav-submenu { display: none; position: absolute; top: calc(100% + .3rem); right: 0; width: max-content; min-width: 13rem; padding: .5rem; background: #262626; border: 1px solid #3c3c3c; border-radius: 8px; box-shadow: var(--shadow-md); }
+header .nav-dropdown:focus-within > .nav-submenu { display: grid; gap: .15rem; }
+header .nav-submenu li a { display: block; }
+.breadcrumbs { display: flex; gap: .55rem; align-items: center; padding: .55rem max(1rem, calc((100% - 1200px) / 2)); background: var(--white); border-bottom: 1px solid var(--blue-light); color: var(--text-muted); font-size: .85rem; }
+.breadcrumbs a { color: var(--blue-dark); }
+@media (max-width: 600px) { header nav { width: 100%; } header .nav-menu { width: 100%; } header .nav-submenu { position: static; width: 100%; margin-top: .3rem; } }
