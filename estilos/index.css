@@ -269,6 +269,16 @@ div:has(.toc) {
   top: 80px;
 }
 
+iframe {
+  margin: auto;
+  border-radius: var(--radius);
+}
+
+.video {
+  display: flex;
+  justify-content: center;
+}
+
 .toc {
   background: var(--white);
   border: 1px solid var(--blue-light);
