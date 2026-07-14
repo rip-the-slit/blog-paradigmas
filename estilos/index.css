@@ -375,6 +375,7 @@ figcaption {
   color: var(--text-main);
   font-size: 0.93em;
   font-style: normal;
+  z-index: 10;
 }
 
 main>h1:first-child {

@@ -1,0 +1,289 @@
+.poo-main {
+  max-width: 1200px;
+}
+
+.poo-main article {
+  overflow: hidden;
+}
+
+.poo-main .lead {
+  font-size: 1.08rem;
+  padding: 1rem 1.2rem;
+  background: var(--blue-lightest);
+  border-left: 4px solid var(--blue-main);
+  border-radius: 0 8px 8px 0;
+}
+
+.concept-lab,
+.inheritance-lab {
+  margin: 1.5rem 0;
+  padding: 1.25rem;
+  border-radius: var(--radius);
+}
+
+.concept-lab > input,
+.inheritance-lab > input,
+.mini-demo > input,
+.polymorphism-demo > input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.lab-controls {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.lab-controls label,
+.speed-box label,
+.abstraction-box label {
+  padding: 0.45rem 0.8rem;
+  color: var(--blue-darker);
+  background: var(--white);
+  border: 1px solid var(--blue-mid);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+#ver-humano:checked ~ .lab-controls label[for="ver-humano"],
+#ver-carro:checked ~ .lab-controls label[for="ver-carro"],
+#ver-base:checked ~ .lab-controls label[for="ver-base"],
+#ver-avion:checked ~ .lab-controls label[for="ver-avion"],
+#mover-carro:checked ~ .lab-controls label[for="mover-carro"],
+#mover-avion:checked ~ .lab-controls label[for="mover-avion"] {
+  color: var(--white);
+  background: var(--blue-darker);
+  border-color: var(--blue-darker);
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 190px;
+  min-height: 200px;
+  padding: 1rem;
+  background: var(--blue-lightest);
+  border: 2px solid var(--blue-mid);
+  border-radius: 9px;
+}
+
+.box small {
+  color: var(--text-muted);
+}
+
+.box strong {
+  color: var(--blue-darker);
+}
+
+.box > small,
+.box > strong,
+.box > span,
+.box > code {
+  display: block;
+  width: 100%;
+}
+
+.concept-panel,
+.inheritance-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.concept-panel {
+  display: none;
+}
+
+#ver-humano:checked ~ .humano-panel,
+#ver-carro:checked ~ .carro-panel {
+  display: flex;
+}
+
+.instance {
+  border-style: dashed;
+}
+
+.instance-arrow,
+.extends-arrow,
+.inherit-line {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  color: var(--blue-dark);
+  font-weight: 600;
+}
+
+.instance-arrow img,
+.extends-arrow img,
+.inherit-line img {
+  width: 24px;
+  height: 24px;
+}
+
+.child-box {
+  opacity: 0.45;
+  transition: opacity 0.2s, border-color 0.2s;
+}
+
+#ver-avion:checked ~ .inheritance-stage .child-box {
+  opacity: 1;
+  border-color: var(--blue-dark);
+}
+
+#ver-base:checked ~ .inheritance-stage .base-box,
+#ver-avion:checked ~ .inheritance-stage .child-box {
+  box-shadow: 0 0 0 3px var(--blue-light);
+}
+
+.inherited {
+  color: var(--blue-dark);
+}
+
+.foundation {
+  margin: 2.2rem 0;
+}
+
+.foundation h3 {
+  margin: 0 0 0.8rem;
+  color: var(--blue-main);
+  font-size: 1.15rem;
+}
+
+.foundation h3 span {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 400;
+}
+
+.foundation-example-grid {
+  display: block;
+  margin: 1.25rem 0;
+}
+
+.foundation-example-grid .mini-demo {
+  margin-bottom: 1.25rem;
+}
+
+.foundation-example-grid p {
+  margin-top: 0;
+}
+.foundation-example-grid pre {
+  margin-bottom: 0;
+}
+
+.mini-demo {
+  display: grid;
+  place-items: center;
+  min-height: 220px;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.speed-high,
+.abstraction-box > .on-label,
+.hidden-process,
+.result-box > .plane-result {
+  display: none;
+}
+.speed-box label,
+.abstraction-box label {
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+#acelerar:checked + .speed-box .speed-zero,
+#encender-demo:checked + .abstraction-box .off-label {
+  display: none;
+}
+
+#acelerar:checked + .speed-box .speed-high,
+#encender-demo:checked + .abstraction-box .on-label,
+#encender-demo:checked + .abstraction-box .hidden-process {
+  display: inline-flex;
+}
+
+#acelerar:checked + .speed-box,
+#encender-demo:checked + .abstraction-box {
+  border-color: var(--blue-dark);
+}
+
+.hidden-process {
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.hidden-process img {
+  width: 16px;
+  height: 16px;
+}
+.inheritance-mini {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.inheritance-mini .box {
+  min-width: 170px;
+}
+.polymorphism-demo {
+  align-content: center;
+}
+.polymorphism-demo .lab-controls {
+  width: 100%;
+  justify-content: center;
+}
+.result-box {
+  min-height: 110px;
+  justify-content: center;
+  text-align: center;
+}
+#mover-avion:checked ~ .result-box .car-result {
+  display: none;
+}
+#mover-avion:checked ~ .result-box .plane-result {
+  display: block;
+}
+
+.poo-intro-frame {
+  display: block;
+  width: 100%;
+  min-height: 155px;
+  margin: 1.2rem 0;
+  border: 1px solid var(--blue-light);
+  border-radius: var(--radius);
+}
+
+@media (max-width: 700px) {
+  .concept-panel,
+  .inheritance-stage {
+    flex-direction: column;
+  }
+  .instance-arrow,
+  .extends-arrow {
+    transform: rotate(90deg);
+  }
+
+  .inheritance-mini {
+    flex-direction: column;
+  }
+
+  .inherit-line img {
+    transform: rotate(90deg);
+  }
+  .foundation h3 {
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+}

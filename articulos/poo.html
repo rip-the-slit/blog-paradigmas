@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../estilos/index.css" />
+    <link rel="stylesheet" href="../estilos/poo.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <title>Programación Orientada a Objetos (POO) - Blog Paradigmas</title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="../index.html">Blog Paradigmas</a></h1>
+      <nav aria-label="Navegación principal">
+        <ul class="nav-menu">
+          <li class="nav-dropdown">
+            <button class="nav-toggle" type="button">Paradigmas</button>
+            <ul class="nav-submenu">
+              <li><a href="./paradigmas.html">Paradigmas</a></li>
+              <li><a href="./poo.html">Programación Orientada a Objetos</a></li>
+            </ul>
+          </li>
+          <li class="nav-dropdown">
+            <button class="nav-toggle" type="button">HTML</button>
+            <ul class="nav-submenu">
+              <li><a href="./etiquetas.html">Etiquetas</a></li>
+              <li><a href="./formulario.html">Formulario</a></li>
+            </ul>
+          </li>
+          <li class="nav-dropdown">
+            <button class="nav-toggle" type="button">CSS</button>
+            <ul class="nav-submenu">
+              <li><a href="./estilos.html">Estilos</a></li>
+            </ul>
+          </li>
+          <li class="nav-dropdown">
+            <button class="nav-toggle" type="button">JavaScript</button>
+            <ul class="nav-submenu">
+              <li><a href="./scripts.html">Scripts</a></li>
+              <li><a href="./dom.html">Manipulación del DOM</a></li>
+              <li><a href="./hoja_excel.html">Hoja de Excel</a></li>
+              <li><a href="./sistema_cafe.html">Sistema Café</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <nav class="breadcrumbs" aria-label="Migas de pan">
+      <span>Paradigmas</span><span aria-hidden="true">›</span
+      ><span aria-current="page">Programación Orientada a Objetos (POO)</span>
+    </nav>
+    <main class="poo-main">
+      <div>
+        <nav class="toc" aria-label="Tabla de contenido">
+          <h2>Contenido</h2>
+          <ul>
+            <li><a href="#poo">Programación Orientada a Objetos (POO)</a></li>
+            <li><a href="#objetos-clases">Objetos y clases</a></li>
+            <li><a href="#constructor-tradicional">Sintaxis tradicional</a></li>
+            <li><a href="#clases-es6">Sintaxis ES6</a></li>
+            <li><a href="#extends">Herencia con extends</a></li>
+            <li>
+              <a href="#fundamentos">Fundamentos de la POO</a>
+              <ul>
+                <li><a href="#encapsulacion">Encapsulación</a></li>
+                <li><a href="#abstraccion">Abstracción</a></li>
+                <li><a href="#herencia">Herencia</a></li>
+                <li><a href="#polimorfismo">Polimorfismo</a></li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+        <a href="./pdfs/Programación Orientada a Objetos (POO) - Blog Paradigmas.html" download>Descarga esta página</a>
+      </div>
+      <article>
+        <h1 id="poo">Programación Orientada a Objetos (POO)</h1>
+        <p>
+          La Programación Orientada a Objetos organiza un programa partiendo de
+          una idea sencilla: las cosas pueden representarse como
+          <span class="interactive-keyword"
+            ><span class="tooltip">objetos</span
+            ><span class="description"
+              >Entidades que reúnen estado, mediante propiedades, y
+              comportamiento, mediante métodos.</span
+            ></span
+          >
+          que contienen datos y acciones propios. En vez de dispersar variables
+          y funciones, la POO las agrupa según la entidad que representan. Este
+          enfoque ayuda a describir problemas reales, reutilizar soluciones y
+          mantener el código cuando la aplicación crece.
+        </p>
+
+        <section id="objetos-clases">
+          <h2>Objetos y clases</h2>
+          <p>
+            Un objeto tiene <strong>propiedades</strong>, que describen sus
+            características, y <strong>métodos</strong>, que representan lo que
+            puede hacer. Una persona puede tener nombre, apellido y fecha de
+            nacimiento; además puede comer, caminar o dormir. Al reunir esta
+            información en una sola entidad, el programa expresa que los datos y
+            las acciones pertenecen a la misma cosa, en lugar de tratarlos como
+            piezas desconectadas.
+          </p>
+          <p>
+            Una
+            <span class="interactive-keyword"
+              ><span class="tooltip">clase</span
+              ><span class="description"
+                >Molde que describe el estado y el comportamiento disponibles
+                para futuras instancias.</span
+              ></span
+            >
+            es el molde común. Define qué propiedades y métodos existirán, pero
+            no guarda datos particulares. Un objeto es una
+            <strong>instancia</strong>: la realización concreta del molde con
+            valores propios. Por eso Humano y Carro pueden compartir la idea de
+            clase, aunque sus propiedades y sus acciones sean completamente
+            diferentes.
+          </p>
+          <div
+            class="concept-lab"
+            aria-label="Comparación interactiva entre clases y objetos"
+          >
+            <input type="radio" name="concepto" id="ver-humano" checked /><input
+              type="radio"
+              name="concepto"
+              id="ver-carro"
+            />
+            <div class="lab-controls">
+              <label for="ver-humano">Clase Humano</label
+              ><label for="ver-carro">Clase Carro</label>
+            </div>
+            <div class="concept-panel humano-panel">
+              <div class="blueprint box">
+                <small>Clase · molde</small><strong>Humano</strong
+                ><span>nombre</span><span>apellido</span><span>comer()</span
+                ><span>dormir()</span>
+              </div>
+              <span class="instance-arrow"
+                >crea <img src="../multimedia/move-right.svg" alt=""
+              /></span>
+              <div class="instance box">
+                <small>Objeto · instancia</small><strong>kelvim</strong
+                ><span>nombre: "Kelvim"</span><span>apellido: "Bolívar"</span
+                ><span>comer()</span><span>dormir()</span>
+              </div>
+            </div>
+            <div class="concept-panel carro-panel">
+              <div class="blueprint box">
+                <small>Clase · molde</small><strong>Carro</strong
+                ><span>modelo</span><span>fabricante</span
+                ><span>encender()</span><span>acelerar()</span>
+              </div>
+              <span class="instance-arrow"
+                >crea <img src="../multimedia/move-right.svg" alt=""
+              /></span>
+              <div class="instance box">
+                <small>Objeto · instancia</small><strong>miCarro</strong
+                ><span>modelo: "X-Trail"</span><span>fabricante: "Nissan"</span
+                ><span>encender()</span><span>acelerar()</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="constructor-tradicional">
+          <h2>Sintaxis tradicional: función constructora</h2>
+          <p>
+            Antes de la sintaxis <code>class</code>, JavaScript modelaba clases
+            con funciones constructoras. Al usar
+            <span class="interactive-keyword"
+              ><span class="tooltip">new</span
+              ><span class="description"
+                >Operador que crea una instancia nueva y ejecuta la función
+                constructora con ese objeto como contexto.</span
+              ></span
+            >, se crea un objeto vacío; ese objeto pasa a ser
+            <span class="interactive-keyword"
+              ><span class="tooltip">this</span
+              ><span class="description"
+                >Referencia al objeto que está siendo inicializado dentro del
+                constructor.</span
+              ></span
+            >
+            dentro de la función. Por eso, cada dato asignado a
+            <code>this</code> termina formando parte de la instancia resultante,
+            junto con los métodos que podrá invocar.
+          </p>
+          <pre><code><span class="keyword">function</span> <span class="function">Vehiculo</span>(modelo, placa, fabricante) {
+  <span class="variable">this</span>.modelo = modelo;
+  <span class="variable">this</span>.placa = placa;
+  <span class="variable">this</span>.fabricante = fabricante;
+
+  <span class="variable">this</span>.encender = <span class="keyword">function</span> () {
+    <span class="keyword">return</span> <span class="variable">this</span>.modelo + <span class="string">" está encendido"</span>;
+  };
+}
+
+<span class="keyword">const</span> miVehiculo = <span class="keyword">new</span> <span class="function">Vehiculo</span>(
+  <span class="string">"Nissan X-Trail"</span>, <span class="string">"AB123CD"</span>, <span class="string">"Nissan"</span>
+);
+
+miVehiculo.modelo;     <span class="comment">// "Nissan X-Trail"</span>
+miVehiculo.encender(); <span class="comment">// "Nissan X-Trail está encendido"</span></code></pre>
+        </section>
+
+        <section id="clases-es6">
+          <h2>Sintaxis ES6: <code>class</code></h2>
+          <p>
+            ES6 incorporó una sintaxis más clara y cercana a la de otros
+            lenguajes orientados a objetos. El método especial
+            <span class="interactive-keyword"
+              ><span class="tooltip">constructor</span
+              ><span class="description"
+                >Método que se ejecuta automáticamente al crear una instancia y
+                prepara su estado inicial.</span
+              ></span
+            >
+            recibe los datos iniciales, mientras que los demás métodos se
+            declaran directamente en el cuerpo de la clase. Esta forma hace
+            visible el molde completo de un vistazo y facilita separar la
+            creación de objetos de las acciones que estos pueden realizar.
+          </p>
+          <pre><code><span class="keyword">class</span> <span class="function">Vehiculo</span> {
+  <span class="keyword">constructor</span>(modelo, placa, fabricante) {
+    <span class="variable">this</span>.modelo = modelo;
+    <span class="variable">this</span>.placa = placa;
+    <span class="variable">this</span>.fabricante = fabricante;
+  }
+
+  encender() {
+    <span class="keyword">return</span> <span class="variable">this</span>.modelo + <span class="string">" está encendido"</span>;
+  }
+}
+
+<span class="keyword">const</span> miVehiculo = <span class="keyword">new</span> <span class="function">Vehiculo</span>(
+  <span class="string">"Nissan X-Trail"</span>, <span class="string">"AB123CD"</span>, <span class="string">"Nissan"</span>
+);</code></pre>
+        </section>
+
+        <section id="extends">
+          <h2>Herencia con <code>extends</code></h2>
+          <p>
+            Una subclase parte de una clase general y agrega aquello que la
+            vuelve específica. <code>Avion</code> hereda lo que ya sabe hacer un
+            <code>Vehiculo</code> y añade <code>aerolinea</code>, sin tener que
+            repetir las propiedades comunes. La palabra clave
+            <span class="interactive-keyword"
+              ><span class="tooltip">extends</span
+              ><span class="description"
+                >Indica que una clase deriva de otra y puede reutilizar sus
+                propiedades y métodos.</span
+              ></span
+            >
+            establece esa relación, y
+            <span class="interactive-keyword"
+              ><span class="tooltip">super()</span
+              ><span class="description"
+                >Llama al constructor de la clase padre para inicializar la
+                parte heredada del objeto.</span
+              ></span
+            >
+            inicializa primero la clase base.
+          </p>
+          <div class="inheritance-lab">
+            <input type="radio" name="herencia" id="ver-base" checked /><input
+              type="radio"
+              name="herencia"
+              id="ver-avion"
+            />
+            <div class="lab-controls">
+              <label for="ver-base">Vehículo</label
+              ><label for="ver-avion">Avión</label>
+            </div>
+            <div class="inheritance-stage">
+              <div class="box base-box">
+                <strong>Vehículo</strong><span>modelo</span
+                ><span>fabricante</span><span>encender()</span>
+              </div>
+              <span class="extends-arrow"
+                >extends <img src="../multimedia/move-right.svg" alt=""
+              /></span>
+              <div class="box child-box">
+                <strong>Avión</strong
+                ><span class="inherited">heredado: encender()</span
+                ><span>aerolínea</span><span>despegar()</span>
+              </div>
+            </div>
+          </div>
+          <pre><code><span class="keyword">class</span> <span class="function">Avion</span> <span class="keyword">extends</span> <span class="function">Vehiculo</span> {
+  <span class="keyword">constructor</span>(modelo, placa, fabricante, aerolinea) {
+    <span class="keyword">super</span>(modelo, placa, fabricante);
+    <span class="variable">this</span>.aerolinea = aerolinea;
+  }
+
+  despegar() {
+    <span class="keyword">return</span> <span class="variable">this</span>.modelo + <span class="string">" está despegando"</span>;
+  }
+}
+
+<span class="keyword">const</span> avion = <span class="keyword">new</span> <span class="function">Avion</span>(
+  <span class="string">"Boeing 737"</span>, <span class="string">"YV1000"</span>, <span class="string">"Boeing"</span>, <span class="string">"Conviasa"</span>
+);
+avion.encender(); <span class="comment">// método heredado</span></code></pre>
+        </section>
+
+        <section id="fundamentos">
+          <h2>Los cuatro fundamentos de la POO</h2>
+          <p>
+            Cada fundamento resuelve una necesidad distinta al diseñar programas
+            más claros y fáciles de mantener. La encapsulación controla el
+            acceso al estado; la abstracción reduce la complejidad visible; la
+            herencia reutiliza una base común; y el polimorfismo permite usar
+            una misma operación con resultados adecuados para cada objeto. Abre
+            las cajas para relacionar la demostración visual con su
+            implementación.
+          </p>
+
+          <section class="foundation" id="encapsulacion">
+            <h3>1. Encapsulación <span>proteger el estado</span></h3>
+            <div class="foundation-example-grid">
+              <div class="mini-demo">
+                <input type="checkbox" id="acelerar" />
+                <div class="box speed-box">
+                  <small>Estado privado</small
+                  ><strong
+                    >velocidad: <span class="speed-zero">0</span
+                    ><span class="speed-high">20</span> km/h</strong
+                  ><label for="acelerar">acelerar()</label>
+                </div>
+              </div>
+              <div>
+                <p>
+                  La encapsulación agrupa el estado y el comportamiento en una
+                  misma unidad, y controla cómo se modifica la información
+                  interna. En este ejemplo nadie cambia la velocidad escribiendo
+                  sobre el valor privado directamente. El objeto ofrece
+                  <code>acelerar()</code> y <code>verVelocidad()</code> como una
+                  interfaz segura, de modo que la clase puede conservar reglas
+                  coherentes aunque cambie su implementación.
+                </p>
+                <pre><code><span class="keyword">class</span> <span class="function">Carro</span> {
+  #velocidad = <span class="number">0</span>;
+
+  acelerar() {
+    <span class="variable">this</span>.#velocidad += <span class="number">20</span>;
+  }
+
+  verVelocidad() {
+    <span class="keyword">return</span> <span class="variable">this</span>.#velocidad;
+  }
+}</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <section class="foundation" id="abstraccion">
+            <h3>2. Abstracción <span>mostrar lo esencial</span></h3>
+            <div class="foundation-example-grid">
+              <div class="mini-demo">
+                <input type="checkbox" id="encender-demo" />
+                <div class="box abstraction-box">
+                  <small>Interfaz simple</small
+                  ><strong class="off-label">Motor apagado</strong
+                  ><strong class="on-label">Vehículo listo</strong
+                  ><label for="encender-demo">encender()</label
+                  ><span class="hidden-process"
+                    >inyección → chispa → combustión</span
+                  >
+                </div>
+              </div>
+              <div>
+                <p>
+                  La abstracción expone una operación sencilla y oculta los
+                  pasos internos que el usuario no necesita conocer. Quien usa
+                  el vehículo solo pide <code>encender()</code>, sin aprender
+                  cómo funciona la inyección, la chispa o la combustión. Al
+                  separar el qué del cómo, el programa resulta más legible y los
+                  detalles internos pueden cambiar sin afectar a quienes
+                  consumen la clase.
+                </p>
+                <pre><code><span class="keyword">class</span> <span class="function">Vehiculo</span> {
+  encender() {
+    <span class="variable">this</span>.#inyectarCombustible();
+    <span class="variable">this</span>.#generarChispa();
+    <span class="keyword">return</span> <span class="string">"Vehículo listo"</span>;
+  }
+
+  #inyectarCombustible() { <span class="comment">/* detalle interno */</span> }
+  #generarChispa() { <span class="comment">/* detalle interno */</span> }
+}</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <section class="foundation" id="herencia">
+            <h3>3. Herencia <span>reutilizar y especializar</span></h3>
+            <div class="foundation-example-grid">
+              <div class="mini-demo inheritance-mini">
+                <div class="box">
+                  <strong>Vehículo</strong><span>encender()</span>
+                </div>
+                <div class="inherit-line">
+                  <span>hereda</span
+                  ><img src="../multimedia/move-right.svg" alt="" />
+                </div>
+                <div class="box">
+                  <strong>Avión</strong><span>encender()</span
+                  ><span>despegar()</span>
+                </div>
+              </div>
+              <div>
+                <p>
+                  La herencia permite que una clase especializada reutilice
+                  capacidades de una clase base y agregue las suyas. Un avión
+                  sigue siendo un vehículo: puede encenderse y conservar datos
+                  generales como modelo o fabricante. A la vez, incorpora
+                  comportamientos propios, como despegar. Esta relación evita
+                  repetir el mismo código en cada tipo de vehículo y conserva
+                  una jerarquía fácil de entender.
+                </p>
+                <pre><code><span class="keyword">class</span> <span class="function">Vehiculo</span> {
+  encender() { <span class="keyword">return</span> <span class="string">"Encendido"</span>; }
+}
+
+<span class="keyword">class</span> <span class="function">Avion</span> <span class="keyword">extends</span> <span class="function">Vehiculo</span> {
+  despegar() { <span class="keyword">return</span> <span class="string">"Despegando"</span>; }
+}</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <section class="foundation" id="polimorfismo">
+            <h3>
+              4. Polimorfismo <span>una interfaz, varios resultados</span>
+            </h3>
+            <div class="foundation-example-grid">
+              <div class="mini-demo polymorphism-demo">
+                <input
+                  type="radio"
+                  name="mover"
+                  id="mover-carro"
+                  checked
+                /><input type="radio" name="mover" id="mover-avion" />
+                <div class="lab-controls">
+                  <label for="mover-carro">Carro</label
+                  ><label for="mover-avion">Avión</label>
+                </div>
+                <div class="box result-box">
+                  <code>mover()</code
+                  ><strong class="car-result">Rodando por la carretera</strong
+                  ><strong class="plane-result">Volando por el cielo</strong>
+                </div>
+              </div>
+              <div>
+                <p>
+                  El polimorfismo permite que objetos distintos respondan al
+                  mismo método de la manera apropiada para su propia clase.
+                  Tanto un carro como un avión entienden <code>mover()</code>,
+                  pero cada uno devuelve una acción diferente. El código que los
+                  usa no necesita conocer todos los detalles de cada tipo:
+                  invoca la misma interfaz y deja que cada objeto aplique su
+                  comportamiento particular.
+                </p>
+                <pre><code><span class="keyword">class</span> <span class="function">Carro</span> <span class="keyword">extends</span> <span class="function">Vehiculo</span> {
+  mover() { <span class="keyword">return</span> <span class="string">"Rodando por la carretera"</span>; }
+}
+
+<span class="keyword">class</span> <span class="function">Avion</span> <span class="keyword">extends</span> <span class="function">Vehiculo</span> {
+  mover() { <span class="keyword">return</span> <span class="string">"Volando por el cielo"</span>; }
+}
+
+[<span class="keyword">new</span> <span class="function">Carro</span>(), <span class="keyword">new</span> <span class="function">Avion</span>()]
+  .map(vehiculo => vehiculo.mover());</code></pre>
+              </div>
+            </div>
+          </section>
+        </section>
+      </article>
+    </main>
+    <footer>
+      <div>
+        <img
+          src="https://avatars.githubusercontent.com/u/171191896?v=4"
+          alt="Mi foto"
+        />
+        <p>
+          Blog hecho por Kelvim Bolívar. Encuentra mis otros proyectos en mi
+          pagina de <a href="https://github.com/rip-the-slit/">Github</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
