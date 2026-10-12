@@ -1,9 +1,11 @@
+import { iniciar } from "../asyncUI.js";
 export const BS_POR_DOLAR = 563;
 
 export default class VentasNegocio {
   #repositorio;
   #modo = "diarias";
   #nodo;
+  #renderId = 0;
 
   constructor(repositorio) {
     this.#repositorio = repositorio;
@@ -12,20 +14,18 @@ export default class VentasNegocio {
   render() {
     this.#nodo = document.createElement("div");
     this.#nodo.className = "compras-proveedor ventas-negocio-reporte";
-    this.#nodo.append(
-      this.#crearModos(),
-      this.#crearLista(),
-      this.#crearAbonos()
-    );
+    this.#nodo.textContent = "Cargando…";
+    iniciar(() => this.actualizar());
     return this.#nodo;
   }
 
-  actualizar() {
-    this.#nodo?.replaceChildren(
-      this.#crearModos(),
-      this.#crearLista(),
-      this.#crearAbonos()
-    );
+  async actualizar() {
+    const renderId = ++this.#renderId;
+    const version = this.#repositorio.version;
+    const contenido = [this.#crearModos(), await this.#crearLista(), await this.#crearAbonos()];
+    if (renderId === this.#renderId && version === this.#repositorio.version) {
+      this.#nodo?.replaceChildren(...contenido);
+    }
   }
 
   #crearModos() {
@@ -41,11 +41,7 @@ export default class VentasNegocio {
       boton.classList.toggle("activo", modo === this.#modo);
       boton.addEventListener("click", () => {
         this.#modo = modo;
-        this.#nodo.replaceChildren(
-          this.#crearModos(),
-          this.#crearLista(),
-          this.#crearAbonos()
-        );
+        iniciar(() => this.actualizar());
       });
 
       modos.appendChild(boton);
@@ -54,11 +50,11 @@ export default class VentasNegocio {
     return modos;
   }
 
-  #crearLista() {
+  async #crearLista() {
     const contenedor = document.createElement("div");
     const lista = document.createElement("ul");
     const total = document.createElement("div");
-    const ventas = this.#agruparVentas();
+    const ventas = await this.#agruparVentas();
     const totalGanado = ventas.reduce((suma, venta) => suma + venta.monto, 0);
 
     contenedor.className = "compras-proveedor__lista";
@@ -96,13 +92,13 @@ export default class VentasNegocio {
     return contenedor;
   }
 
-  #crearAbonos() {
+  async #crearAbonos() {
     const contenedor = document.createElement("div");
     const titulo = document.createElement("h4");
     const lista = document.createElement("ul");
     const resumen = document.createElement("div");
-    const abonos = this.#repositorio.obtenerAbonosVentaDelDia();
-    const ventas = this.#repositorio.obtenerVentas();
+    const abonos = await this.#repositorio.obtenerAbonosVentaDelDia();
+    const ventas = await this.#repositorio.obtenerVentas();
     const totalPagado = abonos.reduce((suma, abono) => suma + abono.monto, 0);
     const totalDebe = ventas.reduce(
       (suma, venta) => venta.id_venta ? suma + venta.monto_debe : suma,
@@ -142,8 +138,8 @@ export default class VentasNegocio {
     return contenedor;
   }
 
-  #agruparVentas() {
-    const ventas = this.#repositorio.obtenerVentas();
+  async #agruparVentas() {
+    const ventas = await this.#repositorio.obtenerVentas();
     const grupos = new Map();
 
     for (const venta of ventas) {

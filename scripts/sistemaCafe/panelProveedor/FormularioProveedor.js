@@ -1,3 +1,4 @@
+import { ejecutar, iniciar } from "../asyncUI.js";
 import MenuContacto from "../MenuContacto.js";
 
 const RIF_PROVEEDOR_REGEX = /^J-\d+-\d$/;
@@ -107,9 +108,9 @@ export default class FormularioProveedor {
     this.#botonContacto.textContent = "Sin contacto asignado";
     this.#botonContacto.addEventListener("click", (evento) => {
       evento.stopPropagation();
-      new MenuContacto(this.#repositorio, {
+      iniciar(() => new MenuContacto(this.#repositorio, {
         onSeleccionar: (contacto) => this.#asignarContacto(contacto),
-      }).abrir(this.#botonContacto, this.#nodo);
+      }).abrir(this.#botonContacto, this.#nodo));
     });
 
     return this.#botonContacto;
@@ -131,7 +132,7 @@ export default class FormularioProveedor {
     return acciones;
   }
 
-  #guardar(evento) {
+  async #guardar(evento) {
     evento.preventDefault();
 
     const datos = new FormData(this.#nodo);
@@ -145,8 +146,7 @@ export default class FormularioProveedor {
       return;
     }
 
-    this.#repositorio.agregarProveedor(proveedor);
-    this.cerrar();
+    if (await ejecutar(this.#nodo, () => this.#repositorio.agregarProveedor(proveedor))) this.cerrar();
   }
 
   #asignarContacto(contacto) {

@@ -1,7 +1,9 @@
+import { iniciar } from "../asyncUI.js";
 export default class ComprasProveedor {
   #repositorio;
   #modo = "diarias";
   #nodo;
+  #renderId = 0;
 
   constructor(repositorio) {
     this.#repositorio = repositorio;
@@ -10,12 +12,18 @@ export default class ComprasProveedor {
   render() {
     this.#nodo = document.createElement("div");
     this.#nodo.className = "compras-proveedor";
-    this.#nodo.append(this.#crearModos(), this.#crearLista());
+    this.#nodo.textContent = "Cargando…";
+    iniciar(() => this.actualizar());
     return this.#nodo;
   }
 
-  actualizar() {
-    this.#nodo?.replaceChildren(this.#crearModos(), this.#crearLista());
+  async actualizar() {
+    const renderId = ++this.#renderId;
+    const version = this.#repositorio.version;
+    const contenido = [this.#crearModos(), await this.#crearLista()];
+    if (renderId === this.#renderId && version === this.#repositorio.version) {
+      this.#nodo?.replaceChildren(...contenido);
+    }
   }
 
   #crearModos() {
@@ -31,7 +39,7 @@ export default class ComprasProveedor {
       boton.classList.toggle("activo", modo === this.#modo);
       boton.addEventListener("click", () => {
         this.#modo = modo;
-        this.#nodo.replaceChildren(this.#crearModos(), this.#crearLista());
+        iniciar(() => this.actualizar());
       });
 
       modos.appendChild(boton);
@@ -40,11 +48,11 @@ export default class ComprasProveedor {
     return modos;
   }
 
-  #crearLista() {
+  async #crearLista() {
     const contenedor = document.createElement("div");
     const lista = document.createElement("ul");
     const total = document.createElement("div");
-    const compras = this.#agruparCompras();
+    const compras = await this.#agruparCompras();
     const totalGastado = compras.reduce((suma, compra) => suma + compra.monto, 0);
 
     contenedor.className = "compras-proveedor__lista";
@@ -79,8 +87,8 @@ export default class ComprasProveedor {
     return contenedor;
   }
 
-  #agruparCompras() {
-    const compras = this.#repositorio.obtenerCompras();
+  async #agruparCompras() {
+    const compras = await this.#repositorio.obtenerCompras();
     const grupos = new Map();
 
     for (const compra of compras) {

@@ -1,9 +1,11 @@
+import { iniciar } from "../asyncUI.js";
 import Negocio from "./Negocio.js";
 import FormularioNegocio from "./FormularioNegocio.js";
 import VentasNegocio from "./VentasNegocio.js";
 
 export default class PanelNegocio {
   #nodo;
+  #renderId = 0;
   #repositorio;
   #botonAgregar;
   #botonVentas;
@@ -14,27 +16,36 @@ export default class PanelNegocio {
     this.#repositorio = repositorio;
     this.#crearBotonAgregar();
     this.#crearBotonVentas();
-    this.render();
+    iniciar(() => this.render());
   }
 
-  render() {
-    const negocios = this.#repositorio.obtenerNegocios();
+  async render() {
+    const renderId = ++this.#renderId;
+    const version = this.#repositorio.version;
+    const negocios = await this.#repositorio.obtenerNegocios();
     const ul = this.#nodo.querySelector("ul");
 
-    ul.innerHTML = "";
+    const fragmento = document.createDocumentFragment();
 
     for (const negocio of negocios) {
-      const clon = new Negocio(
+      const clon = await new Negocio(
         negocio,
         this.#repositorio,
-        () => this.render(),
+        () => iniciar(() => this.render()),
       ).render(Negocio.rifExpandido === negocio.rif_negocio);
 
-      ul.appendChild(clon);
+      fragmento.appendChild(clon);
     }
 
+    if (renderId !== this.#renderId || version !== this.#repositorio.version) return;
+    ul.replaceChildren(fragmento);
     this.#nodo.querySelector(".cantidad").textContent = negocios.length;
-    this.#ventas?.actualizar();
+    if (this.#ventas) await this.#ventas.actualizar();
+  }
+
+  cerrarReporte() {
+    this.#nodo.querySelector(".compras-proveedor")?.remove();
+    this.#ventas = null;
   }
 
   #crearBotonAgregar() {
@@ -46,7 +57,7 @@ export default class PanelNegocio {
     this.#botonAgregar.ariaLabel = "Agregar negocio";
     this.#botonAgregar.addEventListener("click", () => {
       if (!FormularioNegocio.activo) {
-        new FormularioNegocio(this.#repositorio).abrir();
+        iniciar(() => new FormularioNegocio(this.#repositorio).abrir());
         return;
       }
       FormularioNegocio.cerrarActivo();
@@ -61,15 +72,16 @@ export default class PanelNegocio {
     this.#botonVentas.type = "button";
     this.#botonVentas.ariaLabel = "Ver ventas";
     this.#botonVentas.addEventListener("click", () => {
-      const abierto = this.#nodo.querySelector(".ventas-negocio-reporte");
-
-      abierto?.remove();
-      if (!abierto) {
-        this.#ventas = new VentasNegocio(this.#repositorio);
-        this.#nodo.appendChild(this.#ventas.render());
-      } else {
-        this.#ventas = null;
+      if (this.#ventas) {
+        this.cerrarReporte();
+        return;
       }
+      const reporte = new VentasNegocio(this.#repositorio);
+      this.#ventas = reporte;
+      iniciar(async () => {
+        const nodo = await reporte.render();
+        if (reporte === this.#ventas) this.#nodo.appendChild(nodo);
+      });
     });
 
     this.#nodo.appendChild(this.#botonVentas);

@@ -1,3 +1,4 @@
+import { ejecutar, iniciar } from "../asyncUI.js";
 import MenuContacto from "../MenuContacto.js";
 import { BS_POR_DOLAR } from "./VentasNegocio.js";
 
@@ -14,7 +15,7 @@ export default class Negocio {
     Negocio.rifExpandido ??= this.data.rif_negocio;
   }
 
-  render(expandido = false) {
+  async render(expandido = false) {
     const negocio = this.data;
     const plantillaNegocio = document.getElementById("negocio").content;
     const clon = plantillaNegocio.cloneNode(true);
@@ -43,14 +44,14 @@ export default class Negocio {
     const contenedor = clon.querySelector(".negocio");
     contacto.addEventListener("click", (evento) => {
       evento.stopPropagation();
-      new MenuContacto(this.#repositorio, {
-        onSeleccionar: (contactoSeleccionado) => {
-          this.#repositorio.actualizarContactoNegocio(
+      iniciar(() => new MenuContacto(this.#repositorio, {
+        onSeleccionar: async (contactoSeleccionado) => {
+          return this.#repositorio.actualizarContactoNegocio(
             negocio.rif_negocio,
             contactoSeleccionado.cedula_contacto,
           );
         },
-      }).abrir(contacto, contenedor);
+      }).abrir(contacto, contenedor));
     });
 
     const listaVentas = clon.querySelector(".productos");
@@ -58,7 +59,7 @@ export default class Negocio {
 
     if (expandido) {
       this.#configurarDrop(listaVentas, negocio);
-      this.#renderVentas(listaVentas, negocio);
+      await this.#renderVentas(listaVentas, negocio);
     }
 
     return clon;
@@ -121,8 +122,8 @@ export default class Negocio {
     );
   }
 
-  #renderVentas(listaVentas, negocio) {
-    const ventas = this.#repositorio.obtenerVentasPorNegocio(negocio.rif_negocio);
+  async #renderVentas(listaVentas, negocio) {
+    const ventas = await this.#repositorio.obtenerVentasPorNegocio(negocio.rif_negocio);
     const plantillaInventario = document.getElementById("inventario").content;
 
     for (const venta of ventas) {
@@ -173,7 +174,7 @@ export default class Negocio {
     inputKg.addEventListener("input", actualizarTotal);
     inputPrecio.addEventListener("input", actualizarTotal);
 
-    const confirmar = (evento) => {
+    const confirmar = async (evento) => {
       if (evento.key !== "Enter") {
         return;
       }
@@ -182,12 +183,12 @@ export default class Negocio {
       const cantidadKg = Number(inputKg.value);
       inventario.precio_kg_bs = Number(inputPrecio.value) * BS_POR_DOLAR;
       const cantidadAbonos = Number(inputAbonos.value);
-      if (this.#repositorio.venderCafe(
+      if (await ejecutar(item, () => this.#repositorio.venderCafe(
         negocio,
         inventario,
         cantidadKg,
         cantidadAbonos,
-      )) {
+      ))) {
         item.remove();
       }
     };
@@ -197,7 +198,7 @@ export default class Negocio {
     inputAbonos.addEventListener("keydown", confirmar);
     item.addEventListener("focusout", () => {
       setTimeout(() => {
-        if (!item.contains(document.activeElement)) {
+        if (!item.contains(document.activeElement) && item.getAttribute("aria-busy") !== "true") {
           item.remove();
         }
       }, 0);
@@ -240,7 +241,7 @@ export default class Negocio {
       abonar.textContent = "+";
       abonar.ariaLabel = "Agregar abono";
       abonar.addEventListener("click", () => {
-        this.#repositorio.abonarVenta(venta.id_venta);
+        iniciar(() => ejecutar(contenedor, () => this.#repositorio.abonarVenta(venta.id_venta)));
       });
       contenedor.appendChild(abonar);
     }

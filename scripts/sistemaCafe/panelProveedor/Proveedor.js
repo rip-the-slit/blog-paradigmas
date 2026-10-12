@@ -1,3 +1,4 @@
+import { ejecutar, iniciar } from "../asyncUI.js";
 import FormularioProducto from "./FormularioProducto.js";
 import MenuContacto from "../MenuContacto.js";
 
@@ -15,7 +16,7 @@ export default class Proveedor {
     Proveedor.rifExpandido ??= this.data.rif_proveedor;
   }
 
-  render(expandido = false) {
+  async render(expandido = false) {
     const proveedor = this.data;
     const plantillaProveedor = document.getElementById("proveedor").content;
     const plantillaProducto = document.getElementById("producto").content;
@@ -45,21 +46,21 @@ export default class Proveedor {
     const contenedor = this.#nodo;
     contacto.addEventListener("click", (evento) => {
       evento.stopPropagation();
-      new MenuContacto(this.#repositorio, {
-        onSeleccionar: (contactoSeleccionado) => {
-          this.#repositorio.actualizarContactoProveedor(
+      iniciar(() => new MenuContacto(this.#repositorio, {
+        onSeleccionar: async (contactoSeleccionado) => {
+          return this.#repositorio.actualizarContactoProveedor(
             proveedor.rif_proveedor,
             contactoSeleccionado.cedula_contacto,
           );
         },
-      }).abrir(contacto, contenedor);
+      }).abrir(contacto, contenedor));
     });
 
     const ulProductos = clon.querySelector(".productos");
     ulProductos.hidden = !expandido;
 
     if (expandido) {
-      const productos = this.#repositorio.obtenerProductosPorProveedor(
+      const productos = await this.#repositorio.obtenerProductosPorProveedor(
         proveedor.rif_proveedor,
       );
       const botonAgregarProducto = this.#crearBotonAgregarProducto(proveedor);
@@ -92,7 +93,7 @@ export default class Proveedor {
     boton.ariaLabel = "Agregar producto";
     boton.addEventListener("click", (evento) => {
       evento.stopPropagation();
-      new FormularioProducto(proveedor, this.#repositorio).abrir(boton, this.#nodo);
+      iniciar(() => new FormularioProducto(proveedor, this.#repositorio).abrir(boton, this.#nodo));
     });
 
     item.appendChild(boton);

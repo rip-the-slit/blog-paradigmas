@@ -1,3 +1,4 @@
+import { ejecutar, iniciar } from "./asyncUI.js";
 export default class MenuContacto {
   #repositorio;
   #onSeleccionar;
@@ -10,12 +11,14 @@ export default class MenuContacto {
     this.#controlador = new AbortController();
   }
 
-  abrir(disparador, contenedor) {
+  async abrir(disparador, contenedor) {
+    const contactos = await this.#repositorio.obtenerContactos();
+    if (!contenedor.isConnected) return;
     MenuContacto.cerrarActivo();
 
     this.#nodo = document.createElement("div");
     this.#nodo.className = "menu-contacto";
-    this.#nodo.appendChild(this.#crearListaContactos());
+    this.#nodo.appendChild(this.#crearListaContactos(contactos));
     this.#nodo.appendChild(this.#crearFormularioContacto());
     contenedor.appendChild(this.#nodo);
 
@@ -49,8 +52,7 @@ export default class MenuContacto {
     MenuContacto.activo?.cerrar();
   }
 
-  #crearListaContactos() {
-    const contactos = this.#repositorio.obtenerContactos();
+  #crearListaContactos(contactos) {
     const contenedor = document.createElement("div");
     const titulo = document.createElement("h4");
     const lista = document.createElement("ul");
@@ -72,8 +74,9 @@ export default class MenuContacto {
       boton.type = "button";
       boton.append(nombre, detalle);
       boton.addEventListener("click", () => {
-        this.#onSeleccionar(contacto);
-        this.cerrar();
+        iniciar(async () => {
+          if (await ejecutar(this.#nodo, () => this.#onSeleccionar(contacto))) this.cerrar();
+        });
       });
 
       item.appendChild(boton);
@@ -106,7 +109,8 @@ export default class MenuContacto {
     boton.textContent = "Agregar y asignar";
 
     formulario.append(titulo, cedula, nombre, telefono, boton);
-    formulario.addEventListener("submit", (evento) => {
+    let contactoCreado = null;
+    formulario.addEventListener("submit", async (evento) => {
       evento.preventDefault();
 
       const datos = new FormData(formulario);
@@ -128,9 +132,13 @@ export default class MenuContacto {
 
       cedula.setCustomValidity("");
 
-      this.#repositorio.agregarContacto(contacto);
-      this.#onSeleccionar(contacto);
-      this.cerrar();
+      if (await ejecutar(this.#nodo, async () => {
+        if (contactoCreado !== contacto.cedula_contacto) {
+          await this.#repositorio.agregarContacto(contacto);
+          contactoCreado = contacto.cedula_contacto;
+        }
+        return this.#onSeleccionar(contacto);
+      })) this.cerrar();
     });
 
     return formulario;

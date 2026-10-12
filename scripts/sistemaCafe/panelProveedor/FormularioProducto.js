@@ -1,3 +1,4 @@
+import { ejecutar } from "../asyncUI.js";
 export default class FormularioProducto {
   #proveedor;
   #repositorio;
@@ -10,7 +11,9 @@ export default class FormularioProducto {
     this.#controlador = new AbortController();
   }
 
-  abrir(disparador, contenedor) {
+  async abrir(disparador, contenedor) {
+    const tipos = await this.#repositorio.obtenerTiposCafe();
+    if (!contenedor.isConnected) return;
     FormularioProducto.cerrarActivo();
 
     this.#nodo = document.createElement("form");
@@ -19,7 +22,7 @@ export default class FormularioProducto {
       this.#crearEncabezado(),
       this.#crearCampo("Nombre del cafe", "nombre"),
       this.#crearCampo("Precio Bs/kg", "precio_kg_bs", "number"),
-      this.#crearSelectorTipos(),
+      this.#crearSelectorTipos(tipos),
       this.#crearAcciones(),
     );
 
@@ -102,9 +105,8 @@ export default class FormularioProducto {
     return input;
   }
 
-  #crearSelectorTipos() {
+  #crearSelectorTipos(tipos) {
     const select = document.createElement("select");
-    const tipos = this.#repositorio.obtenerTiposCafe();
 
     select.name = "id_tipo";
     select.required = true;
@@ -136,7 +138,7 @@ export default class FormularioProducto {
     return acciones;
   }
 
-  #guardar(evento) {
+  async #guardar(evento) {
     evento.preventDefault();
 
     const datos = new FormData(this.#nodo);
@@ -151,8 +153,7 @@ export default class FormularioProducto {
       return;
     }
 
-    this.#repositorio.agregarProductoCafe(producto);
-    this.cerrar();
+    if (await ejecutar(this.#nodo, () => this.#repositorio.agregarProductoCafe(producto))) this.cerrar();
   }
 }
 

@@ -1,20 +1,24 @@
+import { ejecutar, iniciar } from "../asyncUI.js";
 export default class PanelInventario {
   #nodo;
+  #renderId = 0;
   #repositorio;
 
   constructor(nodo, repositorio) {
     this.#nodo = nodo;
     this.#repositorio = repositorio;
     this.#configurarDrop();
-    this.render();
+    iniciar(() => this.render());
   }
 
-  render() {
-    const inventario = this.#repositorio.obtenerInventario();
+  async render() {
+    const renderId = ++this.#renderId;
+    const version = this.#repositorio.version;
+    const inventario = await this.#repositorio.obtenerInventario();
     const plantillaInventario = document.getElementById("inventario").content;
     const ul = this.#nodo.querySelector("ul");
 
-    ul.innerHTML = "";
+    const fragmento = document.createDocumentFragment();
 
     for (const item of inventario) {
       if (!item.id_inv) continue;
@@ -24,8 +28,10 @@ export default class PanelInventario {
       clon.querySelector(".tipo").textContent = item.tipo_cafe;
       clon.querySelector(".contador").textContent = `${item.cantidad_kg} kg`;
       this.#hacerInventarioArrastrable(nodoInventario, item);
-      ul.appendChild(clon);
+      fragmento.appendChild(clon);
     }
+    if (renderId !== this.#renderId || version !== this.#repositorio.version) return;
+    ul.replaceChildren(fragmento);
   }
 
   #hacerInventarioArrastrable(nodoInventario, item) {
@@ -135,20 +141,20 @@ export default class PanelInventario {
         `${(cantidadKg * producto.precio_kg_bs).toFixed(2)} Bs`;
     });
 
-    input.addEventListener("keydown", (evento) => {
+    input.addEventListener("keydown", async (evento) => {
       if (evento.key !== "Enter") {
         return;
       }
 
       evento.preventDefault();
       const cantidadKg = Number(input.value);
-      if (this.#repositorio.comprarCafe(producto, cantidadKg)) {
+      if (await ejecutar(item, () => this.#repositorio.comprarCafe(producto, cantidadKg))) {
         item.remove();
       }
     });
 
     input.addEventListener("blur", () => {
-      item.remove();
+      if (item.getAttribute("aria-busy") !== "true") item.remove();
     });
 
     this.#nodo.querySelector("ul").appendChild(clon);

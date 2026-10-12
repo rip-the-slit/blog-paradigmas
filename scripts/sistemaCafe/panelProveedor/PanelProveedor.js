@@ -1,9 +1,11 @@
+import { iniciar } from "../asyncUI.js";
 import Proveedor from "./Proveedor.js";
 import FormularioProveedor from "./FormularioProveedor.js";
 import ComprasProveedor from "./ComprasProveedor.js";
 
 export default class PanelProveedor {
   #nodo;
+  #renderId = 0;
   #repositorio;
   #botonAgregar;
   #botonCompras;
@@ -14,28 +16,36 @@ export default class PanelProveedor {
     this.#repositorio = repositorio;
     this.#crearBotonAgregar();
     this.#crearBotonCompras();
-    this.render();
+    iniciar(() => this.render());
   }
 
-  render() {
-    const distribuidores = this.#repositorio.obtenerDistribuidores();
-    const proveedores = this.#repositorio.obtenerProveedores();
+  async render() {
+    const renderId = ++this.#renderId;
+    const version = this.#repositorio.version;
+    const proveedores = await this.#repositorio.obtenerProveedores();
     const ul = this.#nodo.querySelector("ul");
 
-    ul.innerHTML = "";
+    const fragmento = document.createDocumentFragment();
 
     for (const proveedor of proveedores) {
-      const clon = new Proveedor(
+      const clon = await new Proveedor(
         proveedor,
         this.#repositorio,
-        () => this.render(),
+        () => iniciar(() => this.render()),
       ).render(Proveedor.rifExpandido === proveedor.rif_proveedor);
 
-      ul.appendChild(clon);
+      fragmento.appendChild(clon);
     }
 
+    if (renderId !== this.#renderId || version !== this.#repositorio.version) return;
+    ul.replaceChildren(fragmento);
     this.#nodo.querySelector(".cantidad").textContent = proveedores.length;
-    this.#compras?.actualizar();
+    if (this.#compras) await this.#compras.actualizar();
+  }
+
+  cerrarReporte() {
+    this.#nodo.querySelector(".compras-proveedor")?.remove();
+    this.#compras = null;
   }
 
   #crearBotonAgregar() {
@@ -46,7 +56,7 @@ export default class PanelProveedor {
     this.#botonAgregar.ariaLabel = "Agregar proveedor";
     this.#botonAgregar.addEventListener("click", () => {
       if (!FormularioProveedor.activo) {
-        new FormularioProveedor(this.#repositorio).abrir();
+        iniciar(() => new FormularioProveedor(this.#repositorio).abrir());
         return;
       }
       FormularioProveedor.cerrarActivo();
@@ -61,15 +71,16 @@ export default class PanelProveedor {
     this.#botonCompras.type = "button";
     this.#botonCompras.ariaLabel = "Ver compras";
     this.#botonCompras.addEventListener("click", () => {
-      const abierto = this.#nodo.querySelector(".compras-proveedor");
-
-      abierto?.remove();
-      if (!abierto) {
-        this.#compras = new ComprasProveedor(this.#repositorio);
-        this.#nodo.appendChild(this.#compras.render());
-      } else {
-        this.#compras = null;
+      if (this.#compras) {
+        this.cerrarReporte();
+        return;
       }
+      const reporte = new ComprasProveedor(this.#repositorio);
+      this.#compras = reporte;
+      iniciar(async () => {
+        const nodo = await reporte.render();
+        if (reporte === this.#compras) this.#nodo.appendChild(nodo);
+      });
     });
 
     this.#nodo.appendChild(this.#botonCompras);
